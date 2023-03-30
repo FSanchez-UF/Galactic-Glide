@@ -8,3 +8,5 @@
 class Game {
     
 }
+
+// NOTE: use saveStrings() to save scores across different opens (persistent)

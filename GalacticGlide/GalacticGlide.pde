@@ -14,14 +14,22 @@ Game game;
 // Player is only here for test purposes; should be moved to Game class.
 Player p;
 
+ControlP5 cp5;
+MenuScreen menu;
+PImage backgrd;
+
 void setup() {
   size(1000, 800);
+  backgrd = loadImage("space_background.png");
   game = new Game();
   p = new Player(100, 100, 0, 0, 50, 50, "test.png");
+  cp5 = new ControlP5(this);
+  menu = new MenuScreen();
 }
 
 void draw() {
-  background(150);
+  background(backgrd);
+  menu.display();
   p.update();
   p.display();
 }
