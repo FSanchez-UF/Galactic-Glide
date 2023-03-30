@@ -5,7 +5,6 @@
 //              the game, player, enemy, obstacle, and collision logic. It 
 //              also keeps track of scoring.
 
-//class Game {
-  
-  
-//}
+class Game {
+    
+}

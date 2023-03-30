@@ -7,15 +7,29 @@
 //              the game logic, and handles various tasks such as initializing 
 //              the game world, loading game assets, and managing game events.
 
+// Debug mode: display extra information
+final boolean DEBUG = true;
+
+Game game;
+// Player is only here for test purposes; should be moved to Game class.
+Player p;
 
 void setup() {
   size(1000, 800);
+  game = new Game();
+  p = new Player(100, 100, 0, 0, 50, 50, "test.png");
 }
 
 void draw() {
-  
+  background(150);
+  p.update();
+  p.display();
 }
 
 void keyPressed() {
- 
+  p.handleKeyPress();
+}
+
+void keyReleased() {
+  p.handleKeyRelease();
 }
