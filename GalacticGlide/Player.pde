@@ -9,21 +9,22 @@ import java.awt.event.KeyEvent;
 
 class Player extends Entity {
   
-  float speed = 1;
+  float speed = 120;    // Speed measured in pixels per second
   
   /**
    * Constructor.
    */
-  Player(String imgFilename, float x, float y, float vx, float vy, float sx, float sy) {
-    super(imgFilename, x, y, vx, vy, sx, sy);
+  Player(PApplet app, String imgFilename, int cols, int rows, int zOrder) {
+    super(app, imgFilename, cols, rows, zOrder);
+    setXY(100, app.height/2);
+    setDomain(-getWidth()/2, -getHeight()/2, app.width+getWidth()/2, app.height+getHeight()/2, HALT);
   }
   
   /**
-   * Checks and handles collisions.
+   * Handles collisions.
    */
-  void collide() {
-    // TODO: get all entities and check for hitbox collision
-    // TODO: handle each collision based on entity type (instanceof)
+  void handleCollision(Entity e) {
+        
   }
   
   /**
@@ -31,10 +32,10 @@ class Player extends Entity {
    */
   void handleKeyPress() {
     switch (keyCode) {
-      case 'W': vy = -speed; break;
-      case 'A': vx = -speed; break;
-      case 'S': vy = speed; break;
-      case 'D': vx = speed; break;
+      case 'W': setVelY(-speed); break;
+      case 'A': setVelX(-speed); break;
+      case 'S': setVelY(speed); break;
+      case 'D': setVelX(speed); break;
     }
   }
   
@@ -43,10 +44,10 @@ class Player extends Entity {
    */
   void handleKeyRelease() {
     switch (keyCode) {
-      case 'W': vy = 0; break;
-      case 'A': vx = 0; break;
-      case 'S': vy = 0; break;
-      case 'D': vx = 0; break;
+      case 'W': setVelY(0); break;
+      case 'A': setVelX(0); break;
+      case 'S': setVelY(0); break;
+      case 'D': setVelX(0); break;
     }
   }
 }

@@ -29,6 +29,7 @@ class SoundManager {
   
   /**
    * Plays a sound. Will print a warning instead if sound doesn't exist.
+   * Example: soundManager.play("soundName");
    */
   void play(String soundName) {
     if (!sounds.containsKey(soundName)) {
@@ -40,6 +41,7 @@ class SoundManager {
   
   /**
    * Plays and loops a sound. Will print a warning instead if sound doesn't exist.
+   * Example: soundManager.loop("soundName");
    */
   void loop(String soundName) {
     if (!sounds.containsKey(soundName)) {

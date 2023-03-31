@@ -74,3 +74,5 @@ class MenuScreen {
   }
   
 }
+
+// IDEA: show player rocket flying across main menu
