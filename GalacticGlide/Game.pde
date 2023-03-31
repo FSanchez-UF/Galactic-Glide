@@ -10,6 +10,7 @@ import sprites.*;
 
 class Game {
   PApplet app;                 // App the Game belongs to
+  
   StopWatch sw;                // StopWatch provided by Sprite library
   Player p;                    // Player entity
   ArrayList<Entity> entities;  // All other entities 
@@ -22,8 +23,7 @@ class Game {
   Game(PApplet app) {
     this.app = app;
     sw = new StopWatch();
-    p = new Player(app, "test.png", 1, 1, 0);
-    
+    p = new Player(app, "Sprites/test.png", 1, 1, 0);
     S4P.collisionAreasVisible = DEBUG;
   }
   
@@ -33,7 +33,6 @@ class Game {
   void update() {
     if (paused)
       return;
-      
     processCollisions();
     S4P.updateSprites(sw.getElapsedTime());
   }

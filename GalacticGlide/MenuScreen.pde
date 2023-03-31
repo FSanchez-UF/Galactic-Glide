@@ -8,15 +8,16 @@ import controlP5.*;
 class MenuScreen {
   
   Button start;
-  Button help;
   Button scores;
+  Button quit;
   Textlabel title;
   ControlFont cf1 = new ControlFont(createFont("Goudy Stout", 24));
-  ControlFont cf2 = new ControlFont(createFont("Goudy Stout", 40));
+  ControlFont cf2 = new ControlFont(createFont("Goudy Stout", 55));
   
   MenuScreen() {
     
-    start = cp5.addButton("START GAME") // start button
+    start = cp5.addButton("START") // start button
+      .setLabel("START GAME")
       .setBroadcast(false)
       .setValue(0)
       .setPosition(width/2-150, 400)
@@ -27,7 +28,7 @@ class MenuScreen {
       .hide()
     ;
     
-    help = cp5.addButton("HELP") // start button
+    scores = cp5.addButton("SCORES") // Scoreboard button
       .setBroadcast(false)
       .setValue(0)
       .setPosition(width/2-150, 500)
@@ -38,7 +39,7 @@ class MenuScreen {
       .hide()
     ;
     
-    scores = cp5.addButton("SCORES") // start button
+    quit = cp5.addButton("EXIT") // quit button
       .setBroadcast(false)
       .setValue(0)
       .setPosition(width/2-150, 600)
@@ -51,28 +52,33 @@ class MenuScreen {
     
     title = cp5.addTextlabel("Maximum Steps Label")
       .setText("Galactic Glide")
-      .setPosition(width/2-300, 200)
+      .setPosition(width/2-430, 200)
       .setFont(cf2)
-    ;
+    ;   
     
   }
   
   void display() {
     start.show();
-    help.show();
     scores.show();
+    quit.show();
     title.show();
     
   }
   
   void hide() {
     start.hide();
-    help.hide();
     scores.hide();
+    quit.hide();
     title.hide();
     
   }
   
+  void buttonSound() {
+    if (start.isPressed() || scores.isPressed() || quit.isPressed()) {
+      sound.play("Button");
+    }
+  }
 }
 
 // IDEA: show player rocket flying across main menu

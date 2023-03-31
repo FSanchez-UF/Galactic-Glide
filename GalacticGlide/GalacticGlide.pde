@@ -17,6 +17,7 @@
 final boolean DEBUG = false;
 
 Game game;
+SoundManager sound;
 
 ControlP5 cp5;
 MenuScreen menu;
@@ -24,9 +25,10 @@ PImage backgrd;
 
 void setup() {
   size(1000, 800);
-  backgrd = loadImage("space_background.png");
+  backgrd = loadImage("Sprites/space_background.png");
   game = new Game(this);
-  
+  sound = new SoundManager(this);
+  sound.loop("Theme");  
   cp5 = new ControlP5(this);
   menu = new MenuScreen();
 }
@@ -44,4 +46,8 @@ void keyPressed() {
 
 void keyReleased() {
   game.handleKeyRelease();
+}
+
+void mousePressed() {
+  menu.buttonSound();
 }

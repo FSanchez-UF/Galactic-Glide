@@ -10,7 +10,7 @@ class SoundManager {
   HashMap<String, SoundFile> sounds;
   
   /**
-   * Constructor: load sounds.
+   * Constructor: creates the hashmap to hold all game sounds.
    */
   SoundManager(PApplet app) {
     sounds = createMap(app);
@@ -21,8 +21,13 @@ class SoundManager {
    */
   private HashMap<String, SoundFile> createMap(PApplet app) {
     HashMap<String, SoundFile> map = new HashMap<String, SoundFile>();
-    
-    // Example: map.put("soundName", new SoundFile(app, "sound.mp3"));
+    map.put("Theme",        new SoundFile(app, "Sounds/Theme_Music.mp3"));
+    map.put("Button",       new SoundFile(app, "Sounds/Button.mp3"));
+    map.put("Win",          new SoundFile(app, "Sounds/Win.wav"));
+    map.put("Lose",         new SoundFile(app, "Sounds/Lose.mp3"));
+    map.put("Enemy_Death",  new SoundFile(app, "Sounds/Enemy_Destroyed.mp3"));
+    map.put("Player_Death", new SoundFile(app, "Sounds/Player_Death.mp3"));
+    map.put("Laser",        new SoundFile(app, "Sounds/Laser.mp3"));
     
     return map;
   }
@@ -36,6 +41,7 @@ class SoundManager {
       println("WARNING: Sound " + soundName + " doesn't exist. Skipping play().");
       return;
     }
+    sounds.get(soundName).amp(0.2);
     sounds.get(soundName).play();
   }
   
@@ -48,6 +54,7 @@ class SoundManager {
       println("WARNING: Sound " + soundName + " doesn't exist. Skipping loop().");
       return;
     }
+    sounds.get(soundName).amp(0.2);
     sounds.get(soundName).loop();
   }
   
