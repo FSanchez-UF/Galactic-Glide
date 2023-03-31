@@ -1,4 +1,4 @@
-// Gelatic Glide
+// Galactic Glide
 // Authors: Brandon Corbin, Caden Trca, Francisco Sanchez, and John Gionti
 // File: Game.pde
 // Description: Game.pde is the game manager for Gelactic Glide. It handles 

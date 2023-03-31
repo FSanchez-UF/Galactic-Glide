@@ -22,7 +22,7 @@ void setup() {
   size(1000, 800);
   backgrd = loadImage("space_background.png");
   game = new Game();
-  p = new Player(100, 100, 0, 0, 50, 50, "test.png");
+  p = new Player("test.png", 100, 100, 0, 0, 50, 50);
   cp5 = new ControlP5(this);
   menu = new MenuScreen();
 }

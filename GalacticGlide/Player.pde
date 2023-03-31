@@ -1,4 +1,4 @@
-// Gelatic Glide
+// Galactic Glide
 // Authors: Brandon Corbin, Caden Trca, Francisco Sanchez, and John Gionti
 // File: Player.pde
 // Description: Player.pde extends the Entity class and defines player
@@ -14,8 +14,8 @@ class Player extends Entity {
   /**
    * Constructor.
    */
-  Player(float x, float y, float vx, float vy, float sx, float sy, String imgFilename) {
-    super(x, y, vx, vy, sx, sy, imgFilename);
+  Player(String imgFilename, float x, float y, float vx, float vy, float sx, float sy) {
+    super(imgFilename, x, y, vx, vy, sx, sy);
   }
   
   /**

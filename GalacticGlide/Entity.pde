@@ -1,4 +1,4 @@
-// Gelatic Glide
+// Galactic Glide
 // Authors: Brandon Corbin, Caden Trca, Francisco Sanchez, and John Gionti
 // File: Entity.pde
 // Description: Entity.pde is the base class for the main moving objects in
@@ -13,7 +13,7 @@ abstract class Entity {
   /**
    * Constructor.
    */
-  Entity(float x, float y, float vx, float vy, float sx, float sy, String imgFilename) {
+  Entity(String imgFilename, float x, float y, float vx, float vy, float sx, float sy) {
     this.x = x;
     this.y = y;
     this.vx = vx;
