@@ -32,10 +32,10 @@ class Player extends Entity {
    */
   void handleKeyPress() {
     switch (keyCode) {
-      case 'W': setVelY(-speed); break;
-      case 'A': setVelX(-speed); break;
-      case 'S': setVelY(speed); break;
-      case 'D': setVelX(speed); break;
+      case 'W': case KeyEvent.VK_UP:    setVelY(-speed); break;
+      case 'A': case KeyEvent.VK_LEFT:  setVelX(-speed); break;
+      case 'S': case KeyEvent.VK_DOWN:  setVelY(speed);  break;
+      case 'D': case KeyEvent.VK_RIGHT: setVelX(speed);  break;
     }
   }
   
@@ -44,10 +44,10 @@ class Player extends Entity {
    */
   void handleKeyRelease() {
     switch (keyCode) {
-      case 'W': setVelY(0); break;
-      case 'A': setVelX(0); break;
-      case 'S': setVelY(0); break;
-      case 'D': setVelX(0); break;
+      case 'W': case KeyEvent.VK_UP:    setVelY(0); break;
+      case 'A': case KeyEvent.VK_LEFT:  setVelX(0); break;
+      case 'S': case KeyEvent.VK_DOWN:  setVelY(0); break;
+      case 'D': case KeyEvent.VK_RIGHT: setVelX(0); break;
     }
   }
 }
