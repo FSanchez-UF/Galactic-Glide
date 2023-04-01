@@ -28,7 +28,7 @@ class Game {
   }
   
   /**
-   * Constructor.
+   * Updates the game state frame by frame.
    */
   void update() {
     if (paused)
@@ -37,14 +37,23 @@ class Game {
     S4P.updateSprites(sw.getElapsedTime());
   }
   
+  /** 
+   * Displays the game sprites
+   */
   void display() {
     S4P.drawSprites();
   }
   
+  /** 
+   * Checks whether any collisions are occuring
+   */
   void processCollisions() {
     // TODO: check for collisions, then call entity1.handleCollision(entity2);
   }
   
+  /** 
+   * Pauses game state
+   */
   void setPause(boolean pause) {
     paused = pause;
   }

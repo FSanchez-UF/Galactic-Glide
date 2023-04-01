@@ -18,23 +18,24 @@ final boolean DEBUG = false;
 
 Game game;
 SoundManager sound;
+ImageManager images;
+MenuScreen menu;
 
 ControlP5 cp5;
-MenuScreen menu;
-PImage backgrd;
 
 void setup() {
   size(1000, 800);
-  backgrd = loadImage("Sprites/space_background.png");
   game = new Game(this);
   sound = new SoundManager(this);
-  sound.loop("Theme");  
+  sound.loop("Theme");
+  images = new ImageManager();
+  images.Load("backgrd", "space_background.png");
   cp5 = new ControlP5(this);
   menu = new MenuScreen();
 }
 
 void draw() {
-  background(backgrd);
+  background(images.Get("backgrd"));
   menu.display();
   game.update();
   game.display();

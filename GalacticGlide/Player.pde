@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 
 class Player extends Entity {
   
-  float speed = 250;    // Speed measured in pixels per second
+  float speed = 250; // Speed measured in pixels per second
   
   /**
    * Constructor.
