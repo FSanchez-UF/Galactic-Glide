@@ -1,7 +1,7 @@
 // Galactic Glide
 // Authors: Brandon Corbin, Caden Trca, Francisco Sanchez, and John Gionti
 // File: MenuScreen.pde
-// Description: MenuScreen handles the main menu and input related to it.
+// Description: MenuScreen.pde handles the main menu and input related to it.
 
 import controlP5.*;
 
