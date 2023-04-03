@@ -13,6 +13,8 @@
 //  - Sound
 //  - Sprites
 
+// TODO: a loading screen would be nice while we're booting up
+
 // Debug mode: display extra information
 final boolean DEBUG = false;
 
@@ -36,7 +38,8 @@ void setup() {
 
 void draw() {
   background(images.Get("backgrd"));
-  menu.display();
+  //menu.display();
+  game.startGame();
   game.update();
   game.display();
 }

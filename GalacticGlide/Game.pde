@@ -13,7 +13,8 @@ class Game {
   
   StopWatch sw;                // StopWatch provided by Sprite library
   Player p;                    // Player entity
-  ArrayList<Entity> entities;  // All other entities 
+  ArrayList<Entity> entities;  // All entities including player
+  int score;                   // Score tracker
   boolean active;              // Tells whether the game is running or not
   boolean paused;              // Tells whether game is paused or not
   
@@ -23,7 +24,10 @@ class Game {
   Game(PApplet app) {
     this.app = app;
     sw = new StopWatch();
-    p = new Player(app, "Sprites/test.png", 1, 1, 0);
+    p = new Player(app, "Sprites/test.png", 1, 1, 1000);
+    entities = new ArrayList<Entity>();
+    entities.add(p);
+    score = 0;
     S4P.collisionAreasVisible = DEBUG;
   }
   
@@ -31,16 +35,21 @@ class Game {
    * Updates the game state frame by frame.
    */
   void update() {
-    if (paused)
+    if (!active || paused)
       return;
     processCollisions();
     S4P.updateSprites(sw.getElapsedTime());
+    // Clear dead entities every 30 seconds
+    if (frameCount % (30*frameRate) == 0)
+      cleanDeadEntities();
   }
   
   /** 
    * Displays the game sprites
    */
   void display() {
+    if (!active)
+      return;
     S4P.drawSprites();
   }
   
@@ -48,7 +57,20 @@ class Game {
    * Checks whether any collisions are occuring
    */
   void processCollisions() {
-    // TODO: check for collisions, then call entity1.handleCollision(entity2);
+    for (Entity e1 : entities) {
+      if (e1.isDead())
+      continue;
+      
+      for (Entity e2 : entities) {
+        if (e2.isDead())
+          continue;
+        
+        if (e1 != e2 && e1.pp_collision(e2)) {
+          e1.handleCollision(e2);
+          e2.handleCollision(e1);
+        }
+      }
+    }
   }
   
   /** 
@@ -58,12 +80,45 @@ class Game {
     paused = pause;
   }
   
+  /** 
+   * Handles key presses. To be called by keyPressed().
+   */
   void handleKeyPress() {
+    if (!active)
+      return;
     p.handleKeyPress();
   }
   
+  /** 
+   * Handles key releases. To be called by keyReleased().
+   */
   void handleKeyRelease() {
+    if (!active)
+      return;
     p.handleKeyRelease();
+  }
+  
+  /** 
+   * Starts the game.
+   */
+  void startGame() {
+    active = true;
+  }
+  
+  /** 
+   * Spawns an obstacle.
+   * TODO: expand this to include arguments for automatic spawning
+   */
+  void spawnObstacle() {
+    Obstacle e = new Obstacle(app, "Sprites/Asteroid.png", 1, 1, 500, true);
+    entities.add(e);
+  }
+  
+  /** 
+   * Cleans the entities list of all dead entities.
+   */
+  void cleanDeadEntities() {
+    entities.removeIf(entity -> entity.isDead());
   }
 }
 

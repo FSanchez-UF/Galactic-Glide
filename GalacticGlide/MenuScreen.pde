@@ -84,6 +84,7 @@ class MenuScreen {
       .setText("Galactic Glide")
       .setPosition(width/2-430, 200)
       .setFont(cf2)
+      .hide()
     ;   
     
   }
