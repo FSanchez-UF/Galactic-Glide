@@ -12,7 +12,8 @@ class MenuScreen {
   Button quit;
   Button settings;
   Button help;
-  Textlabel title;
+  Button back;
+  Textlabel title, scoresLabel, settingsLabel, helpLabel;
   ControlFont cf1 = new ControlFont(createFont("Goudy Stout", 24));
   ControlFont cf2 = new ControlFont(createFont("Goudy Stout", 55));
   
@@ -80,12 +81,44 @@ class MenuScreen {
       .hide()
     ;
     
-    title = cp5.addTextlabel("Maximum Steps Label")
+    title = cp5.addTextlabel("Galactic Glide")
       .setText("Galactic Glide")
       .setPosition(width/2-430, 200)
       .setFont(cf2)
       .hide()
     ;   
+    
+    back = cp5.addButton("back") // back button
+      .setBroadcast(false)
+      .setValue(0)
+      .setPosition(width/2-150, 600)
+      .setSize(300, 50)
+      .setColorBackground(color(0, 130, 0))
+      .setFont(cf1)
+      .setBroadcast(true)
+      .hide()
+    ;
+    
+    scoresLabel = cp5.addTextlabel("SCORELABEL")
+      .setText("High Scores")
+      .setPosition(width/2-340, 100)
+      .setFont(cf2)
+      .hide()
+    ;
+    
+    settingsLabel = cp5.addTextlabel("SETTINGSLABEL")
+      .setText("Settings")
+      .setPosition(width/2-240, 100)
+      .setFont(cf2)
+      .hide()
+    ;
+    
+    helpLabel = cp5.addTextlabel("HELPLABEL")
+      .setText("Help")
+      .setPosition(width/2-150, 100)
+      .setFont(cf2)
+      .hide()
+    ;
     
   }
   
@@ -111,6 +144,36 @@ class MenuScreen {
     title.hide();
     help.hide();
     settings.hide();
+  }
+  
+  void displayScores() {
+    back.show();
+    scoresLabel.show();
+  }
+  
+  void hideScores() {
+    back.hide();
+    scoresLabel.hide();
+  }
+  
+  void displaySettings() {
+    back.show();
+    settingsLabel.show();
+  }
+  
+  void hideSettings() {
+    back.hide();
+    settingsLabel.hide();
+  }
+  
+  void displayHelp() {
+    back.show();
+    helpLabel.show();
+  }
+  
+  void hideHelp() {
+    back.hide();
+    helpLabel.hide();
   }
   
   /**

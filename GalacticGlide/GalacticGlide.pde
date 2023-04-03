@@ -13,10 +13,10 @@
 //  - Sound
 //  - Sprites
 
-// TODO: a loading screen would be nice while we're booting up
-
 // Debug mode: display extra information
 final boolean DEBUG = false;
+boolean ready = false;
+boolean gameStarted = false;
 
 Game game;
 SoundManager sound;
@@ -24,24 +24,45 @@ ImageManager images;
 MenuScreen menu;
 
 ControlP5 cp5;
+PImage backgrd;
+String screen;
 
 void setup() {
   size(1000, 800);
-  game = new Game(this);
-  sound = new SoundManager(this);
-  sound.loop("Theme");
-  images = new ImageManager();
-  images.Load("backgrd", "space_background.png");
-  cp5 = new ControlP5(this);
-  menu = new MenuScreen();
+  thread("init");
+  backgrd = loadImage("Sprites/space_background.png");
+  background(backgrd);
+  textFont(createFont("Goudy Stout", 55));
+  textAlign(CENTER);
+  text("LOADING...", width/2, height/2);
+  screen = "main";
+
 }
 
 void draw() {
-  background(images.Get("backgrd"));
-  //menu.display();
-  game.startGame();
-  game.update();
-  game.display();
+  if (ready) {
+    background(images.Get("backgrd"));
+    if (screen == "main") {
+      menu.display();
+    }
+    if (gameStarted) {
+      menu.hide();
+      game.startGame();
+      game.update();
+      game.display();
+    }
+  }
+}
+
+void init() {
+  images = new ImageManager();
+  images.Load("backgrd", "space_background.png");
+  game = new Game(this);
+  sound = new SoundManager(this);
+  sound.loop("Theme");
+  cp5 = new ControlP5(this);
+  menu = new MenuScreen();
+  ready = true;
 }
 
 void keyPressed() {
@@ -54,4 +75,42 @@ void keyReleased() {
 
 void mousePressed() {
   menu.buttonSound();
+}
+
+// Menu Clicks
+void controlEvent(ControlEvent theEvent) {
+  String eventType = theEvent.getController().getName();
+  switch (eventType) {
+    case("START"): // Start game
+      gameStarted = true;
+      break;
+    case("SCORES"): // Show scores
+      menu.hide();
+      background(backgrd);
+      menu.displayScores();
+      screen = "scores";
+      break;
+    case("back"): // Go Back
+      menu.hideScores();
+      menu.hideSettings();
+      menu.hideHelp();
+      background(backgrd);
+      menu.display();
+      break;
+    case("settings"): // Show settings
+      menu.hide();
+      background(backgrd);
+      menu.displaySettings();
+      screen = "settings";
+      break;
+    case("help"): // Show help
+      menu.hide();
+      background(backgrd);
+      menu.displayHelp();
+      screen = "help";
+      break;
+    case("EXIT"): // Exit game
+      exit();
+      break;
+  }
 }
