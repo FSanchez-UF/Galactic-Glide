@@ -17,11 +17,18 @@ class Game {
   int score;                   // Score tracker
   boolean active;              // Tells whether the game is running or not
   boolean paused;              // Tells whether game is paused or not
+  Textlabel fps;
   
   /**
    * Constructor.
    */
   Game(PApplet app) {
+    fps =  cp5.addTextlabel("fps")
+      .setText("FPS: " + (int)frameRate)
+      .setPosition(10, 10)
+      .setFont(createFont("Arial", 16))
+      .hide();
+    ;
     this.app = app;
     sw = new StopWatch();
     p = new Player(app, "Sprites/test.png", 1, 1, 1000);
@@ -35,6 +42,8 @@ class Game {
    * Updates the game state frame by frame.
    */
   void update() {
+    fps.show();
+    fps.setText("FPS: " + (int)frameRate);
     if (!active || paused)
       return;
     processCollisions();

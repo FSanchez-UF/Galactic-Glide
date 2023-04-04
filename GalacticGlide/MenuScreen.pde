@@ -180,7 +180,8 @@ class MenuScreen {
    * Play button press sound when a menu button is clicked
    */
   void buttonSound() {
-    if (start.isPressed() || scores.isPressed() || quit.isPressed() || settings.isPressed() || help.isPressed()) {
+    if (start.isPressed() || scores.isPressed() || quit.isPressed() || 
+        settings.isPressed() || help.isPressed() || back.isPressed()) {
       sound.play("Button");
     }
   }

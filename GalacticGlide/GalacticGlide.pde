@@ -35,7 +35,7 @@ void setup() {
   textAlign(CENTER);
   text("LOADING...", width/2, height/2);
   screen = "main";
-
+  frameRate(120);
 }
 
 void draw() {
@@ -46,7 +46,6 @@ void draw() {
     }
     if (game.active) {
       menu.hide();
-      game.startGame();
       game.update();
       game.display();
     }
@@ -56,10 +55,10 @@ void draw() {
 void init() {
   images = new ImageManager();
   images.Load("backgrd", "space_background.png");
+  cp5 = new ControlP5(this);
   game = new Game(this);
   sound = new SoundManager(this);
   sound.loop("Theme");
-  cp5 = new ControlP5(this);
   menu = new MenuScreen();
   ready = true;
 }
@@ -81,7 +80,7 @@ void controlEvent(ControlEvent theEvent) {
   String eventType = theEvent.getController().getName();
   switch (eventType) {
     case("START"): // Start game
-      game.active = true;
+      game.startGame();
       break;
     case("SCORES"): // Show scores
       menu.hide();
