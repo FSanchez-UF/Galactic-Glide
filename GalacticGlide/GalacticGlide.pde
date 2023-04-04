@@ -16,7 +16,6 @@
 // Debug mode: display extra information
 final boolean DEBUG = false;
 boolean ready = false;
-boolean gameStarted = false;
 
 Game game;
 SoundManager sound;
@@ -45,7 +44,7 @@ void draw() {
     if (screen == "main") {
       menu.display();
     }
-    if (gameStarted) {
+    if (game.active) {
       menu.hide();
       game.startGame();
       game.update();
@@ -82,7 +81,7 @@ void controlEvent(ControlEvent theEvent) {
   String eventType = theEvent.getController().getName();
   switch (eventType) {
     case("START"): // Start game
-      gameStarted = true;
+      game.active = true;
       break;
     case("SCORES"): // Show scores
       menu.hide();
