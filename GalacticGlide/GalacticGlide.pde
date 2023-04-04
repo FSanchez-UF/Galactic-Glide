@@ -29,7 +29,7 @@ String screen;
 void setup() {
   size(1000, 800);
   thread("init");
-  backgrd = loadImage("Sprites/space_background.png");
+  backgrd = loadImage("Sprites/menu_background.png");
   background(backgrd);
   textFont(createFont("Goudy Stout", 55));
   textAlign(CENTER);
@@ -40,7 +40,6 @@ void setup() {
 
 void draw() {
   if (ready) {
-    background(images.Get("backgrd"));
     if (screen == "main") {
       menu.display();
     }
@@ -54,7 +53,8 @@ void draw() {
 
 void init() {
   images = new ImageManager();
-  images.Load("backgrd", "space_background.png");
+  images.Load("menu_backgrd", "menu_background.png");
+  images.Load("game_backgrd", "gameplay_background.png");
   cp5 = new ControlP5(this);
   game = new Game(this);
   sound = new SoundManager(this);

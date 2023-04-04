@@ -36,7 +36,7 @@ class Player extends Entity {
   }
   
   void spawnProjectile() {
-    Obstacle o = new Obstacle(app, "Sprites/Settings.png", 1, 1, 500, false);
+    Obstacle o = new Obstacle(app, "Sprites/Lasers/01.png", 1, 1, 500, false);
     o.setXY(getX()+width/4, getY());
     o.setVelX(200);
     game.entities.add(o);

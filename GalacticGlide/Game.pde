@@ -31,7 +31,7 @@ class Game {
     ;
     this.app = app;
     sw = new StopWatch();
-    p = new Player(app, "Sprites/test.png", 1, 1, 1000);
+    p = new Player(app, "Sprites/player.png", 1, 1, 1000);
     entities = new ArrayList<Entity>();
     entities.add(p);
     score = 0;
@@ -42,8 +42,10 @@ class Game {
    * Updates the game state frame by frame.
    */
   void update() {
-    fps.show();
-    fps.setText("FPS: " + (int)frameRate);
+    if (frameCount % 20 == 0) {
+      fps.show();
+      fps.setText("FPS: " + (int)frameRate);
+    }
     if (!active || paused)
       return;
     processCollisions();
@@ -57,6 +59,7 @@ class Game {
    * Displays the game sprites
    */
   void display() {
+    background(images.Get("game_backgrd"));
     if (!active)
       return;
     S4P.drawSprites();

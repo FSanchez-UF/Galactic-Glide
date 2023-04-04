@@ -126,6 +126,7 @@ class MenuScreen {
    * Displays the menu buttons
    */
   void display() {
+    background(images.Get("menu_backgrd"));
     start.show();
     scores.show();
     quit.show();
