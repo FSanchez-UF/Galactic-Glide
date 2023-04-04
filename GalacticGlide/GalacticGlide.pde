@@ -72,12 +72,13 @@ void keyReleased() {
 }
 
 void mousePressed() {
-  menu.buttonSound();
+  
 }
 
 // Menu Clicks
 void controlEvent(ControlEvent theEvent) {
   String eventType = theEvent.getController().getName();
+  sound.play("Button");
   switch (eventType) {
     case("START"): // Start game
       game.startGame();
