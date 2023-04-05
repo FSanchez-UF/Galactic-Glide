@@ -150,6 +150,12 @@ class MenuScreen {
   void displayScores() {
     back.show();
     scoresLabel.show();
+    int y = 0;
+    String[] highScores = loadStrings("data/Scores.txt");
+    for (String highScore : highScores) {
+      text(highScore,width/2,300+y);
+      y += 50;
+    }
   }
   
   void hideScores() {

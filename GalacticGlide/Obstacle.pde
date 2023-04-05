@@ -28,8 +28,10 @@ class Obstacle extends Entity {
       setDead(true);
     else if (e instanceof Obstacle) {
       Obstacle o = (Obstacle) e;
-       if (this.isEnemy != o.isEnemy)
+       if (this.isEnemy != o.isEnemy) {
         setDead(true);
+        game.score += 100;
+       }
     }
   }
 }

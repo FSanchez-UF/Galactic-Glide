@@ -18,6 +18,7 @@ class Game {
   boolean active;              // Tells whether the game is running or not
   boolean paused;              // Tells whether game is paused or not
   Textlabel fps;
+  Textlabel displayScore;
   
   /**
    * Constructor.
@@ -35,6 +36,12 @@ class Game {
     entities = new ArrayList<Entity>();
     entities.add(p);
     score = 0;
+    displayScore = cp5.addTextlabel("score")
+                   .setText("Score: " + score)
+                   .setPosition(10,25)
+                   .setFont(createFont("Arial", 16))
+                   .hide();
+    ;
     S4P.collisionAreasVisible = DEBUG;
   }
   
@@ -46,6 +53,8 @@ class Game {
       fps.show();
       fps.setText("FPS: " + (int)frameRate);
     }
+    displayScore.show();
+    displayScore.setText("Score: " + score);
     if (!active || paused)
       return;
     processCollisions();
