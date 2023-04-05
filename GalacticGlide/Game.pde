@@ -68,6 +68,7 @@ class Game {
    * Displays the game sprites
    */
   void display() {
+    tint(255, 255, 255);
     background(images.Get("game_backgrd"));
     if (!active)
       return;
@@ -132,14 +133,15 @@ class Game {
    */
   void spawnObstacle() {
     Obstacle e = new Obstacle(app, "Sprites/Asteroid.png", 1, 1, 500, true);
+    e.setHp(3);
     entities.add(e);
   }
   
   /** 
-   * Cleans the entities list of all dead entities.
+   * Cleans the entities list of all dead or not visible entities.
    */
   void cleanDeadEntities() {
-    entities.removeIf(entity -> entity.isDead());
+    entities.removeIf(entity -> (entity.isDead() || !entity.isVisible()));
   }
 }
 

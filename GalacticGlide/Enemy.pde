@@ -25,4 +25,12 @@ class Enemy extends Entity {
         setDead(true);
     }
   }
+  
+  /**
+   * Called when object is set to dead after taking damage.
+   * Useful for score adjusting and death sprite spawning!
+   */
+  void onDeath() {
+    game.score += 100;
+  }
 }

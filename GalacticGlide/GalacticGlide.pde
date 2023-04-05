@@ -77,6 +77,9 @@ void mousePressed() {
 
 // Menu Clicks
 void controlEvent(ControlEvent theEvent) {
+  if (!ready)
+    return;
+  
   String eventType = theEvent.getController().getName();
   sound.play("Button");
   switch (eventType) {

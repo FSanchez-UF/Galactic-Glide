@@ -7,6 +7,12 @@
 //              this class for functionality not included by Sprite.
 
 abstract class Entity extends Sprite {
+  float mhp;                     // Maximum health
+  float hp;                      // Current health
+  
+  final int DAMAGE_FRAMES = 20;  // How many frames to spend doing damage 
+  int currDamageFrame = 0;       // Current damage frame
+  boolean doDamageFrame = false; // Show the damage frames on damage
   
   /**
    * Constructor.
@@ -18,10 +24,71 @@ abstract class Entity extends Sprite {
    */
   Entity(PApplet app, String imgFilename, int cols, int rows, int zOrder) {
     super(app, imgFilename, cols, rows, zOrder);
+    mhp = 1;
+    hp = mhp;
   }
   
   /**
    * Handles collision when one happens.
    */
   abstract void handleCollision(Entity e);
+  
+  /**
+   * Override for Sprite.draw() to include taking damage.
+   */
+   void draw() {
+     if (doDamageFrame) {
+       int clr = (int)map(currDamageFrame, 0, DAMAGE_FRAMES, 0, 255);  
+       app.tint(255, clr, clr);
+       if (currDamageFrame < DAMAGE_FRAMES) {
+         currDamageFrame++;         
+       }
+       else {
+         doDamageFrame = false;
+         currDamageFrame = 0;
+       }
+     }
+     else {
+       app.tint(255, 255, 255);
+     }
+     super.draw();
+   }
+  
+  /**
+   * Applies damage to the Entity, and kills it if fatal.
+   * Can also be used to heal if dmg is negative.
+   */
+  void takeDamage(float dmg) {
+    hp -= dmg;
+    doDamageFrame = true;
+    if (hp <= 0)
+      setDead(true);
+    if (hp >= mhp)
+      hp = mhp;
+  }
+  
+  /**
+   * Override for Sprite.setDead() to include parameter changes.
+   */
+  void setDead(boolean dead) {
+    super.setDead(dead);
+    hp = 0;
+    onDeath();
+  }
+  
+  /**
+   * Called when object is set to dead after taking damage.
+   * Useful for score adjusting and death sprite spawning!
+   */
+  void onDeath() {}
+  
+  /**
+   * Sets max HP. Scales up current HP to match.
+   */
+  void setHp(float newHp) {
+    mhp = newHp;
+    hp = mhp;
+  }
+  
+  
 }

@@ -23,15 +23,26 @@ class Obstacle extends Entity {
    */
   void handleCollision(Entity e) {
     if (e instanceof Player && this.isEnemy)
+      setDead(true);      
+    else if (e instanceof Enemy && !this.isEnemy) {
       setDead(true);
-    else if (e instanceof Enemy && !this.isEnemy)
-      setDead(true);
+    }
     else if (e instanceof Obstacle) {
       Obstacle o = (Obstacle) e;
-       if (this.isEnemy != o.isEnemy) {
-        setDead(true);
-        game.score += 100;
-       }
+      //if (!this.isEnemy)
+      //  setDead(true);
+      if (this.isEnemy != o.isEnemy) {
+        takeDamage(game.p.power);
+      }
     }
+  }
+  
+  /**
+   * Called when object is set to dead after taking damage.
+   * Useful for score adjusting and death sprite spawning!
+   */
+  void onDeath() {
+    if (isEnemy)
+      game.score += 100;
   }
 }

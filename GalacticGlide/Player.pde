@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 class Player extends Entity {
   
   float speed = 250; // Speed measured in pixels per second
+  float power = 1;   // How much damage to deal per shot
   
   /**
    * Constructor.
@@ -38,7 +39,7 @@ class Player extends Entity {
   void spawnProjectile() {
     Obstacle o = new Obstacle(app, "Sprites/Lasers/01.png", 1, 1, 500, false);
     o.setXY(getX()+width/4, getY());
-    o.setVelX(200);
+    o.setVelX(400);
     game.entities.add(o);
   }
   
