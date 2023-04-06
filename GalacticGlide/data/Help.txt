@@ -1,0 +1,14 @@
+Narrative
+As a skilled spacecraft pilot, you must defend humanity's colonies from the alien Zaxons, battling through waves of enemy ships. Progress through the game's never ending level to face increasingly difficult challenges, reach new high scores, and save the galaxy from tyranny.  
+Move
+Use the directional keys or WASD to move
+Fire
+Hold or press space bar
+Power-ups
+Upgrade your spacecraft's weapons
+Objective
+Earn the highest score possible by shooting down as many enemy ships as you can while avoiding obstacles and enemy fire.
+Difficulty
+Normal and Hard. Normal mode has unlimited ammo and standard obstacles/enemies. Hard mode has more enemies/obstacles and limited ammo which restores over time or by hitting an enemy/obstacle.
+Leaderboard
+Highscore tracking so you push yourself to the limits. Can you climb to the top and become the ultimate Galactic Glide champion?

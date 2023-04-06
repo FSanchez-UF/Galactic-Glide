@@ -49,6 +49,7 @@ class Game {
    * Updates the game state frame by frame.
    */
   void update() {
+    p.handleSpaceBar();
     if (frameCount % 20 == 0) {
       fps.show();
       fps.setText("FPS: " + (int)frameRate);

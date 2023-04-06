@@ -11,6 +11,8 @@ class Player extends Entity {
   
   float speed = 250; // Speed measured in pixels per second
   float power = 1;   // How much damage to deal per shot
+  boolean spaceBarPressed = false;
+  int spaceBarFrameReleased = 0;
   
   /**
    * Constructor.
@@ -41,6 +43,7 @@ class Player extends Entity {
     o.setXY(getX()+width/4, getY());
     o.setVelX(400);
     game.entities.add(o);
+    sound.play("Laser");
   }
   
   /**
@@ -52,7 +55,10 @@ class Player extends Entity {
       case 'A': case LEFT:  setVelX(-speed); break;
       case 'S': case DOWN:  setVelY(speed);  break;
       case 'D': case RIGHT: setVelX(speed);  break;
-    }
+      case ' ':
+        spaceBarPressed = true;
+        break;
+     }
   }
   
   /**
@@ -64,8 +70,17 @@ class Player extends Entity {
       case 'A': case LEFT:  setVelX(0); break;
       case 'S': case DOWN:  setVelY(0); break;
       case 'D': case RIGHT: setVelX(0); break;
-      case ' ': spawnProjectile(); break;
+      case ' ':      
+        spaceBarPressed = false;
+        break;
       case '.': game.spawnObstacle(); break;
+    }
+  }
+  
+  void handleSpaceBar() {
+    if (spaceBarPressed && (frameCount - spaceBarFrameReleased) >= 20) {
+      spawnProjectile();
+      spaceBarFrameReleased = frameCount;
     }
   }
 }

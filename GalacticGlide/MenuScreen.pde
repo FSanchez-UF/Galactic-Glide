@@ -91,7 +91,7 @@ class MenuScreen {
     back = cp5.addButton("back") // back button
       .setBroadcast(false)
       .setValue(0)
-      .setPosition(width/2-150, 600)
+      .setPosition(width/2-150, 690)
       .setSize(300, 50)
       .setColorBackground(color(0, 130, 0))
       .setFont(cf1)
@@ -101,21 +101,21 @@ class MenuScreen {
     
     scoresLabel = cp5.addTextlabel("SCORELABEL")
       .setText("High Scores")
-      .setPosition(width/2-340, 100)
+      .setPosition(width/2-345, 50)
       .setFont(cf2)
       .hide()
     ;
     
     settingsLabel = cp5.addTextlabel("SETTINGSLABEL")
       .setText("Settings")
-      .setPosition(width/2-240, 100)
+      .setPosition(width/2-253, 50)
       .setFont(cf2)
       .hide()
     ;
     
     helpLabel = cp5.addTextlabel("HELPLABEL")
       .setText("Help")
-      .setPosition(width/2-150, 100)
+      .setPosition(width/2-140, 50)
       .setFont(cf2)
       .hide()
     ;
@@ -150,11 +150,13 @@ class MenuScreen {
   void displayScores() {
     back.show();
     scoresLabel.show();
+    rectMode(CENTER);
+    rect(width/2, 130, 700, 5);
     int y = 0;
-    String[] highScores = loadStrings("data/Scores.txt");
+    String[] highScores = loadStrings("Scores.txt");
     for (String highScore : highScores) {
-      text(highScore,width/2,300+y);
-      y += 50;
+      text(highScore,width/2, 230+y);
+      y += 100;
     }
   }
   
@@ -166,6 +168,8 @@ class MenuScreen {
   void displaySettings() {
     back.show();
     settingsLabel.show();
+    rectMode(CENTER);
+    rect(width/2, 130, 500, 5);
   }
   
   void hideSettings() {
@@ -174,8 +178,56 @@ class MenuScreen {
   }
   
   void displayHelp() {
+    // Show control p5 elements
     back.show();
     helpLabel.show();
+    // Draw line to highlight help label
+    rectMode(CENTER);
+    rect(width/2, 120, 295, 5);
+    
+    
+    // Semi transparent rectangle
+    fill(0, 0, 0, 192);
+    strokeWeight(4);
+    stroke(255);
+    rect(width/2, height/2, 800, 500);
+    
+    // Read help guide from file
+    String[] helpGuide = loadStrings("Help.txt");
+    int[] line = {140, 35, 35, 35, 70, 105, 70};
+    int[] title = {225, 312, 348, 384, 435, 523, 615};
+    int y = 0;
+    strokeWeight(1);
+    fill(255);
+    rect(width/2-200, height/2, 3, 500);
+    textSize(14);
+    
+    // Draw text
+    for (int i = 0; i < 14; i+=2) {
+      fill(0, 130, 0);
+      text(helpGuide[i], width/2-300, title[i/2]);
+      // Matrix lines
+      y += line[i/2];
+      fill(255);
+      if (i/2 < 6) rect(width/2, 150+y, 800, 3);
+      
+    }
+    
+    // Descriptions
+    int[] text = {235, 319, 355, 391, 443, 526, 623};
+    int[] size = {150, 40, 40, 40, 80, 115, 80};
+    noStroke();
+    fill(255);
+    textSize(11);
+    textAlign(LEFT);
+    
+    for (int i = 1; i < 14; i+=2) {
+      text(helpGuide[i], width/2+110, text[(i-1)/2], 600, size[(i-1)/2]);
+    }
+    
+    // Reset text properties
+    textSize(55);
+    textAlign(CENTER);
   }
   
   void hideHelp() {
