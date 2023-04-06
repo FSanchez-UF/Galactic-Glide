@@ -204,7 +204,7 @@ class MenuScreen {
     
     // Draw text
     for (int i = 0; i < 14; i+=2) {
-      fill(0, 130, 0);
+      fill(0, 200, 0);
       text(helpGuide[i], width/2-300, title[i/2]);
       // Matrix lines
       y += line[i/2];
@@ -214,19 +214,20 @@ class MenuScreen {
     }
     
     // Descriptions
-    int[] text = {235, 319, 355, 391, 443, 526, 623};
+    int[] text = {233, 318, 353, 388, 446, 537, 627};
     int[] size = {150, 40, 40, 40, 80, 115, 80};
     noStroke();
     fill(255);
-    textSize(11);
+    textFont(createFont("Cinzel-SemiBold.ttf", 14));
+    textSize(15);
     textAlign(LEFT);
     
     for (int i = 1; i < 14; i+=2) {
-      text(helpGuide[i], width/2+110, text[(i-1)/2], 600, size[(i-1)/2]);
+      text(helpGuide[i], width/2+105, text[(i-1)/2], 590, size[(i-1)/2]);
     }
     
     // Reset text properties
-    textSize(55);
+    textFont(createFont("Goudy Stout", 55));
     textAlign(CENTER);
   }
   

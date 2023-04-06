@@ -58,7 +58,7 @@ void init() {
   cp5 = new ControlP5(this);
   game = new Game(this);
   sound = new SoundManager(this);
-  //sound.loop("Theme");
+  sound.loop("Theme");
   menu = new MenuScreen();
   ready = true;
 }
