@@ -56,11 +56,15 @@ void init() {
   images.Load("menu_backgrd", "menu_background.png");
   images.Load("game_backgrd", "gameplay_background.png");
   cp5 = new ControlP5(this);
+  cp5.setUpdate(false);
+  cp5.setAutoDraw(false);
   game = new Game(this);
   sound = new SoundManager(this);
   sound.loop("Theme");
   menu = new MenuScreen();
   ready = true;
+  cp5.setUpdate(true);
+  cp5.setAutoDraw(true);
 }
 
 void keyPressed() {
