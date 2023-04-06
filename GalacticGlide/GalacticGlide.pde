@@ -97,7 +97,7 @@ void controlEvent(ControlEvent theEvent) {
       menu.hideSettings();
       menu.hideHelp();
       background(backgrd);
-      menu.display();
+      screen = "main";
       break;
     case("settings"): // Show settings
       menu.hide();
