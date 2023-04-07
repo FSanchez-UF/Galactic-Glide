@@ -231,6 +231,7 @@ class MenuScreen {
   }
   
   void displaySettings() {
+    background(images.Get("menu_backgrd"));
     back.show();
     settingsLabel.show();
     music.show();
@@ -270,6 +271,7 @@ class MenuScreen {
     fill(0, 0, 0, 192);  
     stroke(255);
     strokeWeight(4);
+    rectMode(CENTER);
     rect(width/2, height/2, 800, 500);
     
     // Read help guide from file
@@ -279,7 +281,6 @@ class MenuScreen {
     int y = 0;
     strokeWeight(1);
     fill(255);
-    rectMode(CENTER);
     rect(width/2-200, height/2, 3, 500);
     textSize(14);
     
