@@ -13,7 +13,8 @@ class MenuScreen {
   Button settings;
   Button help;
   Button back;
-  Textlabel title, scoresLabel, settingsLabel, helpLabel;
+  Slider music, sfx, fRate; 
+  Textlabel title, scoresLabel, settingsLabel, helpLabel, musicLabel, sfxLabel, fRateLabel;
   ControlFont cf1 = new ControlFont(createFont("Goudy Stout", 24));
   ControlFont cf2 = new ControlFont(createFont("Goudy Stout", 55));
   
@@ -99,6 +100,60 @@ class MenuScreen {
       .hide()
     ;
     
+    music = cp5.addSlider("music")
+     .setPosition(width/2-200, 275)
+     .setSize(400, 30)
+     .setRange(0, 100)
+     .setValue(50)
+     .setDecimalPrecision(0)
+     .hide();
+    ;
+    music.getValueLabel().setFont(createFont("Arial", 24));
+    music.getCaptionLabel().setVisible(false);
+    
+    musicLabel = cp5.addTextlabel("MUSICLABEL")
+       .setText("Music")
+       .setPosition(width/2-59, 225)
+       .setFont(createFont("Cinzel-Regular.ttf", 35))
+       .hide();
+    ;
+    
+    sfx = cp5.addSlider("sfx")
+     .setPosition(width/2-200, 385)
+     .setSize(400, 30)
+     .setRange(0, 100)
+     .setValue(100)
+     .setDecimalPrecision(0)
+     .hide();
+    ;
+    sfx.getValueLabel().setFont(createFont("Arial", 24));
+    sfx.getCaptionLabel().setVisible(false);
+    
+    sfxLabel = cp5.addTextlabel("SFXLABEL")
+       .setText("SFX")
+       .setPosition(width/2-35, 335)
+       .setFont(createFont("Cinzel-Regular.ttf", 35))
+       .hide();
+    ;
+    
+    fRate = cp5.addSlider("fRate")
+     .setPosition(width/2-200, 495)
+     .setSize(400, 30)
+     .setRange(60, 144)
+     .setValue(60)
+     .setDecimalPrecision(0)
+     .hide();
+    ;
+    fRate.getValueLabel().setFont(createFont("Arial", 24));
+    fRate.getCaptionLabel().setVisible(false);
+    
+    fRateLabel = cp5.addTextlabel("FRATELABEL")
+       .setText("FRAMERATE")
+       .setPosition(width/2-113, 445)
+       .setFont(createFont("Cinzel-Regular.ttf", 35))
+       .hide();
+    ;
+    
     scoresLabel = cp5.addTextlabel("SCORELABEL")
       .setText("High Scores")
       .setPosition(width/2-345, 50)
@@ -150,14 +205,24 @@ class MenuScreen {
   void displayScores() {
     back.show();
     scoresLabel.show();
+    
+    // Semi transparent rectangle
+    fill(0, 0, 0, 192);  
+    stroke(255);
+    strokeWeight(4);
     rectMode(CENTER);
-    rect(width/2, 130, 700, 5);
+    rect(width/2, height/2, 800, 500);
+    
+    fill(255);
+    noStroke();
     int y = 0;
     String[] highScores = loadStrings("Scores.txt");
     for (String highScore : highScores) {
-      text(highScore,width/2, 230+y);
+      textAlign(LEFT);
+      text("#" + (y+100)/100 + "  " + highScore, width/2 - 390, 230+y);
       y += 100;
     }
+    textAlign(CENTER);
   }
   
   void hideScores() {
@@ -168,28 +233,43 @@ class MenuScreen {
   void displaySettings() {
     back.show();
     settingsLabel.show();
+    music.show();
+    musicLabel.show();
+    sfx.show();
+    sfxLabel.show();
+    fRate.show();
+    fRateLabel.show();
+    frameRate(fRate.getValue());
+    
+    // Semi transparent rectangle
+    fill(0, 0, 0, 192);
+    stroke(255);
+    strokeWeight(4);
     rectMode(CENTER);
-    rect(width/2, 130, 500, 5);
+    rect(width/2, height/2, 600, 500);
+    noStroke();
   }
   
   void hideSettings() {
     back.hide();
     settingsLabel.hide();
+    music.hide();
+    musicLabel.hide();
+    sfx.hide();
+    sfxLabel.hide();
+    fRate.hide();
+    fRateLabel.hide();
   }
   
   void displayHelp() {
     // Show control p5 elements
     back.show();
     helpLabel.show();
-    // Draw line to highlight help label
-    rectMode(CENTER);
-    rect(width/2, 120, 295, 5);
-    
     
     // Semi transparent rectangle
-    fill(0, 0, 0, 192);
-    strokeWeight(4);
+    fill(0, 0, 0, 192);  
     stroke(255);
+    strokeWeight(4);
     rect(width/2, height/2, 800, 500);
     
     // Read help guide from file
@@ -199,6 +279,7 @@ class MenuScreen {
     int y = 0;
     strokeWeight(1);
     fill(255);
+    rectMode(CENTER);
     rect(width/2-200, height/2, 3, 500);
     textSize(14);
     
@@ -229,6 +310,7 @@ class MenuScreen {
     // Reset text properties
     textFont(createFont("Goudy Stout", 55));
     textAlign(CENTER);
+    noStroke();
   }
   
   void hideHelp() {

@@ -36,12 +36,26 @@ class SoundManager {
    * Plays a sound. Will print a warning instead if sound doesn't exist.
    * Example: soundManager.play("soundName");
    */
-  void play(String soundName) {
+  void playSFX(String soundName) {
     if (!sounds.containsKey(soundName)) {
       println("WARNING: Sound " + soundName + " doesn't exist. Skipping play().");
       return;
     }
-    sounds.get(soundName).amp(0.2);
+    sounds.get(soundName).amp(0.2 * menu.sfx.getValue()/100);
+    sounds.get(soundName).play();
+  }
+  
+  /**
+   * Plays music. Will print a warning instead if sound doesn't exist. Allows for
+   * music and sound effects to have separate volume
+   * Example: soundManager.play("soundName");
+   */
+  void playMusic(String soundName) {
+    if (!sounds.containsKey(soundName)) {
+      println("WARNING: Sound " + soundName + " doesn't exist. Skipping play().");
+      return;
+    }
+    sounds.get(soundName).amp(1.0 * menu.music.getValue()/100);
     sounds.get(soundName).play();
   }
   
@@ -54,7 +68,6 @@ class SoundManager {
       println("WARNING: Sound " + soundName + " doesn't exist. Skipping loop().");
       return;
     }
-    sounds.get(soundName).amp(0.2);
     sounds.get(soundName).loop();
   }
   

@@ -12,7 +12,7 @@ class Player extends Entity {
   float speed = 250; // Speed measured in pixels per second
   float power = 1;   // How much damage to deal per shot
   boolean spaceBarPressed = false;
-  int spaceBarFrameReleased = 0;
+  int spaceBarTimeReleased = 0;
   
   /**
    * Constructor.
@@ -43,7 +43,7 @@ class Player extends Entity {
     o.setXY(getX()+width/4, getY());
     o.setVelX(400);
     game.entities.add(o);
-    sound.play("Laser");
+    sound.playSFX("Laser");
   }
   
   /**
@@ -78,9 +78,9 @@ class Player extends Entity {
   }
   
   void handleSpaceBar() {
-    if (spaceBarPressed && (frameCount - spaceBarFrameReleased) >= 20) {
+    if (spaceBarPressed && (millis() - spaceBarTimeReleased) >= 200) {
       spawnProjectile();
-      spaceBarFrameReleased = frameCount;
+      spaceBarTimeReleased = millis();
     }
   }
 }

@@ -28,21 +28,31 @@ String screen;
 
 void setup() {
   size(1000, 800);
-  thread("init");
   backgrd = loadImage("Sprites/menu_background.png");
   background(backgrd);
   textFont(createFont("Goudy Stout", 55));
   textAlign(CENTER);
   text("LOADING...", width/2, height/2);
   screen = "main";
-  frameRate(120);
+  
+  cp5 = new ControlP5(this);
+  cp5.setUpdate(false);
+  cp5.setAutoDraw(false);
+  thread("init");
+  
+  frameRate(60);
 }
 
 void draw() {
   if (ready) {
+    sound.sounds.get("Theme").amp(0.2 * menu.music.getValue()/100);
     if (screen == "main") {
       menu.display();
+    } 
+    else if (screen == "settings") {
+      menu.displaySettings();
     }
+      
     if (game.active) {
       menu.hide();
       game.update();
@@ -55,13 +65,12 @@ void init() {
   images = new ImageManager();
   images.Load("menu_backgrd", "menu_background.png");
   images.Load("game_backgrd", "gameplay_background.png");
-  cp5 = new ControlP5(this);
-  cp5.setUpdate(false);
-  cp5.setAutoDraw(false);
+  
   game = new Game(this);
   sound = new SoundManager(this);
-  sound.loop("Theme");
   menu = new MenuScreen();
+  sound.loop("Theme");
+  
   ready = true;
   cp5.setUpdate(true);
   cp5.setAutoDraw(true);
@@ -85,16 +94,18 @@ void controlEvent(ControlEvent theEvent) {
     return;
   
   String eventType = theEvent.getController().getName();
-  sound.play("Button");
+  
   switch (eventType) {
     case("START"): // Start game
       game.startGame();
+      sound.playSFX("Button");
       break;
     case("SCORES"): // Show scores
       menu.hide();
       background(backgrd);
       menu.displayScores();
       screen = "scores";
+      sound.playSFX("Button");
       break;
     case("back"): // Go Back
       menu.hideScores();
@@ -102,21 +113,25 @@ void controlEvent(ControlEvent theEvent) {
       menu.hideHelp();
       background(backgrd);
       screen = "main";
+      sound.playSFX("Button");
       break;
     case("settings"): // Show settings
       menu.hide();
       background(backgrd);
       menu.displaySettings();
       screen = "settings";
+      sound.playSFX("Button");
       break;
     case("help"): // Show help
       menu.hide();
       background(backgrd);
       menu.displayHelp();
       screen = "help";
+      sound.playSFX("Button");
       break;
     case("EXIT"): // Exit game
       exit();
+      sound.playSFX("Button");
       break;
   }
 }
