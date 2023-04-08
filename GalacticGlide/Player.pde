@@ -9,10 +9,12 @@ import java.awt.event.KeyEvent;
 
 class Player extends Entity {
   
-  float speed = 250; // Speed measured in pixels per second
-  float power = 1;   // How much damage to deal per shot
-  boolean spaceBarPressed = false;
-  int spaceBarTimeReleased = 0;
+  float speed = 250;  // Speed measured in pixels per second
+  float power = 1;    // How much damage to deal per shot
+  float fireRate = 5; // Fire rate (in shots per second)
+  
+  boolean spaceBarPressed = false;  // Tracks whether the shoot button is pressed
+  int spaceBarTimeReleased = 0;     // Timestamp of last shoot button release
   
   /**
    * Constructor.
@@ -78,7 +80,7 @@ class Player extends Entity {
   }
   
   void handleSpaceBar() {
-    if (spaceBarPressed && (millis() - spaceBarTimeReleased) >= 200) {
+    if (spaceBarPressed && (millis() - spaceBarTimeReleased) >= 1000.0/fireRate) {
       spawnProjectile();
       spaceBarTimeReleased = millis();
     }
