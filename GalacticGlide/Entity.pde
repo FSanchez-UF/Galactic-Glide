@@ -61,6 +61,7 @@ abstract class Entity extends Sprite {
   void takeDamage(float dmg) {
     hp -= dmg;
     doDamageFrame = true;
+    currDamageFrame = 0;
     if (hp <= 0)
       setDead(true);
     if (hp >= mhp)
