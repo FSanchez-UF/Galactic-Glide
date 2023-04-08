@@ -32,7 +32,7 @@ class Game {
     ;
     this.app = app;
     sw = new StopWatch();
-    p = new Player(app, "Sprites/player.png", 1, 1, 1000);
+    p = new Player(app, "Sprites/player1.png", 1, 1, 1000);
     entities = new ArrayList<Entity>();
     entities.add(p);
     score = 0;
@@ -133,7 +133,11 @@ class Game {
    * TODO: expand this to include arguments for automatic spawning
    */
   void spawnObstacle() {
-    Obstacle e = new Obstacle(app, "Sprites/Asteroid.png", 1, 1, 500, true);
+    int rand = (int)random(0, 3);
+    Obstacle e = null;
+    if (rand == 0) { e = new Obstacle(app, "Sprites/Asteroids/Asteroid.png", 1, 1, 500, true); }
+    else if (rand == 1) { e = new Obstacle(app, "Sprites/Asteroids/Asteroid1.png", 1, 1, 500, true); }
+    else if (rand == 2) { e = new Obstacle(app, "Sprites/Asteroids/Asteroid2.png", 1, 1, 500, true); }
     e.setHp(3);
     entities.add(e);
   }
