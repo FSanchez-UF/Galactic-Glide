@@ -20,6 +20,19 @@ class Game {
   Textlabel fps;
   Textlabel displayScore;
   
+  // Filenames for obstacles
+  final String[] obstacleFiles = {
+    "Sprites/Asteroids/Asteroid.png", 
+    "Sprites/Asteroids/Asteroid1.png",
+    "Sprites/Asteroids/Asteroid2.png",
+  };
+  
+  // Filenames for enemies
+  // TODO: replace with enemy sprites
+  final String[] enemyFiles = {
+    "Sprites/player.png",
+  };
+  
   /**
    * Constructor.
    */
@@ -128,17 +141,43 @@ class Game {
     active = true;
   }
   
+  /**
+   * Spawns a random obstacle.
+   * Should take into account difficulty and time elapsed.
+   * TODO: implement difficulty/time elapse (hp here)
+   */
+  void spawnRandomObstacle() {
+    int rand = (int)random(0, obstacleFiles.length);
+    spawnObstacle(obstacleFiles[rand], 3, 30, 50, true);
+  }
+  
   /** 
    * Spawns an obstacle.
-   * TODO: expand this to include arguments for automatic spawning
    */
-  void spawnObstacle() {
-    int rand = (int)random(0, 3);
-    Obstacle e = null;
-    if (rand == 0) { e = new Obstacle(app, "Sprites/Asteroids/Asteroid.png", 1, 1, 500, true); }
-    else if (rand == 1) { e = new Obstacle(app, "Sprites/Asteroids/Asteroid1.png", 1, 1, 500, true); }
-    else if (rand == 2) { e = new Obstacle(app, "Sprites/Asteroids/Asteroid2.png", 1, 1, 500, true); }
-    e.setHp(3);
+  void spawnObstacle(String imgFilename, float hp, float minVel, float maxVel, boolean isEnemy) {
+    Obstacle o = new Obstacle(app, imgFilename, 1, 1, 600, isEnemy);
+    o.setHp(hp);
+    o.setVelXY(-random(minVel, maxVel), 0);
+    entities.add(o);
+  }
+  
+  /**
+   * Spawns a random enemy.
+   * Should take into account difficulty and time elapsed.
+   * TODO: implement difficulty/time elapse (hp here)
+   */
+  void spawnRandomEnemy() {
+    int rand = (int)random(0, enemyFiles.length);
+    spawnEnemy(enemyFiles[rand], 3, 50, 80);
+  }
+  
+  /** 
+   * Spawns an enemy.
+   */
+  void spawnEnemy(String imgFilename, float hp, float minVel, float maxVel) {
+    Enemy e = new Enemy(app, imgFilename, 1, 1, 750);
+    e.setHp(hp);
+    e.setVelXY(-random(minVel, maxVel), 0);
     entities.add(e);
   }
   

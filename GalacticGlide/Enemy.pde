@@ -11,8 +11,7 @@ class Enemy extends Entity {
    */
   Enemy(PApplet app, String imgFilename, int cols, int rows, int zOrder) {
     super(app, imgFilename, cols, rows, zOrder);
-    setXY(app.width+width, random((float)height, (float)(app.height-height)));
-    setVelXY(-random(30, 50), 0);
+    setXY(app.width+width, random((float)height/2, (float)(app.height-height/2)));
   }
   
   /**
@@ -22,7 +21,7 @@ class Enemy extends Entity {
     if (e instanceof Obstacle) {
       Obstacle o = (Obstacle) e;
       if (!o.isEnemy)
-        setDead(true);
+        takeDamage(game.p.power);
     }
   }
   

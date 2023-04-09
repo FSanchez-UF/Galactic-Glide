@@ -75,7 +75,8 @@ class Player extends Entity {
       case ' ':      
         spaceBarPressed = false;
         break;
-      case '.': game.spawnObstacle(); break;
+      case '.': game.spawnRandomObstacle(); break;
+      case ',': game.spawnRandomEnemy(); break;
     }
   }
   

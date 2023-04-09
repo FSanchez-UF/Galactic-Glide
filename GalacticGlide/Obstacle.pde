@@ -14,7 +14,6 @@ class Obstacle extends Entity {
     super(app, imgFilename, cols, rows, zOrder);
     this.isEnemy = isEnemy;
     setXY(app.width+width, random((float)height/2, (float)(app.height-height/2)));
-    setVelXY(-random(30, 50), 0);
   }
   
   /**
