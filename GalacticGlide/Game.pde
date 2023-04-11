@@ -23,6 +23,7 @@ class Game {
   
   int timeSinceEnemy;          // Time since the last enemy spawn occurred
   int timeSinceObstacle;       // Time since the last obstacle spawn occurred
+  int timeSinceBoss;           // Time since the last boss spawn occurred
   
   // Filenames for obstacles
   final String[] obstacleFiles = {
@@ -36,6 +37,10 @@ class Game {
     "Sprites/Ships/Ship1.png",
     "Sprites/Ships/Ship2.png",
     "Sprites/Ships/Ship3.png",
+  };
+  
+  // Filenames for bosses
+  final String[] bossFiles = {
     "Sprites/Ships/Ship4.png",
     "Sprites/Ships/Ship5.png",
     "Sprites/Ships/Ship6.png",
@@ -168,7 +173,10 @@ class Game {
       timeSinceObstacle = millis();
     }
     
-    // TODO: spawn boss every like 30 seconds 
+    if (millis() - timeSinceBoss >= 30*1000) {
+      spawnRandomBoss();
+      timeSinceBoss = millis();
+    }    
   }
   
   /**
@@ -193,13 +201,70 @@ class Game {
   
   /**
    * Spawns a random enemy.
-   * Should take into account difficulty and time elapsed.
-   * TODO: implement difficulty/time elapse (hp here)
-   * TODO: make enemies have consistent scaling stats per ship type? (for user familiarity) 
+   * Should take into account difficulty and time elapsed. 
    */
   void spawnRandomEnemy() {
     int rand = (int)random(0, enemyFiles.length);
-    spawnEnemy(enemyFiles[rand], 3, 80, 120);
+    float hp = 3;
+    float minVel = 120;
+    float maxVel = 160;
+    
+    // Construct enemy
+    switch(rand) {
+      // Enemy 1: Fast
+      case 0:
+        hp = 2;
+        minVel = 200;
+        maxVel = 240;
+        break;
+      // Enemy 2: Average (use default)
+      case 1:
+        break;
+      // Enemy 3: Heavy
+      case 2:
+        hp = 5;
+        minVel = 80;
+        maxVel = 100;
+        break;
+    }
+    
+    // TODO: apply scaling here
+    
+    spawnEnemy(enemyFiles[rand], hp, minVel, maxVel);
+  }
+  
+  /**
+   * Spawns a random boss.
+   * Should take into account difficulty and time elapsed. 
+   */
+  void spawnRandomBoss() {
+    int rand = (int)random(0, bossFiles.length);
+    float hp = 20;
+    float minVel = 80;
+    float maxVel = 100;
+    
+    // Construct enemy
+    switch(rand) {
+      // Enemy 1: Fast
+      case 0:
+        hp = 10;
+        minVel = 120;
+        maxVel = 140;
+        break;
+      // Enemy 2: Average (use default)
+      case 1:
+        break;
+      // Enemy 3: Heavy
+      case 2:
+        hp = 30;
+        minVel = 40;
+        maxVel = 60;
+        break;
+    }
+    
+    // TODO: apply scaling here
+    
+    spawnEnemy(bossFiles[rand], hp, minVel, maxVel);
   }
   
   /** 
