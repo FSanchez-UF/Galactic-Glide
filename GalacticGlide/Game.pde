@@ -17,8 +17,12 @@ class Game {
   int score;                   // Score tracker
   boolean active;              // Tells whether the game is running or not
   boolean paused;              // Tells whether game is paused or not
+  
   Textlabel fps;
   Textlabel displayScore;
+  
+  int timeSinceEnemy;          // Time since the last enemy spawn occurred
+  int timeSinceObstacle;       // Time since the last obstacle spawn occurred
   
   // Filenames for obstacles
   final String[] obstacleFiles = {
@@ -28,9 +32,13 @@ class Game {
   };
   
   // Filenames for enemies
-  // TODO: replace with enemy sprites
   final String[] enemyFiles = {
-    "Sprites/player.png",
+    "Sprites/Ships/Ship1.png",
+    "Sprites/Ships/Ship2.png",
+    "Sprites/Ships/Ship3.png",
+    "Sprites/Ships/Ship4.png",
+    "Sprites/Ships/Ship5.png",
+    "Sprites/Ships/Ship6.png",
   };
   
   /**
@@ -71,6 +79,7 @@ class Game {
     displayScore.setText("Score: " + score);
     if (!active || paused)
       return;
+    handleSpawns();
     processCollisions();
     S4P.updateSprites(sw.getElapsedTime());
     // Clear dead entities every 30 seconds
@@ -142,13 +151,34 @@ class Game {
   }
   
   /**
+   * Spawns obstacles/enemies over a gradually steeper interval.
+   */
+  void handleSpawns() {
+    if (millis() - timeSinceEnemy >= 3*1000) {
+      int numEnemies = (int)random(1,3);
+      for (int i = 0; i < numEnemies; ++i)
+        spawnRandomEnemy();
+      timeSinceEnemy = millis();
+    }
+    
+    if (millis() - timeSinceObstacle >= 5*1000) {
+      int numObstacles = (int)random(1,3);
+      for (int i = 0; i < numObstacles; ++i)
+        spawnRandomObstacle();
+      timeSinceObstacle = millis();
+    }
+    
+    // TODO: spawn boss every like 30 seconds 
+  }
+  
+  /**
    * Spawns a random obstacle.
    * Should take into account difficulty and time elapsed.
    * TODO: implement difficulty/time elapse (hp here)
    */
   void spawnRandomObstacle() {
     int rand = (int)random(0, obstacleFiles.length);
-    spawnObstacle(obstacleFiles[rand], 3, 30, 50, true);
+    spawnObstacle(obstacleFiles[rand], 5, 30, 50, true);
   }
   
   /** 
@@ -165,10 +195,11 @@ class Game {
    * Spawns a random enemy.
    * Should take into account difficulty and time elapsed.
    * TODO: implement difficulty/time elapse (hp here)
+   * TODO: make enemies have consistent scaling stats per ship type? (for user familiarity) 
    */
   void spawnRandomEnemy() {
     int rand = (int)random(0, enemyFiles.length);
-    spawnEnemy(enemyFiles[rand], 3, 50, 80);
+    spawnEnemy(enemyFiles[rand], 3, 80, 120);
   }
   
   /** 
