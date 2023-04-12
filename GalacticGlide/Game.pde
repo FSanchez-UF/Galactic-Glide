@@ -249,7 +249,7 @@ class Game {
     
     // TODO: apply scaling here
     
-    spawnEnemy(enemyFiles[rand], hp, minVel, maxVel, true);
+    spawnEnemy(enemyFiles[rand], hp, minVel, maxVel);
   }
   
   /**
@@ -283,14 +283,14 @@ class Game {
     
     // TODO: apply scaling here
     
-    spawnEnemy(bossFiles[rand], hp, minVel, maxVel, true);
+    spawnEnemy(bossFiles[rand], hp, minVel, maxVel);
   }
   
   /** 
    * Spawns an enemy.
    */
-  void spawnEnemy(String imgFilename, float hp, float minVel, float maxVel, boolean isEnemy) {
-    Enemy e = new Enemy(app, imgFilename, 1, 1, 750, true);
+  void spawnEnemy(String imgFilename, float hp, float minVel, float maxVel) {
+    Enemy e = new Enemy(app, imgFilename, 1, 1, 750);
     e.setHp(hp);
     e.setVelXY(-random(minVel, maxVel), 0);
     entities.add(e);

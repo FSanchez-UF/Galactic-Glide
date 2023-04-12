@@ -5,16 +5,14 @@
 //              ships spawn and behave.
 
 class Enemy extends Entity {
-  boolean isEnemy; // Describes whether the obstacle belongs to the enemy; false if owned by player
   boolean collidedPlayer; // 
   
   /**
    * Constructor
    */
-  Enemy(PApplet app, String imgFilename, int cols, int rows, int zOrder, boolean isEnemy) {
+  Enemy(PApplet app, String imgFilename, int cols, int rows, int zOrder) {
     super(app, imgFilename, cols, rows, zOrder);
     setXY(app.width+width, random((float)height/2, (float)(app.height-height/2)));
-    this.isEnemy = isEnemy;
     collidedPlayer = false;
   }
   
@@ -22,7 +20,7 @@ class Enemy extends Entity {
    * Handles collision when one happens.
    */
   void handleCollision(Entity e) {
-    if (e instanceof Player && this.isEnemy)
+    if (e instanceof Player)
       collidedPlayer = true;      
     if (e instanceof Obstacle) {
       Obstacle o = (Obstacle) e;
