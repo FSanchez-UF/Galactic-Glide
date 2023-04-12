@@ -14,9 +14,11 @@ class Game {
   StopWatch sw;                // StopWatch provided by Sprite library
   Player p;                    // Player entity
   ArrayList<Entity> entities;  // All entities including player
+  ArrayList<Button> hearts;
   int score;                   // Score tracker
   boolean active;              // Tells whether the game is running or not
   boolean paused;              // Tells whether game is paused or not
+  boolean endGame;
   
   Textlabel fps;
   Textlabel displayScore;
@@ -69,12 +71,25 @@ class Game {
                    .hide();
     ;
     S4P.collisionAreasVisible = DEBUG;
+    
+    hearts = new ArrayList<Button>();
+    
+    images.Load("heart", "heart-sprite.png");
+    for(int i = 0; i < p.playerHealth; i++) {
+      hearts.add(cp5.addButton("heart"+i)
+            .setImage(images.Get("heart"))
+            .setPosition((i*40)+5, (int)height-60)
+            .setSize(50, 50)
+            .hide()
+            );
+    }
   }
   
   /**
    * Updates the game state frame by frame.
    */
   void update() {
+    background(images.Get("game_backgrd"));
     p.handleSpaceBar();
     if (frameCount % 20 == 0) {
       fps.show();
@@ -90,6 +105,10 @@ class Game {
     // Clear dead entities every 30 seconds
     if (frameCount % (30*frameRate) == 0)
       cleanDeadEntities();
+      
+    for(int i = 0; i < p.playerHealth; i++) {
+      hearts.get(i).show();
+    }
   }
   
   /** 
@@ -230,7 +249,7 @@ class Game {
     
     // TODO: apply scaling here
     
-    spawnEnemy(enemyFiles[rand], hp, minVel, maxVel);
+    spawnEnemy(enemyFiles[rand], hp, minVel, maxVel, true);
   }
   
   /**
@@ -264,14 +283,14 @@ class Game {
     
     // TODO: apply scaling here
     
-    spawnEnemy(bossFiles[rand], hp, minVel, maxVel);
+    spawnEnemy(bossFiles[rand], hp, minVel, maxVel, true);
   }
   
   /** 
    * Spawns an enemy.
    */
-  void spawnEnemy(String imgFilename, float hp, float minVel, float maxVel) {
-    Enemy e = new Enemy(app, imgFilename, 1, 1, 750);
+  void spawnEnemy(String imgFilename, float hp, float minVel, float maxVel, boolean isEnemy) {
+    Enemy e = new Enemy(app, imgFilename, 1, 1, 750, true);
     e.setHp(hp);
     e.setVelXY(-random(minVel, maxVel), 0);
     entities.add(e);

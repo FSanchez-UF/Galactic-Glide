@@ -9,9 +9,10 @@ import java.awt.event.KeyEvent;
 
 class Player extends Entity {
   
-  float speed = 250;  // Speed measured in pixels per second
-  float power = 1;    // How much damage to deal per shot
-  float fireRate = 5; // Fire rate (in shots per second)
+  float speed = 250;    // Speed measured in pixels per second
+  float power = 1;      // How much damage to deal per shot
+  float fireRate = 5;   // Fire rate (in shots per second)
+  int playerHealth = 3; // How many hits the player can take from enemies and obstacles
   
   boolean spaceBarPressed = false;  // Tracks whether the shoot button is pressed
   int spaceBarTimeReleased = 0;     // Timestamp of last shoot button release
@@ -29,14 +30,29 @@ class Player extends Entity {
    * Handles collisions.
    */
   void handleCollision(Entity e) {
-    if (e instanceof Obstacle) {
+    if (e instanceof Obstacle && !game.endGame) { // Remove bool variable to finish end game
       Obstacle o = (Obstacle) e;
-      if (o.isEnemy);
+      if (o.isEnemy) {
         // TODO: player should die here
+        playerHealth-=1;
+        cp5.remove("heart"+playerHealth);
+        game.hearts.remove(game.hearts.size() - 1);
+        if (playerHealth == 0) {
+          game.endGame = true;
+        }
+      }
     }
-    else if (e instanceof Enemy) {
+    else if (e instanceof Enemy && !game.endGame) { // Remove bool variable to finish end game
       Enemy en = (Enemy) e;
       // TODO: enemy things here
+      if(!en.collidedPlayer) {
+        playerHealth-=1;
+        cp5.remove("heart"+playerHealth);
+        game.hearts.remove(game.hearts.size() - 1);
+        if (playerHealth == 0) {
+          game.endGame = true;
+        }
+      }
     }
   }
   
