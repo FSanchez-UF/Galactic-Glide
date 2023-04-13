@@ -9,9 +9,27 @@ import java.awt.event.KeyEvent;
 
 class Player extends Entity {
   
-  float speed = 250;    // Speed measured in pixels per second
-  float power = 1;      // How much damage to deal per shot
-  float fireRate = 5;   // Fire rate (in shots per second)
+  // Speed: Measured in pixels per second
+  final float MAX_SPEED_UPS = 10;
+  final float MIN_SPEED = 250;
+  final float MAX_SPEED = 400;
+  int speedUps = 0;
+  float speed = MIN_SPEED;
+  
+  // Power: How much damage to deal per shot
+  final float MAX_POWER_UPS = 10;
+  final float MIN_POWER = 1;
+  final float MAX_POWER = 5;
+  int powerUps = 0;
+  float power = MIN_POWER;
+  
+  // Fire rate (in shots per second)
+  final float MAX_FIRE_RATE_UPS = 10;
+  final float MIN_FIRE_RATE = 5;
+  final float MAX_FIRE_RATE = 20;
+  int fireRateUps = 0;
+  float fireRate = MIN_FIRE_RATE;
+  
   int playerHealth = 3; // How many hits the player can take from enemies and obstacles
   
   boolean spaceBarPressed = false;  // Tracks whether the shoot button is pressed
@@ -102,5 +120,15 @@ class Player extends Entity {
       spawnProjectile();
       spaceBarTimeReleased = millis();
     }
+  }
+  
+  /**
+   * Update stats based on the current number of powerups collected
+   * TODO: implement powerups
+   */
+  void updateStats() {
+    speed = map(speedUps, 0, MAX_SPEED_UPS, MIN_SPEED, MAX_SPEED);
+    power = map(powerUps, 0, MAX_POWER_UPS, MIN_POWER, MAX_POWER);
+    fireRate = map(fireRateUps, 0, MAX_FIRE_RATE_UPS, MIN_FIRE_RATE, MAX_FIRE_RATE);
   }
 }
