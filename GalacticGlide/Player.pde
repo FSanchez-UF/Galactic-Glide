@@ -5,8 +5,6 @@
 //              behavior such as player movement, shooting, collisions,
 //              and more.
 
-import java.awt.event.KeyEvent;
-
 class Player extends Entity {
   
   // Speed: Measured in pixels per second
@@ -108,6 +106,9 @@ class Player extends Entity {
       case 'D': case RIGHT: setVelX(0); break;
       case ' ':      
         spaceBarPressed = false;
+        break;
+      case 'P':
+        // TODO: pause
         break;
       case '.': game.spawnRandomObstacle(); break;
       case ',': game.spawnRandomEnemy(); break;
