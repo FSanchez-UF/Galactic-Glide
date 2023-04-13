@@ -26,6 +26,15 @@ class Game {
   int timeSinceEnemy;          // Time since the last enemy spawn occurred
   int timeSinceObstacle;       // Time since the last obstacle spawn occurred
   int timeSinceBoss;           // Time since the last boss spawn occurred
+  int timeSinceScale;          // Time since the last enemy stat scale occurred
+  
+  int currScale = 0;                  // Current enemy stat scale
+  final float SCALE_INTERVAL = 60;    // How long to wait before scaling automatically (or defeat boss)
+  final int MAX_SCALE_TIMES = 10;     // Maximum number of times to scale
+  
+  final float MIN_HP_SCALE = 1.0f;    // Minimum HP scale
+  final float MAX_HP_SCALE = 5.0f;    // Maximum HP scale
+  float hpScale = MIN_HP_SCALE;       // Current HP scale
   
   // Filenames for obstacles
   final String[] obstacleFiles = {
@@ -108,6 +117,10 @@ class Game {
       
     for(int i = 0; i < p.playerHealth; i++) {
       hearts.get(i).show();
+    }
+    
+    if (millis() - timeSinceScale >= 60*1000) {
+      updateScale(currScale+1);
     }
   }
   
@@ -213,7 +226,7 @@ class Game {
    */
   void spawnObstacle(String imgFilename, float hp, float minVel, float maxVel, boolean isEnemy) {
     Obstacle o = new Obstacle(app, imgFilename, 1, 1, 600, isEnemy);
-    o.setHp(hp);
+    o.setHp(hp*hpScale);
     o.setVelXY(-random(minVel, maxVel), 0);
     entities.add(o);
   }
@@ -249,7 +262,7 @@ class Game {
     
     // TODO: apply scaling here
     
-    spawnEnemy(enemyFiles[rand], hp, minVel, maxVel);
+    spawnEnemy(enemyFiles[rand], hp, minVel, maxVel, false);
   }
   
   /**
@@ -283,16 +296,17 @@ class Game {
     
     // TODO: apply scaling here
     
-    spawnEnemy(bossFiles[rand], hp, minVel, maxVel);
+    spawnEnemy(bossFiles[rand], hp, minVel, maxVel, true);
   }
   
   /** 
    * Spawns an enemy.
    */
-  void spawnEnemy(String imgFilename, float hp, float minVel, float maxVel) {
+  void spawnEnemy(String imgFilename, float hp, float minVel, float maxVel, boolean isBoss) {
     Enemy e = new Enemy(app, imgFilename, 1, 1, 750);
-    e.setHp(hp);
+    e.setHp(hp*hpScale);
     e.setVelXY(-random(minVel, maxVel), 0);
+    e.isBoss = isBoss;
     entities.add(e);
   }
   
@@ -301,6 +315,16 @@ class Game {
    */
   void cleanDeadEntities() {
     entities.removeIf(entity -> (entity.isDead() || !entity.isVisible()));
+  }
+  
+  /**
+   * Sets the scale
+   */
+  void updateScale(int newScale) {
+    println("Setting the scale to " + newScale + "!");
+    currScale = newScale;
+    hpScale = map(currScale, 0, MAX_SCALE_TIMES, MIN_HP_SCALE, MAX_HP_SCALE);
+    timeSinceScale = millis();
   }
 }
 

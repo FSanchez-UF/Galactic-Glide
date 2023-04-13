@@ -5,7 +5,8 @@
 //              ships spawn and behave.
 
 class Enemy extends Entity {
-  boolean collidedPlayer; // 
+  boolean collidedPlayer; // Tracks whether this enemy has collided with the player before
+  boolean isBoss;         // Tracks whether this is a boss
   
   /**
    * Constructor
@@ -32,8 +33,14 @@ class Enemy extends Entity {
   /**
    * Called when object is set to dead after taking damage.
    * Useful for score adjusting and death sprite spawning!
+   * TODO: scale score with game.currScale too somehow
    */
   void onDeath() {
-    game.score += 100;
+    if (isBoss) {
+      game.updateScale(game.currScale+1);
+      game.score += 500;
+    }
+    else
+      game.score += 100;
   }
 }
