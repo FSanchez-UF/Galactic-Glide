@@ -114,6 +114,7 @@ class Game {
     displayScore.setText("Score: " + score);
     if (!active || paused)
       return;
+    enemyAI();
     handleSpawns();
     processCollisions();
     S4P.updateSprites(sw.getElapsedTime());
@@ -336,11 +337,41 @@ class Game {
    * Sets the scale
    */
   void updateScale(int newScale) {
-    println("Setting the scale to " + newScale + "!");
-    currScale = newScale;
+    currScale = constrain(newScale, 0, MAX_SCALE_TIMES);
+    println("Setting the scale to " + currScale + "!");
     hpScale = map(currScale, 0, MAX_SCALE_TIMES, MIN_HP_SCALE, MAX_HP_SCALE);
     timeSinceScale = millis();
   }
+  
+  // TO DO: Scale based on enemy type
+  void enemyAI() {
+    // Track the player
+    double playerY = height/2;
+    for (int i = 0; i < entities.size(); i++) {
+      Entity e = entities.get(i);;
+      if (e instanceof Player) {
+        Player pl = (Player) e;
+        playerY = pl.getY();
+      }
+      if (e instanceof Enemy && !e.isDead()) {
+        Enemy en = (Enemy) e;
+        if (en.getY() < playerY) {
+          en.setVelY(40);
+        } 
+        else if (en.getY() > playerY) {
+          en.setVelY(-40);
+        }
+        
+        // Shoot randomly every 4-8 sec
+        if (millis() - en.timeSinceShoot >= int(random(4,6))*1000) {
+          en.spawnProjectile();
+          en.timeSinceShoot = millis();
+        }
+      }
+    }
+  }
+  
+  
 }
 
 // NOTE: use saveStrings() to save scores across different opens (persistent)

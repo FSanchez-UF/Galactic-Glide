@@ -46,10 +46,12 @@ class Player extends Entity {
    * Handles collisions.
    */
   void handleCollision(Entity e) {
-    if (e instanceof Obstacle && !game.endGame) { // Remove bool variable to finish end game
+    if (e instanceof Obstacle && !game.endGame) { // TO DO: Remove bool variable to finish end game
       Obstacle o = (Obstacle) e;
       if (o.isEnemy) {
         playerHealth-=1;
+        sound.playSFX("Player_Death"); // CHANGE
+        // TO DO: Add invulnerability for a few sec after getting hit, change sound and add sprite
         cp5.remove("heart"+playerHealth);
         game.hearts.remove(game.hearts.size() - 1);
         if (playerHealth == 0) {
@@ -61,6 +63,7 @@ class Player extends Entity {
       Enemy en = (Enemy) e;
       if(!en.collidedPlayer) {
         playerHealth-=1;
+        sound.playSFX("Player_Death");
         cp5.remove("heart"+playerHealth);
         game.hearts.remove(game.hearts.size() - 1);
         if (playerHealth == 0) {
