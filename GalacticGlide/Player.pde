@@ -24,7 +24,7 @@ class Player extends Entity {
   // Fire rate (in shots per second)
   final float MAX_FIRE_RATE_UPS = 10;
   final float MIN_FIRE_RATE = 5;
-  final float MAX_FIRE_RATE = 20;
+  final float MAX_FIRE_RATE = 10;
   int fireRateUps = 0;
   float fireRate = MIN_FIRE_RATE;
   
@@ -49,7 +49,6 @@ class Player extends Entity {
     if (e instanceof Obstacle && !game.endGame) { // Remove bool variable to finish end game
       Obstacle o = (Obstacle) e;
       if (o.isEnemy) {
-        // TODO: player should die here
         playerHealth-=1;
         cp5.remove("heart"+playerHealth);
         game.hearts.remove(game.hearts.size() - 1);
@@ -60,7 +59,6 @@ class Player extends Entity {
     }
     else if (e instanceof Enemy && !game.endGame) { // Remove bool variable to finish end game
       Enemy en = (Enemy) e;
-      // TODO: enemy things here
       if(!en.collidedPlayer) {
         playerHealth-=1;
         cp5.remove("heart"+playerHealth);
@@ -125,7 +123,6 @@ class Player extends Entity {
   
   /**
    * Update stats based on the current number of powerups collected
-   * TODO: implement powerups
    */
   void updateStats() {
     speed = map(speedUps, 0, MAX_SPEED_UPS, MIN_SPEED, MAX_SPEED);

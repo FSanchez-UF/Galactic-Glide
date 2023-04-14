@@ -42,5 +42,8 @@ class Enemy extends Entity {
     }
     else
       game.score += 100;
+      
+    // TODO: set chance for powerup, also randomize the type
+    game.queuePowerup(PowerupType.FIRERATE, this);
   }
 }

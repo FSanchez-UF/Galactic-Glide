@@ -7,6 +7,8 @@
 
 import sprites.utils.*;
 import sprites.*;
+import java.util.Queue;
+import java.util.LinkedList;
 
 class Game {
   PApplet app;                 // App the Game belongs to
@@ -35,6 +37,8 @@ class Game {
   final float MIN_HP_SCALE = 1.0f;    // Minimum HP scale
   final float MAX_HP_SCALE = 5.0f;    // Maximum HP scale
   float hpScale = MIN_HP_SCALE;       // Current HP scale
+  
+  Queue<Powerup> powerupQ;
   
   // Filenames for obstacles
   final String[] obstacleFiles = {
@@ -81,6 +85,8 @@ class Game {
     ;
     S4P.collisionAreasVisible = DEBUG;
     
+    powerupQ = new LinkedList<Powerup>();
+    
     hearts = new ArrayList<Button>();
     
     images.Load("heart", "heart-sprite.png");
@@ -114,6 +120,10 @@ class Game {
     // Clear dead entities every 30 seconds
     if (frameCount % (30*frameRate) == 0)
       cleanDeadEntities();
+      
+    while (!powerupQ.isEmpty()) {
+      entities.add(powerupQ.remove());
+    }
       
     for(int i = 0; i < p.playerHealth; i++) {
       hearts.get(i).show();
@@ -214,7 +224,6 @@ class Game {
   /**
    * Spawns a random obstacle.
    * Should take into account difficulty and time elapsed.
-   * TODO: implement difficulty/time elapse (hp here)
    */
   void spawnRandomObstacle() {
     int rand = (int)random(0, obstacleFiles.length);
@@ -260,8 +269,6 @@ class Game {
         break;
     }
     
-    // TODO: apply scaling here
-    
     spawnEnemy(enemyFiles[rand], hp, minVel, maxVel, false);
   }
   
@@ -294,8 +301,6 @@ class Game {
         break;
     }
     
-    // TODO: apply scaling here
-    
     spawnEnemy(bossFiles[rand], hp, minVel, maxVel, true);
   }
   
@@ -308,6 +313,16 @@ class Game {
     e.setVelXY(-random(minVel, maxVel), 0);
     e.isBoss = isBoss;
     entities.add(e);
+  }
+  
+  /**
+   * Queues a powerup spawn at some enemy.
+   * We need to queue because editing the entities array during collision checking
+   * causes a ConcurrentModificationException.
+   */
+  void queuePowerup(PowerupType type, Entity e) {
+    Powerup pow = new Powerup(app, type, e);
+    powerupQ.add(pow);
   }
   
   /** 
