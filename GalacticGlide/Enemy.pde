@@ -7,6 +7,7 @@
 class Enemy extends Entity {
   boolean collidedPlayer; // Tracks whether this enemy has collided with the player before
   boolean isBoss;         // Tracks whether this is a boss
+  int timeSinceShoot;
   
   /**
    * Constructor
@@ -30,6 +31,15 @@ class Enemy extends Entity {
     }
   }
   
+  void spawnProjectile() {
+    Obstacle o = new Obstacle(app, "Sprites/Lasers/02.png", 1, 1, 500, true);
+    o.setXY(getX()+width/4, getY());
+    o.setVelX(-300);
+    game.entities.add(o);
+    timeSinceShoot = 0;
+    //sound.playSFX("Laser");
+  }
+  
   /**
    * Called when object is set to dead after taking damage.
    * Useful for score adjusting and death sprite spawning!
@@ -44,7 +54,7 @@ class Enemy extends Entity {
       game.score += 100;
       
     float rand = random(1);
-    if (rand < 0.4) { // 40% chance of powerup
+    if (rand < 0.3) { // 40% chance of powerup
       PowerupType randPower = PowerupType.values()[int(random(PowerupType.values().length))];
       game.queuePowerup(randPower, this);
     }
