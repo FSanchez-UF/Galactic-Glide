@@ -89,7 +89,5 @@ abstract class Entity extends Sprite {
   void setHp(float newHp) {
     mhp = newHp;
     hp = mhp;
-  }
-  
-  
+  } 
 }

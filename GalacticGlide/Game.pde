@@ -30,6 +30,8 @@ class Game {
   int timeSinceBoss;           // Time since the last boss spawn occurred
   int timeSinceScale;          // Time since the last enemy stat scale occurred
   
+  int gameTime, lastUnpauseTime;      // Keeps game state from changing while paused
+  
   int currScale = 0;                  // Current enemy stat scale
   final float SCALE_INTERVAL = 60;    // How long to wait before scaling automatically (or defeat boss)
   final int MAX_SCALE_TIMES = 10;     // Maximum number of times to scale
@@ -100,10 +102,35 @@ class Game {
     }
   }
   
+  void restart() {
+    entities.clear();
+    entities.add(p);
+    score = 0;
+    S4P.collisionAreasVisible = DEBUG;
+    powerupQ.clear();
+    hearts.clear();
+    for(int i = 0; i < p.playerHealth; i++) {
+      hearts.add(cp5.addButton("heart"+i)
+            .setImage(images.Get("heart"))
+            .setPosition((i*40)+5, (int)height-60)
+            .setSize(50, 50)
+            .hide()
+            );
+    }
+    active = false;
+    currScale = 0;
+    hpScale = MIN_HP_SCALE;
+  }
+  
   /**
    * Updates the game state frame by frame.
    */
   void update() {
+    if (!active || paused) {
+      return;
+    }
+    gameTime += millis() - lastUnpauseTime;
+    
     background(images.Get("game_backgrd"));
     p.handleSpaceBar();
     if (frameCount % 20 == 0) {
@@ -112,11 +139,11 @@ class Game {
     }
     displayScore.show();
     displayScore.setText("Score: " + score);
-    if (!active || paused)
-      return;
+      
     handleSpawns();
     processCollisions();
     S4P.updateSprites(sw.getElapsedTime());
+    
     // Clear dead entities every 30 seconds
     if (frameCount % (30*frameRate) == 0)
       cleanDeadEntities();
@@ -129,7 +156,7 @@ class Game {
       hearts.get(i).show();
     }
     
-    if (millis() - timeSinceScale >= 60*1000) {
+    if (gameTime - timeSinceScale >= 60*1000) {
       updateScale(currScale+1);
     }
   }
@@ -140,9 +167,16 @@ class Game {
   void display() {
     tint(255, 255, 255);
     background(images.Get("game_backgrd"));
-    if (!active)
+    if (!active) {
       return;
+    }
     S4P.drawSprites();
+    if (paused) {
+      menu.displayPause();  
+    }
+    else {
+      lastUnpauseTime = millis();
+    }
   }
   
   /** 
@@ -197,27 +231,34 @@ class Game {
     active = true;
   }
   
+  /** 
+   * Quits the game.
+   */
+  void quitGame() {
+    active = false;
+  }
+  
   /**
    * Spawns obstacles/enemies over a gradually steeper interval.
    */
   void handleSpawns() {
-    if (millis() - timeSinceEnemy >= 3*1000) {
+    if (gameTime - timeSinceEnemy >= 3*1000) {
       int numEnemies = (int)random(1,3);
       for (int i = 0; i < numEnemies; ++i)
         spawnRandomEnemy();
-      timeSinceEnemy = millis();
+      timeSinceEnemy = gameTime;
     }
     
-    if (millis() - timeSinceObstacle >= 5*1000) {
+    if (gameTime - timeSinceObstacle >= 5*1000) {
       int numObstacles = (int)random(1,3);
       for (int i = 0; i < numObstacles; ++i)
         spawnRandomObstacle();
-      timeSinceObstacle = millis();
+      timeSinceObstacle = gameTime;
     }
     
-    if (millis() - timeSinceBoss >= 30*1000) {
+    if (gameTime - timeSinceBoss >= 30*1000) {
       spawnRandomBoss();
-      timeSinceBoss = millis();
+      timeSinceBoss = gameTime;
     }    
   }
   
@@ -339,7 +380,7 @@ class Game {
     println("Setting the scale to " + newScale + "!");
     currScale = newScale;
     hpScale = map(currScale, 0, MAX_SCALE_TIMES, MIN_HP_SCALE, MAX_HP_SCALE);
-    timeSinceScale = millis();
+    timeSinceScale = gameTime;
   }
 }
 

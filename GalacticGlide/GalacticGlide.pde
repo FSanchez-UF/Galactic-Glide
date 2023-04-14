@@ -56,7 +56,10 @@ void draw() {
     if (game.active) {
       menu.hide();
       game.update();
-      game.display();
+      game.display();   
+    }
+    else {
+      game.lastUnpauseTime = 0;
     }
   }
 }
@@ -84,10 +87,6 @@ void keyReleased() {
   game.handleKeyRelease();
 }
 
-void mousePressed() {
-  
-}
-
 // Menu Clicks
 void controlEvent(ControlEvent theEvent) {
   if (!ready)
@@ -105,6 +104,10 @@ void controlEvent(ControlEvent theEvent) {
       background(backgrd);
       menu.displayScores();
       screen = "scores";
+      sound.playSFX("Button");
+      break;
+    case("EXIT"): // Exit game
+      exit();
       sound.playSFX("Button");
       break;
     case("back"): // Go Back
@@ -129,8 +132,24 @@ void controlEvent(ControlEvent theEvent) {
       screen = "help";
       sound.playSFX("Button");
       break;
-    case("EXIT"): // Exit game
-      exit();
+    case("resume"): // Close pause menu
+      menu.hidePause();
+      game.lastUnpauseTime = millis();
+      game.sw.reset();
+      sound.playSFX("Button");
+      break;
+    case("restart"): // Restart game
+      game = null;
+      game = new Game(this);
+      game.startGame();
+      menu.hidePause();
+      sound.playSFX("Button");
+      break;
+    case("quit"): // Quit game
+      game = null;
+      game = new Game(this);
+      menu.hidePause();
+      screen = "main";
       sound.playSFX("Button");
       break;
   }

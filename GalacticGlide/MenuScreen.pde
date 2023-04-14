@@ -9,10 +9,11 @@ class MenuScreen {
   
   Button start;
   Button scores;
-  Button quit;
+  Button exit;
   Button settings;
   Button help;
   Button back;
+  Button resume, restart, quit; // Pause menu
   Slider music, sfx, fRate; 
   Textlabel title, scoresLabel, settingsLabel, helpLabel, musicLabel, sfxLabel, fRateLabel;
   ControlFont cf1 = new ControlFont(createFont("Goudy Stout", 24));
@@ -51,7 +52,7 @@ class MenuScreen {
       .hide()
     ;
     
-    quit = cp5.addButton("EXIT") // quit button
+    exit = cp5.addButton("EXIT") // quit button
       .setBroadcast(false)
       .setValue(0)
       .setPosition(width/2-150, 600)
@@ -175,6 +176,39 @@ class MenuScreen {
       .hide()
     ;
     
+    resume = cp5.addButton("resume") // resume game after pause
+      .setBroadcast(false)
+      .setValue(0)
+      .setPosition(width/2-150, 265)
+      .setColorBackground(color(0, 130, 0))
+      .setSize(300, 50)
+      .setFont(createFont("Cinzel-Regular.ttf", 35))
+      .setBroadcast(true)
+      .hide()
+    ;
+    
+    restart = cp5.addButton("restart") // restart game after pause
+      .setBroadcast(false)
+      .setValue(0)
+      .setPosition(width/2-150, 375)
+      .setColorBackground(color(0, 130, 0))
+      .setSize(300, 50)
+      .setFont(createFont("Cinzel-Regular.ttf", 35))
+      .setBroadcast(true)
+      .hide()
+    ;
+    
+    quit = cp5.addButton("quit") // quit game after pause
+      .setBroadcast(false)
+      .setValue(0)
+      .setPosition(width/2-150, 485)
+      .setColorBackground(color(0, 130, 0))
+      .setSize(300, 50)
+      .setFont(createFont("Cinzel-Regular.ttf", 35))
+      .setBroadcast(true)
+      .hide()
+    ;
+    
   }
   
   /**
@@ -184,7 +218,7 @@ class MenuScreen {
     background(images.Get("menu_backgrd"));
     start.show();
     scores.show();
-    quit.show();
+    exit.show();
     title.show();
     help.show();
     settings.show();
@@ -196,7 +230,7 @@ class MenuScreen {
   void hide() {
     start.hide();
     scores.hide();
-    quit.hide();
+    exit.hide();
     title.hide();
     help.hide();
     settings.hide();
@@ -317,6 +351,28 @@ class MenuScreen {
   void hideHelp() {
     back.hide();
     helpLabel.hide();
+  }
+  
+  void displayPause() {
+    game.setPause(true);
+    resume.show();
+    restart.show();
+    quit.show();
+    
+    // Semi transparent rectangle
+    fill(0, 0, 0, 192);
+    stroke(255);
+    strokeWeight(4);
+    rectMode(CENTER);
+    rect(width/2, height/2, 600, 500);
+    noStroke();
+  }
+  
+  void hidePause() {
+    resume.hide();
+    restart.hide();
+    quit.hide();
+    game.setPause(false);
   }
 }
 
