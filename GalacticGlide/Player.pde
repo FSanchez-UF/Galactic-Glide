@@ -130,9 +130,9 @@ class Player extends Entity {
   }
   
   void handleSpaceBar() {
-    if (spaceBarPressed && (game.gameTime - spaceBarTimeReleased) >= 1000.0/fireRate) {
+    if (spaceBarPressed && (millis() - spaceBarTimeReleased) >= 1500.0/fireRate) {
       spawnProjectile();
-      spaceBarTimeReleased = game.gameTime;
+      spaceBarTimeReleased = millis();
     }
   }
   

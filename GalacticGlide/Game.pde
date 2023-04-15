@@ -245,23 +245,23 @@ class Game {
    * Spawns obstacles/enemies over a gradually steeper interval.
    */
   void handleSpawns() {
-    if (gameTime - timeSinceEnemy >= 3*1000) {
+    if (millis() - timeSinceEnemy >= 3*1000) {
       int numEnemies = (int)random(1,3);
       for (int i = 0; i < numEnemies; ++i)
         spawnRandomEnemy();
-      timeSinceEnemy = gameTime;
+      timeSinceEnemy = millis();
     }
     
-    if (gameTime - timeSinceObstacle >= 5*1000) {
+    if (millis() - timeSinceObstacle >= 5*1000) {
       int numObstacles = (int)random(1,3);
       for (int i = 0; i < numObstacles; ++i)
         spawnRandomObstacle();
-      timeSinceObstacle = gameTime;
+      timeSinceObstacle = millis();
     }
     
-    if (gameTime - timeSinceBoss >= 30*1000) {
+    if (millis() - timeSinceBoss >= 30*1000) {
       spawnRandomBoss();
-      timeSinceBoss = gameTime;
+      timeSinceBoss = millis();
     }    
   }
   
