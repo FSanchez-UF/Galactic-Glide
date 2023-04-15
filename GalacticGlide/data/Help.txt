@@ -5,7 +5,7 @@ Use the directional keys or WASD to move
 Fire
 Hold or press space bar
 Power-ups
-Upgrade your spacecraft's weapons
+Upgrade your spacecraft's speed, power, and fire rate
 Objective
 Earn the highest score possible by shooting down as many enemy ships as you can while avoiding obstacles and enemy fire.
 Difficulty

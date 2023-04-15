@@ -133,6 +133,7 @@ class Game {
     
     background(images.Get("game_backgrd"));
     p.handleSpaceBar();
+    p.damageAnimation();
     if (frameCount % 20 == 0) {
       fps.show();
       fps.setText("FPS: " + (int)frameRate);

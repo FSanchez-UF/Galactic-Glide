@@ -23,7 +23,7 @@ class Enemy extends Entity {
    */
   void handleCollision(Entity e) {
     if (e instanceof Player)
-      collidedPlayer = true;      
+      collidedPlayer = true;
     if (e instanceof Obstacle) {
       Obstacle o = (Obstacle) e;
       if (!o.isEnemy)
@@ -32,7 +32,7 @@ class Enemy extends Entity {
   }
   
   void spawnProjectile() {
-    Obstacle o = new Obstacle(app, "Sprites/Lasers/02.png", 1, 1, 500, true);
+    Obstacle o = new Obstacle(app, "Sprites/Lasers/33.png", 1, 1, 500, true);
     o.setXY(getX()+width/4, getY());
     o.setVelX(-300);
     game.entities.add(o);
@@ -54,7 +54,7 @@ class Enemy extends Entity {
       game.score += 100;
       
     float rand = random(1);
-    if (rand < 0.3) { // 40% chance of powerup
+    if (rand < 0.3) { // 30% chance of powerup
       PowerupType randPower = PowerupType.values()[int(random(PowerupType.values().length))];
       game.queuePowerup(randPower, this);
     }

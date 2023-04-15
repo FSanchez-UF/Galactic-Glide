@@ -33,6 +33,10 @@ class Player extends Entity {
   boolean spaceBarPressed = false;  // Tracks whether the shoot button is pressed
   int spaceBarTimeReleased = 0;     // Timestamp of last shoot button release
   
+  final int DAMAGE_FRAMES = 20;  // How many frames to spend doing damage 
+  int currDamageFrame = 0;       // Current damage frame
+  boolean doDamageFrame = false; // Show the damage frames on damage
+  
   /**
    * Constructor.
    */
@@ -50,12 +54,16 @@ class Player extends Entity {
       Obstacle o = (Obstacle) e;
       if (o.isEnemy) {
         playerHealth-=1;
-        sound.playSFX("Player_Death"); // CHANGE
+        takeDamage();
         // TO DO: Add invulnerability for a few sec after getting hit, change sound and add sprite
         cp5.remove("heart"+playerHealth);
         game.hearts.remove(game.hearts.size() - 1);
         if (playerHealth == 0) {
           game.endGame = true;
+          sound.playSFX("Player_Death");
+        }
+        else {
+          sound.playSFX("Player_Hit");
         }
       }
     }
@@ -63,11 +71,15 @@ class Player extends Entity {
       Enemy en = (Enemy) e;
       if(!en.collidedPlayer) {
         playerHealth-=1;
-        sound.playSFX("Player_Death");
+        takeDamage();
         cp5.remove("heart"+playerHealth);
         game.hearts.remove(game.hearts.size() - 1);
         if (playerHealth == 0) {
           game.endGame = true;
+          sound.playSFX("Player_Death");
+        }
+        else {
+          sound.playSFX("Player_Hit");
         }
       }
     }
@@ -131,5 +143,27 @@ class Player extends Entity {
     speed = map(speedUps, 0, MAX_SPEED_UPS, MIN_SPEED, MAX_SPEED);
     power = map(powerUps, 0, MAX_POWER_UPS, MIN_POWER, MAX_POWER);
     fireRate = map(fireRateUps, 0, MAX_FIRE_RATE_UPS, MIN_FIRE_RATE, MAX_FIRE_RATE);
+  }
+  
+  void damageAnimation() {
+    if (doDamageFrame) {
+       int clr = (int)map(currDamageFrame, 0, DAMAGE_FRAMES, 0, 255);  
+       app.tint(255, clr, clr);
+       if (currDamageFrame < DAMAGE_FRAMES) {
+         currDamageFrame++;         
+       }
+       else {
+         doDamageFrame = false;
+         currDamageFrame = 0;
+       }
+     }
+     else {
+       app.tint(255, 255, 255);
+     }
+  }
+  
+  void takeDamage() {
+    doDamageFrame = true;
+    currDamageFrame = 0;
   }
 }

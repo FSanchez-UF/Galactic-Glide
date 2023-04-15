@@ -21,8 +21,9 @@ class Obstacle extends Entity {
    * This handler mostly deals with when to despawn the Obstacle.
    */
   void handleCollision(Entity e) {
-    if (e instanceof Player && this.isEnemy)
-      setDead(true);      
+    if (e instanceof Player && this.isEnemy) {
+      setDead(true);
+    }
     else if (e instanceof Enemy && !this.isEnemy) {
       setDead(true);
     }
