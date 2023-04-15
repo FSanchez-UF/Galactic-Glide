@@ -45,7 +45,6 @@ void setup() {
 
 void draw() {
   if (ready) {
-    sound.sounds.get("Theme").amp(0.2 * menu.music.getValue()/100);
     if (screen == "main") {
       menu.display();
     } 
@@ -70,6 +69,7 @@ void init() {
   sound = new SoundManager(this);
   menu = new MenuScreen();
   sound.loop("Theme");
+  sound.sounds.get("Theme").amp(0.2 * menu.music.getValue()/100);
   
   ready = true;
   cp5.setUpdate(true);

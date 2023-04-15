@@ -276,6 +276,7 @@ class MenuScreen {
     fRate.show();
     fRateLabel.show();
     frameRate(fRate.getValue());
+    sound.sounds.get("Theme").amp(0.2 * menu.music.getValue()/100);
     
     // Semi transparent rectangle
     fill(0, 0, 0, 192);
