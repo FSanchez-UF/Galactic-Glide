@@ -58,9 +58,6 @@ void draw() {
       game.update();
       game.display();   
     }
-    else {
-      game.lastUnpauseTime = 0;
-    }
   }
 }
 
@@ -134,10 +131,11 @@ void controlEvent(ControlEvent theEvent) {
       break;
     case("resume"): // Close pause menu
       menu.hidePause();
-      game.lastUnpauseTime = millis();
       game.sw.reset();
+      game.gameClock.start();
       sound.playSFX("Button");
       break;
+                                        // TODO: get game restart and quit to clear game state
     //case("restart"): // Restart game
     //  game = null;
     //  game = new Game(this);

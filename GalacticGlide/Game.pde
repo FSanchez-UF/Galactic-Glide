@@ -12,6 +12,7 @@ import java.util.LinkedList;
 
 class Game {
   PApplet app;                 // App the Game belongs to
+  Clock gameClock;
   
   StopWatch sw;                // StopWatch provided by Sprite library
   Player p;                    // Player entity
@@ -29,8 +30,6 @@ class Game {
   int timeSinceObstacle;       // Time since the last obstacle spawn occurred
   int timeSinceBoss;           // Time since the last boss spawn occurred
   int timeSinceScale;          // Time since the last enemy stat scale occurred
-  
-  int gameTime, lastUnpauseTime;      // Keeps game state from changing while paused
   
   int currScale = 0;                  // Current enemy stat scale
   final float SCALE_INTERVAL = 60;    // How long to wait before scaling automatically (or defeat boss)
@@ -73,22 +72,23 @@ class Game {
       .setFont(createFont("Arial", 16))
       .hide();
     ;
-    this.app = app;
-    sw = new StopWatch();
-    p = new Player(app, "Sprites/player1.png", 1, 1, 1000);
-    entities = new ArrayList<Entity>();
-    entities.add(p);
-    score = 0;
+    
     displayScore = cp5.addTextlabel("score")
                    .setText("Score: " + score)
                    .setPosition(10,25)
                    .setFont(createFont("Arial", 16))
                    .hide();
     ;
+    
+    this.app = app;
+    sw = new StopWatch();
+    gameClock = new Clock();
+    p = new Player(app, "Sprites/player1.png", 1, 1, 1000);
+    entities = new ArrayList<Entity>();
+    entities.add(p);
+    score = 0;
     S4P.collisionAreasVisible = DEBUG;
-    
-    powerupQ = new LinkedList<Powerup>();
-    
+    powerupQ = new LinkedList<Powerup>(); 
     hearts = new ArrayList<Button>();
     
     images.Load("heart", "heart-sprite.png");
@@ -102,42 +102,23 @@ class Game {
     }
   }
   
-  void restart() {
-    entities.clear();
-    entities.add(p);
-    score = 0;
-    S4P.collisionAreasVisible = DEBUG;
-    powerupQ.clear();
-    hearts.clear();
-    for(int i = 0; i < p.playerHealth; i++) {
-      hearts.add(cp5.addButton("heart"+i)
-            .setImage(images.Get("heart"))
-            .setPosition((i*40)+5, (int)height-60)
-            .setSize(50, 50)
-            .hide()
-            );
-    }
-    active = false;
-    currScale = 0;
-    hpScale = MIN_HP_SCALE;
-  }
-  
   /**
    * Updates the game state frame by frame.
    */
   void update() {
-    if (!active || paused) {
-      return;
-    }
-    gameTime += millis() - lastUnpauseTime;
-    
-    background(images.Get("game_backgrd"));
-    p.handleSpaceBar();
-    p.damageAnimation();
     if (frameCount % 20 == 0) {
       fps.show();
       fps.setText("FPS: " + (int)frameRate);
     }
+    
+    if (!active || paused) {
+      return;
+    }
+    
+    background(images.Get("game_backgrd"));
+    p.handleSpaceBar();
+    p.damageAnimation();
+    
     displayScore.show();
     displayScore.setText("Score: " + score);
     if (!active || paused)
@@ -159,7 +140,7 @@ class Game {
       hearts.get(i).show();
     }
     
-    if (gameTime - timeSinceScale >= 60*1000) {
+    if (gameClock.time() - timeSinceScale >= 60*1000) {
       updateScale(currScale+1);
     }
   }
@@ -176,9 +157,6 @@ class Game {
     S4P.drawSprites();
     if (paused) {
       menu.displayPause();  
-    }
-    else {
-      lastUnpauseTime = millis();
     }
   }
   
@@ -232,6 +210,7 @@ class Game {
    */
   void startGame() {
     active = true;
+    gameClock.start();
   }
   
   /** 
@@ -239,29 +218,30 @@ class Game {
    */
   void quitGame() {
     active = false;
+    gameClock.stop();
   }
   
   /**
    * Spawns obstacles/enemies over a gradually steeper interval.
    */
   void handleSpawns() {
-    if (millis() - timeSinceEnemy >= 3*1000) {
+    if (gameClock.time() - timeSinceEnemy >= 3*1000) {
       int numEnemies = (int)random(1,3);
       for (int i = 0; i < numEnemies; ++i)
         spawnRandomEnemy();
-      timeSinceEnemy = millis();
+      timeSinceEnemy = gameClock.time();
     }
     
-    if (millis() - timeSinceObstacle >= 5*1000) {
+    if (gameClock.time() - timeSinceObstacle >= 5*1000) {
       int numObstacles = (int)random(1,3);
       for (int i = 0; i < numObstacles; ++i)
         spawnRandomObstacle();
-      timeSinceObstacle = millis();
+      timeSinceObstacle = gameClock.time();
     }
     
-    if (millis() - timeSinceBoss >= 30*1000) {
+    if (gameClock.time() - timeSinceBoss >= 30*1000) {
       spawnRandomBoss();
-      timeSinceBoss = millis();
+      timeSinceBoss = gameClock.time();
     }    
   }
   
@@ -383,7 +363,7 @@ class Game {
     currScale = constrain(newScale, 0, MAX_SCALE_TIMES);
     println("Setting the scale to " + currScale + "!");
     hpScale = map(currScale, 0, MAX_SCALE_TIMES, MIN_HP_SCALE, MAX_HP_SCALE);
-    timeSinceScale = gameTime;
+    timeSinceScale = gameClock.time();
   }
   
   // TO DO: Scale based on enemy type
@@ -406,9 +386,9 @@ class Game {
         }
         
         // Shoot randomly every 4-8 sec
-        if (millis() - en.timeSinceShoot >= int(random(4,6))*1000) {
+        if (gameClock.time() - en.timeSinceShoot >= int(random(4,6))*1000) {
           en.spawnProjectile();
-          en.timeSinceShoot = millis();
+          en.timeSinceShoot = gameClock.time();
         }
       }
     }

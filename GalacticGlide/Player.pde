@@ -122,6 +122,7 @@ class Player extends Entity {
         break;
       case 'P':
         game.paused = true;
+        game.gameClock.stop();
         break;
       case '.': game.spawnRandomObstacle(); break;
       case ',': game.spawnRandomEnemy(); break;
@@ -130,9 +131,9 @@ class Player extends Entity {
   }
   
   void handleSpaceBar() {
-    if (spaceBarPressed && (millis() - spaceBarTimeReleased) >= 1500.0/fireRate) {
+    if (spaceBarPressed && (game.gameClock.time() - spaceBarTimeReleased) >= 1500.0/fireRate) {
       spawnProjectile();
-      spaceBarTimeReleased = millis();
+      spaceBarTimeReleased = game.gameClock.time();
     }
   }
   
