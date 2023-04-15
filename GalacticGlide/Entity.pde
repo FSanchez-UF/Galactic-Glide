@@ -14,6 +14,8 @@ abstract class Entity extends Sprite {
   int currDamageFrame = 0;       // Current damage frame
   boolean doDamageFrame = false; // Show the damage frames on damage
   
+  boolean wasOnScreen = false;   // Whether entity has been on screen yet
+  
   /**
    * Constructor.
    *   app: The invoking application (usually just "this")
@@ -37,6 +39,7 @@ abstract class Entity extends Sprite {
    * Override for Sprite.draw() to include taking damage.
    */
    void draw() {
+     // Damage drawing
      if (doDamageFrame) {
        int clr = (int)map(currDamageFrame, 0, DAMAGE_FRAMES, 0, 255);  
        app.tint(255, clr, clr);
@@ -51,6 +54,11 @@ abstract class Entity extends Sprite {
      else {
        app.tint(255, 255, 255);
      }
+     
+     // Update screen precense while we're here
+     if (!wasOnScreen && isOnScreen())
+       wasOnScreen = true;
+     
      super.draw();
    }
   
@@ -90,4 +98,18 @@ abstract class Entity extends Sprite {
     mhp = newHp;
     hp = mhp;
   } 
+  
+  /**
+   * Alias for isOnScreem, an official library typo.
+   */
+  boolean isOnScreen() {
+    return isOnScreem();
+  }
+  
+  /**
+   * Returns whether the entity was on screen yet.
+   */
+  boolean wasOnScreen() {
+    return wasOnScreen;
+  }
 }

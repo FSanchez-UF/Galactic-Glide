@@ -127,10 +127,7 @@ class Game {
     handleSpawns();
     processCollisions();
     S4P.updateSprites(sw.getElapsedTime());
-    
-    // Clear dead entities every 30 seconds
-    if (frameCount % (30*frameRate) == 0)
-      cleanDeadEntities();
+    cleanDeadEntities();
       
     while (!powerupQ.isEmpty()) {
       entities.add(powerupQ.remove());
@@ -166,7 +163,7 @@ class Game {
   void processCollisions() {
     for (Entity e1 : entities) {
       if (e1.isDead())
-      continue;
+        continue;
       
       for (Entity e2 : entities) {
         if (e2.isDead())
@@ -350,10 +347,10 @@ class Game {
   }
   
   /** 
-   * Cleans the entities list of all dead or not visible entities.
+   * Cleans the entities list of all dead or off-screen entities.
    */
   void cleanDeadEntities() {
-    entities.removeIf(entity -> (entity.isDead() || !entity.isVisible()));
+    entities.removeIf(entity -> (entity.isDead() || (entity.wasOnScreen && !entity.isOnScreen())));
   }
   
   /**
