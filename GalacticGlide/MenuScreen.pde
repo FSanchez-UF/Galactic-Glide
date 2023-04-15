@@ -18,6 +18,7 @@ class MenuScreen {
   Textlabel title, scoresLabel, settingsLabel, helpLabel, musicLabel, sfxLabel, fRateLabel;
   ControlFont cf1 = new ControlFont(createFont("Goudy Stout", 24));
   ControlFont cf2 = new ControlFont(createFont("Goudy Stout", 55));
+  ControlFont cf3 = new ControlFont(createFont("Cooper-Black-Regular.ttf", 35));
   
   /**
    * Constructor: Loads relevant menu images and creates buttons
@@ -36,7 +37,7 @@ class MenuScreen {
       .setPosition(width/2-150, 400)
       .setSize(300, 50)
       .setColorBackground(color(0, 130, 0))
-      .setFont(cf1)
+      .setFont(cf3)
       .setBroadcast(true)
       .hide()
     ;
@@ -47,7 +48,7 @@ class MenuScreen {
       .setPosition(width/2-150, 500)
       .setSize(300, 50)
       .setColorBackground(color(0, 130, 0))
-      .setFont(cf1)
+      .setFont(cf3)
       .setBroadcast(true)
       .hide()
     ;
@@ -58,7 +59,7 @@ class MenuScreen {
       .setPosition(width/2-150, 600)
       .setSize(300, 50)
       .setColorBackground(color(0, 130, 0))
-      .setFont(cf1)
+      .setFont(cf3)
       .setBroadcast(true)
       .hide()
     ;
@@ -113,9 +114,9 @@ class MenuScreen {
     music.getCaptionLabel().setVisible(false);
     
     musicLabel = cp5.addTextlabel("MUSICLABEL")
-       .setText("Music")
-       .setPosition(width/2-59, 225)
-       .setFont(createFont("Cinzel-Regular.ttf", 35))
+       .setText("MUSIC")
+       .setPosition(width/2-62, 225)
+       .setFont(cf3)
        .hide();
     ;
     
@@ -132,8 +133,8 @@ class MenuScreen {
     
     sfxLabel = cp5.addTextlabel("SFXLABEL")
        .setText("SFX")
-       .setPosition(width/2-35, 335)
-       .setFont(createFont("Cinzel-Regular.ttf", 35))
+       .setPosition(width/2-39, 335)
+       .setFont(cf3)
        .hide();
     ;
     
@@ -150,8 +151,8 @@ class MenuScreen {
     
     fRateLabel = cp5.addTextlabel("FRATELABEL")
        .setText("FRAMERATE")
-       .setPosition(width/2-113, 445)
-       .setFont(createFont("Cinzel-Regular.ttf", 35))
+       .setPosition(width/2-120, 445)
+       .setFont(cf3)
        .hide();
     ;
     
@@ -182,7 +183,7 @@ class MenuScreen {
       .setPosition(width/2-150, 265)
       .setColorBackground(color(0, 130, 0))
       .setSize(300, 50)
-      .setFont(createFont("Cinzel-Regular.ttf", 35))
+      .setFont(cf3)
       .setBroadcast(true)
       .hide()
     ;
@@ -193,7 +194,7 @@ class MenuScreen {
       .setPosition(width/2-150, 375)
       .setColorBackground(color(0, 130, 0))
       .setSize(300, 50)
-      .setFont(createFont("Cinzel-Regular.ttf", 35))
+      .setFont(cf3)
       .setBroadcast(true)
       .hide()
     ;
@@ -204,7 +205,7 @@ class MenuScreen {
       .setPosition(width/2-150, 485)
       .setColorBackground(color(0, 130, 0))
       .setSize(300, 50)
-      .setFont(createFont("Cinzel-Regular.ttf", 35))
+      .setFont(cf3)
       .setBroadcast(true)
       .hide()
     ;
