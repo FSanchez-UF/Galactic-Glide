@@ -42,7 +42,7 @@ class SoundManager {
       println("WARNING: Sound " + soundName + " doesn't exist. Skipping play().");
       return;
     }
-    sounds.get(soundName).amp(0.5 * menu.sfx.getValue()/100);
+    sounds.get(soundName).amp(1 * menu.sfx.getValue()/100);
     sounds.get(soundName).play();
   }
   

@@ -33,10 +33,6 @@ class Player extends Entity {
   boolean spaceBarPressed = false;  // Tracks whether the shoot button is pressed
   int spaceBarTimeReleased = 0;     // Timestamp of last shoot button release
   
-  final int DAMAGE_FRAMES = 20;  // How many frames to spend doing damage 
-  int currDamageFrame = 0;       // Current damage frame
-  boolean doDamageFrame = false; // Show the damage frames on damage
-  
   /**
    * Constructor.
    */
@@ -44,6 +40,8 @@ class Player extends Entity {
     super(app, imgFilename, cols, rows, zOrder);
     setXY(100, app.height/2);
     setDomain(-getWidth()/2, -getHeight()/2, app.width+getWidth()/2, app.height+getHeight()/2, HALT);
+    DAMAGE_MILLIS = 1500;
+    isPlayer = true;
   }
   
   /**
@@ -52,35 +50,14 @@ class Player extends Entity {
   void handleCollision(Entity e) {
     if (e instanceof Obstacle && !game.endGame) { // TO DO: Remove bool variable to finish end game
       Obstacle o = (Obstacle) e;
-      if (o.isEnemy) {
-        playerHealth-=1;
+      if (o.isEnemy && !doDamage) {
         takeDamage();
-        // TO DO: Add invulnerability for a few sec after getting hit, change sound and add sprite
-        cp5.remove("heart"+playerHealth);
-        game.hearts.remove(game.hearts.size() - 1);
-        if (playerHealth == 0) {
-          game.endGame = true;
-          sound.playSFX("Player_Death");
-        }
-        else {
-          sound.playSFX("Player_Hit");
-        }
       }
     }
     else if (e instanceof Enemy && !game.endGame) { // Remove bool variable to finish end game
       Enemy en = (Enemy) e;
-      if(!en.collidedPlayer) {
-        playerHealth-=1;
+      if(!en.collidedPlayer  && !doDamage) {
         takeDamage();
-        cp5.remove("heart"+playerHealth);
-        game.hearts.remove(game.hearts.size() - 1);
-        if (playerHealth == 0) {
-          game.endGame = true;
-          sound.playSFX("Player_Death");
-        }
-        else {
-          sound.playSFX("Player_Hit");
-        }
       }
     }
   }
@@ -146,25 +123,19 @@ class Player extends Entity {
     fireRate = map(fireRateUps, 0, MAX_FIRE_RATE_UPS, MIN_FIRE_RATE, MAX_FIRE_RATE);
   }
   
-  void damageAnimation() {
-    if (doDamageFrame) {
-       int clr = (int)map(currDamageFrame, 0, DAMAGE_FRAMES, 0, 255);  
-       app.tint(255, clr, clr);
-       if (currDamageFrame < DAMAGE_FRAMES) {
-         currDamageFrame++;         
-       }
-       else {
-         doDamageFrame = false;
-         currDamageFrame = 0;
-       }
-     }
-     else {
-       app.tint(255, 255, 255);
-     }
-  }
-  
   void takeDamage() {
-    doDamageFrame = true;
-    currDamageFrame = 0;
-  }
+    doDamage = true;
+    dmgStartTime = game.gameClock.time();
+    
+    playerHealth-=1;
+    cp5.remove("heart"+playerHealth);
+    game.hearts.remove(game.hearts.size() - 1);
+    if (playerHealth == 0) {
+      game.endGame = true;
+      sound.playSFX("Player_Death");
+    }
+    else {
+      sound.playSFX("Player_Hit");
+    }
+  } 
 }

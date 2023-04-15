@@ -10,11 +10,12 @@ abstract class Entity extends Sprite {
   float mhp;                     // Maximum health
   float hp;                      // Current health
   
-  final int DAMAGE_FRAMES = 20;  // How many frames to spend doing damage 
-  int currDamageFrame = 0;       // Current damage frame
-  boolean doDamageFrame = false; // Show the damage frames on damage
+  int DAMAGE_MILLIS = 333;      // How many milliseconds to spend doing damage (only update in player class)
+  int dmgStartTime = 0;         // Track when damage started
+  boolean doDamage = false;     // Show the damage frames on damage
+  boolean isPlayer = false;
   
-  boolean wasOnScreen = false;   // Whether entity has been on screen yet
+  boolean wasOnScreen = false; // Whether entity has been on screen yet
   
   /**
    * Constructor.
@@ -40,15 +41,12 @@ abstract class Entity extends Sprite {
    */
    void draw() {
      // Damage drawing
-     if (doDamageFrame) {
-       int clr = (int)map(currDamageFrame, 0, DAMAGE_FRAMES, 0, 255);  
-       app.tint(255, clr, clr);
-       if (currDamageFrame < DAMAGE_FRAMES) {
-         currDamageFrame++;         
-       }
-       else {
-         doDamageFrame = false;
-         currDamageFrame = 0;
+     if (doDamage) {
+       int clr = (int)map(game.gameClock.time() - dmgStartTime, 0, DAMAGE_MILLIS, 0, 255);  
+       if (!isPlayer) { app.tint(255, clr, clr); }
+       else { app.tint(clr, clr, 255); }
+       if (game.gameClock.time() >= dmgStartTime + DAMAGE_MILLIS) {
+         doDamage = false;         
        }
      }
      else {
@@ -68,8 +66,8 @@ abstract class Entity extends Sprite {
    */
   void takeDamage(float dmg) {
     hp -= dmg;
-    doDamageFrame = true;
-    currDamageFrame = 0;
+    doDamage = true;
+    dmgStartTime = game.gameClock.time();
     if (hp <= 0)
       setDead(true);
     if (hp >= mhp)

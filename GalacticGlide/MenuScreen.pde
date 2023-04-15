@@ -123,7 +123,7 @@ class MenuScreen {
      .setPosition(width/2-200, 385)
      .setSize(400, 30)
      .setRange(0, 100)
-     .setValue(100)
+     .setValue(50)
      .setDecimalPrecision(0)
      .hide();
     ;

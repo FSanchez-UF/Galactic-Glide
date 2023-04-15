@@ -66,20 +66,7 @@ class Game {
    * Constructor.
    */
   Game(PApplet app) {
-    fps =  cp5.addTextlabel("fps")
-      .setText("FPS: " + (int)frameRate)
-      .setPosition(10, 10)
-      .setFont(createFont("Arial", 16))
-      .hide();
-    ;
-    
-    displayScore = cp5.addTextlabel("score")
-                   .setText("Score: " + score)
-                   .setPosition(10,25)
-                   .setFont(createFont("Arial", 16))
-                   .hide();
-    ;
-    
+    images.Load("heart", "heart-sprite.png");
     this.app = app;
     sw = new StopWatch();
     gameClock = new Clock();
@@ -91,14 +78,42 @@ class Game {
     powerupQ = new LinkedList<Powerup>(); 
     hearts = new ArrayList<Button>();
     
-    images.Load("heart", "heart-sprite.png");
+    if (cp5.getController("fps") == null) {
+      fps =  cp5.addTextlabel("fps")
+        .setText("FPS: " + (int)frameRate)
+        .setPosition(10, 10)
+        .setFont(createFont("Arial", 16))
+        .hide();
+      ;
+    }
+    else {
+      fps = (Textlabel)cp5.getController("fps");
+    }
+    
+    if (cp5.getController("score") == null) {
+      displayScore = cp5.addTextlabel("score")
+                     .setText("Score: " + score)
+                     .setPosition(10,25)
+                     .setFont(createFont("Arial", 16))
+                     .hide();
+      ;
+    }
+    else {
+      displayScore = (Textlabel)cp5.getController("score");  
+    }
+    
     for(int i = 0; i < p.playerHealth; i++) {
-      hearts.add(cp5.addButton("heart"+i)
+      if (cp5.getController("heart" + i) == null) {
+        hearts.add(cp5.addButton("heart"+i)
             .setImage(images.Get("heart"))
             .setPosition((i*40)+5, (int)height-60)
             .setSize(50, 50)
             .hide()
             );
+      }
+      else {
+        hearts.add((Button)cp5.getController("heart" + i));
+      }
     }
   }
   
@@ -117,8 +132,6 @@ class Game {
     
     background(images.Get("game_backgrd"));
     p.handleSpaceBar();
-    p.damageAnimation();
-    
     displayScore.show();
     displayScore.setText("Score: " + score);
     if (!active || paused)
@@ -216,6 +229,20 @@ class Game {
   void quitGame() {
     active = false;
     gameClock.stop();
+    for (Entity entity : entities) {
+      S4P.deregisterSprite(entity);  
+    }
+  }
+  
+  /** 
+   * Hide game cp5 elements
+   */
+  void hideCP5() {
+    fps.hide();
+    displayScore.hide();
+    for (int i = 0; i < hearts.size(); i++) {
+      hearts.get(i).hide();
+    }
   }
   
   /**
