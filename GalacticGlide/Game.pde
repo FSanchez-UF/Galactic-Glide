@@ -17,7 +17,7 @@ class Game {
   StopWatch sw;                // StopWatch provided by Sprite library
   Player p;                    // Player entity
   ArrayList<Entity> entities;  // All entities including player
-  ArrayList<Button> hearts;
+  
   int score;                   // Score tracker
   boolean active;              // Tells whether the game is running or not
   boolean paused;              // Tells whether game is paused or not
@@ -83,7 +83,6 @@ class Game {
     score = 0;
     S4P.collisionAreasVisible = DEBUG;
     powerupQ = new LinkedList<Powerup>(); 
-    hearts = new ArrayList<Button>();
     cp5();
   }
   
@@ -100,7 +99,6 @@ class Game {
       return;
     }
     
-    background(images.Get("game_backgrd"));
     p.handleSpaceBar();                      // Handle continuous shooting
     p.constraintMovement();                  // Constrain player movement within screen
     displayScore.setText("Score: " + score); // Update score
@@ -112,11 +110,6 @@ class Game {
       
     while (!powerupQ.isEmpty()) {
       entities.add(powerupQ.remove());
-    }
-    
-    // Display player lives
-    for(int i = 0; i < p.playerHealth; i++) {
-      hearts.get(i).show();
     }
     
     // Scale difficulty over time
@@ -142,6 +135,10 @@ class Game {
     image(images.Get("power"), pPower.getPosition()[0]/0.6 - 35, pPower.getPosition()[1] + 30);
     image(images.Get("firerate"), pFireRate.getPosition()[0]/0.6 - 35, pFireRate.getPosition()[1] + 30);
     popMatrix();
+    // Display player lives
+    for(int i = 0; i < p.playerHealth; i++) {
+      image(images.Get("heart"), (i*40)+30, (int)height-30);
+    }
     if (paused) {
       menu.displayPause();  
     }
@@ -224,9 +221,6 @@ class Game {
   void hideCP5() {
     fps.hide();
     displayScore.hide();
-    for (int i = 0; i < hearts.size(); i++) {
-      hearts.get(i).hide();
-    }
     pSpeed.hide();
     pPower.hide();
     pFireRate.hide();
@@ -436,20 +430,6 @@ class Game {
     }
     else {
       displayScore = (Textlabel)cp5.getController("score");  
-    }
-    
-    for(int i = 0; i < p.playerHealth; i++) {
-      if (cp5.getController("heart" + i) == null) {
-        hearts.add(cp5.addButton("heart"+i)
-            .setImage(images.Get("heart"))
-            .setPosition((i*40)+5, (int)height-60)
-            .setSize(50, 50)
-            .hide()
-            );
-      }
-      else {
-        hearts.add((Button)cp5.getController("heart" + i));
-      }
     }
     
     if (cp5.getController("pSpeed") == null) {

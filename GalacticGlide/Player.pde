@@ -185,8 +185,6 @@ class Player extends Entity {
     
     // Remove player life
     playerHealth-=1;
-    cp5.remove("heart"+playerHealth);
-    game.hearts.remove(game.hearts.size() - 1);
     if (playerHealth > 0) {
       sound.playSFX("Player_Hit");      
     }
