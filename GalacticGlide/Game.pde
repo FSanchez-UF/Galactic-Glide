@@ -233,6 +233,7 @@ class Game {
     active = false;
     gameClock.stop();
     hideCP5();
+    app.tint(255); 
     for (Entity entity : entities) {
       S4P.deregisterSprite(entity);  
     }
