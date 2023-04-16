@@ -36,7 +36,7 @@ class Enemy extends Entity {
    * Spawns an enemy laser at the specified speed
    */
   void spawnProjectile() { //TODO: possibly add an input parameter to set the velocity
-    Obstacle o = new Obstacle(app, "Sprites/Lasers/33.png", 1, 1, 500, true);
+    Obstacle o = new Obstacle(app, "Sprites/Lasers/33.png", 1, 1, 500, true, true);
     o.setXY(getX()+width/4, getY());
     o.setVelX(-300);
     game.entities.add(o);

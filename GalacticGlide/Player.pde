@@ -68,7 +68,7 @@ class Player extends Entity {
    * Spawns player laser on spacebar press
    */
   void spawnProjectile() {
-    Obstacle o = new Obstacle(app, "Sprites/Lasers/01.png", 1, 1, 500, false);
+    Obstacle o = new Obstacle(app, "Sprites/Lasers/01.png", 1, 1, 500, false, true);
     o.setXY(getX()+width/4, getY());
     o.setVelX(400);
     game.entities.add(o);

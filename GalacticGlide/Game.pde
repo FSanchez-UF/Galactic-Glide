@@ -290,7 +290,7 @@ class Game {
    * Spawns an obstacle.
    */
   void spawnObstacle(String imgFilename, float hp, float minVel, float maxVel, boolean isEnemy) {
-    Obstacle o = new Obstacle(app, imgFilename, 1, 1, 600, isEnemy);
+    Obstacle o = new Obstacle(app, imgFilename, 1, 1, 600, isEnemy, false);
     o.setHp(hp*hpScale);
     o.setVelXY(-random(minVel, maxVel), 0);
     entities.add(o);
