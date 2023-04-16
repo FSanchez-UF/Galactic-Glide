@@ -113,7 +113,7 @@ abstract class Entity extends Sprite {
   /**
    * Returns whether the entity was on screen yet.
    */
-  boolean wasOnScreen() {
-    return wasOnScreen;
-  }
+  //boolean wasOnScreen() {
+  //  return wasOnScreen;
+  //}
 }
