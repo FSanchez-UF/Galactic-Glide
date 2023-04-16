@@ -8,21 +8,21 @@
 class Player extends Entity {
   
   // Speed: Measured in pixels per second
-  final float MAX_SPEED_UPS = 10;
+  final int MAX_SPEED_UPS = 10;
   final float MIN_SPEED = 250;
   final float MAX_SPEED = 400;
   int speedUps = 0;
   float speed = MIN_SPEED;
   
   // Power: How much damage to deal per shot
-  final float MAX_POWER_UPS = 10;
+  final int MAX_POWER_UPS = 10;
   final float MIN_POWER = 1;
   final float MAX_POWER = 5;
   int powerUps = 0;
   float power = MIN_POWER;
   
   // Fire rate (in shots per second)
-  final float MAX_FIRE_RATE_UPS = 10;
+  final int MAX_FIRE_RATE_UPS = 10;
   final float MIN_FIRE_RATE = 5;
   final float MAX_FIRE_RATE = 10;
   int fireRateUps = 0;
@@ -106,10 +106,16 @@ class Player extends Entity {
         game.paused = true;
         game.gameClock.stop();
         break;
-      // TODO: Delete these when game is finished
+      // TODO: Delete these when game is finished (or just comment out)
       case '.': game.spawnRandomObstacle(); break;
       case ',': game.spawnRandomEnemy(); break;
       case '/': game.spawnRandomBoss(); break;
+      case ';':
+        speedUps = MAX_SPEED_UPS;
+        powerUps = MAX_POWER_UPS;
+        fireRateUps = MAX_FIRE_RATE_UPS;
+        updateStats();
+        break;
     }
   }
   
@@ -125,11 +131,16 @@ class Player extends Entity {
   
   /**
    * Update stats based on the current number of powerups collected
+   * Also updates the Game's text displays.
    */
   void updateStats() {
     speed = map(speedUps, 0, MAX_SPEED_UPS, MIN_SPEED, MAX_SPEED);
     power = map(powerUps, 0, MAX_POWER_UPS, MIN_POWER, MAX_POWER);
     fireRate = map(fireRateUps, 0, MAX_FIRE_RATE_UPS, MIN_FIRE_RATE, MAX_FIRE_RATE);
+    
+    game.pSpeed.setText(speed + ((speed == MAX_SPEED)? " (MAX)" : ""));
+    game.pPower.setText(power + ((power == MAX_POWER)? " (MAX)" : ""));
+    game.pFireRate.setText(fireRate + ((fireRate == MAX_FIRE_RATE)? " (MAX)" : ""));
   }
   
   /**

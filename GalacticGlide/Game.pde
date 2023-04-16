@@ -23,8 +23,12 @@ class Game {
   boolean paused;              // Tells whether game is paused or not
   boolean endGame;
   
-  Textlabel fps;
-  Textlabel displayScore;
+  Textlabel fps;               // Displays FPS
+  Textlabel displayScore;      // Displays current score
+  
+  Textlabel pSpeed;            // Displays player speed
+  Textlabel pPower;            // Displays player power
+  Textlabel pFireRate;         // Displays player fire rate
   
   int timeSinceEnemy;          // Time since the last enemy spawn occurred
   int timeSinceObstacle;       // Time since the last obstacle spawn occurred
@@ -67,6 +71,9 @@ class Game {
    */
   Game(PApplet app) {
     images.Load("heart", "heart-sprite.png");
+    images.Load("speed", "Powerups/speed.png");
+    images.Load("power", "Powerups/power.png");
+    images.Load("firerate", "Powerups/firerate.png");
     this.app = app;
     sw = new StopWatch();
     gameClock = new Clock();
@@ -117,6 +124,39 @@ class Game {
         hearts.add((Button)cp5.getController("heart" + i));
       }
     }
+    
+    if (cp5.getController("pSpeed") == null) {
+      pSpeed = cp5.addTextlabel("pSpeed")
+        .setText("" + p.speed)
+        .setPosition(250, 10)
+        .setFont(createFont("Arial", 30))
+        .hide();
+    }
+    else {
+      pSpeed = (Textlabel)cp5.getController("pSpeed");
+    }
+    
+    if (cp5.getController("pPower") == null) {
+      pPower = cp5.addTextlabel("pPower")
+        .setText("" + p.power)
+        .setPosition(480, 10)
+        .setFont(createFont("Arial", 30))
+        .hide();
+    }
+    else {
+      pPower = (Textlabel)cp5.getController("pPower");
+    }
+    
+    if (cp5.getController("pFireRate") == null) {
+      pFireRate = cp5.addTextlabel("pFireRate")
+        .setText("" + p.fireRate)
+        .setPosition(680, 10)
+        .setFont(createFont("Arial", 30))
+        .hide();
+    }
+    else {
+      pFireRate = (Textlabel)cp5.getController("pFireRate");
+    }
   }
   
   /**
@@ -166,6 +206,13 @@ class Game {
       return;
     }
     S4P.drawSprites();
+    pushMatrix();
+    scale(0.8);
+    tint(255, 255, 255);
+    image(images.Get("speed"), pSpeed.getPosition()[0]/0.8 - 35, pSpeed.getPosition()[1] + 25);
+    image(images.Get("power"), pPower.getPosition()[0]/0.8 - 35, pPower.getPosition()[1] + 25);
+    image(images.Get("firerate"), pFireRate.getPosition()[0]/0.8 - 35, pFireRate.getPosition()[1] + 25);
+    popMatrix();
     if (paused) {
       menu.displayPause();  
     }
@@ -223,6 +270,9 @@ class Game {
     active = true;
     fps.show();
     displayScore.show();
+    pSpeed.show();
+    pPower.show();
+    pFireRate.show();
     gameClock.start();
   }
   
