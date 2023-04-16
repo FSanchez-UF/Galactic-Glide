@@ -84,7 +84,7 @@ class MenuScreen {
       .hide()
     ;
     
-    title = cp5.addTextlabel("Galactic Glide")
+    title = cp5.addTextlabel("Galactic Glide") // Game title
       .setText("Galactic Glide")
       .setPosition(width/2-430, 200)
       .setFont(cf2)
@@ -102,7 +102,7 @@ class MenuScreen {
       .hide()
     ;
     
-    music = cp5.addSlider("music")
+    music = cp5.addSlider("music") // music volume slider
      .setPosition(width/2-200, 275)
      .setSize(400, 30)
      .setRange(0, 100)
@@ -120,7 +120,7 @@ class MenuScreen {
        .hide();
     ;
     
-    sfx = cp5.addSlider("sfx")
+    sfx = cp5.addSlider("sfx") // Sound effects volume slider
      .setPosition(width/2-200, 385)
      .setSize(400, 30)
      .setRange(0, 100)
@@ -138,7 +138,7 @@ class MenuScreen {
        .hide();
     ;
     
-    fRate = cp5.addSlider("fRate")
+    fRate = cp5.addSlider("fRate") // Framerate slider
      .setPosition(width/2-200, 495)
      .setSize(400, 30)
      .setRange(60, 144)
@@ -177,7 +177,7 @@ class MenuScreen {
       .hide()
     ;
     
-    resume = cp5.addButton("resume") // resume game after pause
+    resume = cp5.addButton("resume") // resume nutton
       .setBroadcast(false)
       .setValue(0)
       .setPosition(width/2-150, 265)
@@ -188,7 +188,7 @@ class MenuScreen {
       .hide()
     ;
     
-    restart = cp5.addButton("restart") // restart game after pause
+    restart = cp5.addButton("restart") // restart button
       .setBroadcast(false)
       .setValue(0)
       .setPosition(width/2-150, 375)
@@ -199,7 +199,7 @@ class MenuScreen {
       .hide()
     ;
     
-    quit = cp5.addButton("quit") // quit game after pause
+    quit = cp5.addButton("quit") // quit button
       .setBroadcast(false)
       .setValue(0)
       .setPosition(width/2-150, 485)
@@ -237,6 +237,9 @@ class MenuScreen {
     settings.hide();
   }
   
+  /**
+   * Displays the high scores menu
+   */
   void displayScores() {
     back.show();
     scoresLabel.show();
@@ -251,20 +254,26 @@ class MenuScreen {
     fill(255);
     noStroke();
     int y = 0;
-    String[] highScores = loadStrings("Scores.txt");
+    String[] highScores = loadStrings("Scores.txt"); // Load scores from txt file
     for (String highScore : highScores) {
       textAlign(LEFT);
       text("#" + (y+100)/100 + "  " + highScore, width/2 - 390, 230+y);
       y += 100;
     }
-    textAlign(CENTER);
+    textAlign(CENTER); // Reset text align
   }
   
+  /**
+   * Hides the scores menu
+   */
   void hideScores() {
     back.hide();
     scoresLabel.hide();
   }
   
+  /**
+   * Display the settings menu
+   */
   void displaySettings() {
     background(images.Get("menu_backgrd"));
     back.show();
@@ -275,8 +284,8 @@ class MenuScreen {
     sfxLabel.show();
     fRate.show();
     fRateLabel.show();
-    frameRate(fRate.getValue());
-    sound.sounds.get("Theme").amp(0.2 * menu.music.getValue()/100);
+    frameRate(fRate.getValue());                                    // Set framerate to value of slider
+    sound.sounds.get("Theme").amp(0.2 * menu.music.getValue()/100); // Set music volume to value of slider
     
     // Semi transparent rectangle
     fill(0, 0, 0, 192);
@@ -287,6 +296,9 @@ class MenuScreen {
     noStroke();
   }
   
+  /**
+   * Hides the settings menu
+   */
   void hideSettings() {
     back.hide();
     settingsLabel.hide();
@@ -298,8 +310,10 @@ class MenuScreen {
     fRateLabel.hide();
   }
   
+  /**
+   * Display the help menu
+   */
   void displayHelp() {
-    // Show control p5 elements
     back.show();
     helpLabel.show();
     
@@ -324,14 +338,14 @@ class MenuScreen {
     for (int i = 0; i < 14; i+=2) {
       fill(0, 200, 0);
       text(helpGuide[i], width/2-300, title[i/2]);
-      // Matrix lines
+      // Text cell lines
       y += line[i/2];
       fill(255);
       if (i/2 < 6) rect(width/2, 150+y, 800, 3);
       
     }
     
-    // Descriptions
+    // Description positions and box sizes
     int[] text = {233, 318, 353, 388, 446, 537, 627};
     int[] size = {150, 40, 40, 40, 80, 115, 80};
     noStroke();
@@ -350,11 +364,17 @@ class MenuScreen {
     noStroke();
   }
   
+  /**
+   * Hide the help menu
+   */
   void hideHelp() {
     back.hide();
     helpLabel.hide();
   }
   
+  /**
+   * Display the pause menu
+   */
   void displayPause() {
     game.setPause(true);
     resume.show();
@@ -370,6 +390,9 @@ class MenuScreen {
     noStroke();
   }
   
+  /**
+   * Hide the pause menu
+   */
   void hidePause() {
     resume.hide();
     restart.hide();

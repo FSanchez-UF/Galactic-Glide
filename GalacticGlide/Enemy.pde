@@ -7,7 +7,7 @@
 class Enemy extends Entity {
   boolean collidedPlayer; // Tracks whether this enemy has collided with the player before
   boolean isBoss;         // Tracks whether this is a boss
-  int timeSinceShoot;
+  int timeSinceShoot;     // Tracks the last time the enemy has shot
   
   /**
    * Constructor
@@ -22,8 +22,9 @@ class Enemy extends Entity {
    * Handles collision when one happens.
    */
   void handleCollision(Entity e) {
-    if (e instanceof Player)
-      collidedPlayer = true;
+    if (e instanceof Player) {
+      collidedPlayer = true; // Disables multiple player collisions with one entity
+    }
     if (e instanceof Obstacle) {
       Obstacle o = (Obstacle) e;
       if (!o.isEnemy)
@@ -31,19 +32,22 @@ class Enemy extends Entity {
     }
   }
   
-  void spawnProjectile() {
+  /**
+   * Spawns an enemy laser at the specified speed
+   */
+  void spawnProjectile() { //TODO: possibly add an input parameter to set the velocity
     Obstacle o = new Obstacle(app, "Sprites/Lasers/33.png", 1, 1, 500, true);
     o.setXY(getX()+width/4, getY());
     o.setVelX(-300);
     game.entities.add(o);
-    timeSinceShoot = 0;
     //sound.playSFX("Laser");
   }
   
   /**
    * Called when object is set to dead after taking damage.
    * Useful for score adjusting and death sprite spawning!
-   * TODO: scale score with game.currScale too somehow
+   * TODO: scale score with game.currScale too somehow. Also
+   *       give different score values to each enemy.
    */
   void onDeath() {
     if (isBoss) {

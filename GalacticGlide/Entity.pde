@@ -7,12 +7,12 @@
 //              this class for functionality not included by Sprite.
 
 abstract class Entity extends Sprite {
-  float mhp;                     // Maximum health
-  float hp;                      // Current health
+  float mhp;                   // Maximum health
+  float hp;                    // Current health
   
-  int DAMAGE_MILLIS = 333;      // How many milliseconds to spend doing damage (only update in player class)
-  int dmgStartTime = 0;         // Track when damage started
-  boolean doDamage = false;     // Show the damage frames on damage
+  int DAMAGE_MILLIS = 333;     // How many milliseconds to spend doing damage (only update in player class)
+  int dmgStartTime = 0;        // Track when damage started
+  boolean doDamage = false;    // Show the damage frames on damage
   boolean isPlayer = false;
   
   boolean wasOnScreen = false; // Whether entity has been on screen yet
@@ -42,22 +42,29 @@ abstract class Entity extends Sprite {
    void draw() {
      // Damage drawing
      if (doDamage) {
-       int clr = (int)map(game.gameClock.time() - dmgStartTime, 0, DAMAGE_MILLIS, 0, 255);  
-       if (!isPlayer) { app.tint(255, clr, clr); }
-       else { app.tint(clr, clr, 255); }
+       int clr = (int)map(game.gameClock.time() - dmgStartTime, 0, DAMAGE_MILLIS, 0, 255);
+       if (!isPlayer) { // Flash enemies and obstacles red
+         app.tint(255, clr, clr); 
+       }
+       else { // Flash player blue
+         app.tint(clr, clr, 255); 
+       }
+       
+       // End condition for damage animation duration
        if (game.gameClock.time() >= dmgStartTime + DAMAGE_MILLIS) {
          doDamage = false;         
        }
      }
-     else {
+     else { // Draws sprite with no tint
        app.tint(255, 255, 255);
      }
      
-     // Update screen precense while we're here
-     if (!wasOnScreen && isOnScreen())
+     // Update screen presence while we're here
+     if (!wasOnScreen && isOnScreen()) {
        wasOnScreen = true;
-     
-     super.draw();
+     }
+
+     super.draw(); // Draw sprites as defined in sprite library
    }
   
   /**
@@ -66,7 +73,7 @@ abstract class Entity extends Sprite {
    */
   void takeDamage(float dmg) {
     hp -= dmg;
-    doDamage = true;
+    doDamage = true; // Start damage animation
     dmgStartTime = game.gameClock.time();
     if (hp <= 0)
       setDead(true);

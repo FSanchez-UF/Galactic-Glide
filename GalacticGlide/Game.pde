@@ -78,6 +78,8 @@ class Game {
     powerupQ = new LinkedList<Powerup>(); 
     hearts = new ArrayList<Button>();
     
+    // Checks for if cp5 elements already exist, such as when the
+    // game has been restarted or quit during execution
     if (cp5.getController("fps") == null) {
       fps =  cp5.addTextlabel("fps")
         .setText("FPS: " + (int)frameRate)
@@ -121,8 +123,8 @@ class Game {
    * Updates the game state frame by frame.
    */
   void update() {
+    // Update fps every 20 frames
     if (frameCount % 20 == 0) {
-      fps.show();
       fps.setText("FPS: " + (int)frameRate);
     }
     
@@ -131,13 +133,10 @@ class Game {
     }
     
     background(images.Get("game_backgrd"));
-    p.handleSpaceBar();
-    displayScore.show();
-    displayScore.setText("Score: " + score);
-    if (!active || paused)
-      return;
-    enemyAI();
-    handleSpawns();
+    p.handleSpaceBar();                      // Handle continuous shooting
+    displayScore.setText("Score: " + score); // Update score
+    enemyAI();                               // Enemy AI track player and shoot
+    handleSpawns();                          // Spawn enemies and obstacles
     processCollisions();
     S4P.updateSprites(sw.getElapsedTime());
     cleanDeadEntities();
@@ -145,11 +144,13 @@ class Game {
     while (!powerupQ.isEmpty()) {
       entities.add(powerupQ.remove());
     }
-      
+    
+    // Display player lives
     for(int i = 0; i < p.playerHealth; i++) {
       hearts.get(i).show();
     }
     
+    // Scale difficulty over time
     if (gameClock.time() - timeSinceScale >= 60*1000) {
       updateScale(currScale+1);
     }
@@ -220,6 +221,8 @@ class Game {
    */
   void startGame() {
     active = true;
+    fps.show();
+    displayScore.show();
     gameClock.start();
   }
   
@@ -229,6 +232,7 @@ class Game {
   void quitGame() {
     active = false;
     gameClock.stop();
+    hideCP5();
     for (Entity entity : entities) {
       S4P.deregisterSprite(entity);  
     }
@@ -249,6 +253,7 @@ class Game {
    * Spawns obstacles/enemies over a gradually steeper interval.
    */
   void handleSpawns() {
+    // Spawn 1-3 enemies every 3 seconds
     if (gameClock.time() - timeSinceEnemy >= 3*1000) {
       int numEnemies = (int)random(1,3);
       for (int i = 0; i < numEnemies; ++i)
@@ -256,6 +261,7 @@ class Game {
       timeSinceEnemy = gameClock.time();
     }
     
+    // Spawn 1-3 obstacles every 5 seconds
     if (gameClock.time() - timeSinceObstacle >= 5*1000) {
       int numObstacles = (int)random(1,3);
       for (int i = 0; i < numObstacles; ++i)
@@ -263,6 +269,7 @@ class Game {
       timeSinceObstacle = gameClock.time();
     }
     
+    // Spawn a boss every 30 seconds
     if (gameClock.time() - timeSinceBoss >= 30*1000) {
       spawnRandomBoss();
       timeSinceBoss = gameClock.time();
@@ -381,7 +388,7 @@ class Game {
   }
   
   /**
-   * Sets the scale
+   * Sets the scale/ difficulty of the game
    */
   void updateScale(int newScale) {
     currScale = constrain(newScale, 0, MAX_SCALE_TIMES);
@@ -395,12 +402,13 @@ class Game {
     // Track the player
     double playerY = height/2;
     for (int i = 0; i < entities.size(); i++) {
-      Entity e = entities.get(i);;
-      if (e instanceof Player) {
+      Entity e = entities.get(i);
+      if (e instanceof Player) { // Set player y position as AI to target
         Player pl = (Player) e;
         playerY = pl.getY();
       }
       if (e instanceof Enemy && !e.isDead()) {
+        // Enemy flies toward player position at specified y velocity
         Enemy en = (Enemy) e;
         if (en.getY() < playerY) {
           en.setVelY(40);
@@ -409,7 +417,7 @@ class Game {
           en.setVelY(-40);
         }
         
-        // Shoot randomly every 4-8 sec
+        // Shoot randomly every 4-6 sec
         if (gameClock.time() - en.timeSinceShoot >= int(random(4,6))*1000) {
           en.spawnProjectile();
           en.timeSinceShoot = gameClock.time();

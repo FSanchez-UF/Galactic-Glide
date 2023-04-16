@@ -21,6 +21,9 @@ Map<PowerupType, String> powerupMap = Map.of(
 class Powerup extends Entity {
   PowerupType type;
   
+  /**
+   * Constructor.
+   */
   Powerup(PApplet app, PowerupType type, Entity e) {
     super(app, powerupMap.get(type), 1, 1, 300);
     this.type = type;
@@ -28,6 +31,9 @@ class Powerup extends Entity {
     setVelXY(-150, 0);
   }
   
+  /**
+   * Allows updates player stats when collecting a powerup
+   */
   void handleCollision(Entity e) {
     if (e instanceof Player) {
       Player p = (Player) e;

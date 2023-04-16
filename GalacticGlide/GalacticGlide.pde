@@ -23,13 +23,11 @@ ImageManager images;
 MenuScreen menu;
 
 ControlP5 cp5;
-PImage backgrd;
 String screen;
 
 void setup() {
   size(1000, 800);
-  backgrd = loadImage("Sprites/menu_background.png");
-  background(backgrd);
+  background(loadImage("Sprites/menu_background.png"));
   textFont(createFont("Goudy Stout", 55));
   textAlign(CENTER);
   text("LOADING...", width/2, height/2);
@@ -44,7 +42,7 @@ void setup() {
 }
 
 void draw() {
-  if (ready) {
+  if (ready) { // Allow thread init to finish before starting game
     if (screen == "main") {
       menu.display();
     } 
@@ -60,6 +58,9 @@ void draw() {
   }
 }
 
+/**
+ * Uses threading to load all assets
+ */
 void init() {
   images = new ImageManager();
   images.Load("menu_backgrd", "menu_background.png");
@@ -84,7 +85,9 @@ void keyReleased() {
   game.handleKeyRelease();
 }
 
-// Menu Clicks
+/**
+ * Handles all cp5 button clicks
+ */
 void controlEvent(ControlEvent theEvent) {
   if (!ready)
     return;
@@ -98,7 +101,6 @@ void controlEvent(ControlEvent theEvent) {
       break;
     case("SCORES"): // Show scores
       menu.hide();
-      background(backgrd);
       menu.displayScores();
       screen = "scores";
       sound.playSFX("Button");
@@ -111,20 +113,17 @@ void controlEvent(ControlEvent theEvent) {
       menu.hideScores();
       menu.hideSettings();
       menu.hideHelp();
-      background(backgrd);
       screen = "main";
       sound.playSFX("Button");
       break;
     case("settings"): // Show settings
       menu.hide();
-      background(backgrd);
       menu.displaySettings();
       screen = "settings";
       sound.playSFX("Button");
       break;
     case("help"): // Show help
       menu.hide();
-      background(backgrd);
       menu.displayHelp();
       screen = "help";
       sound.playSFX("Button");
@@ -144,7 +143,6 @@ void controlEvent(ControlEvent theEvent) {
       sound.playSFX("Button");
       break;
     case("quit"): // Quit game
-      game.hideCP5();
       game.quitGame();
       game = null;
       game = new Game(this);

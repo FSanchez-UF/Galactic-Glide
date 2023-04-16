@@ -5,7 +5,7 @@
 //              obstacles spawn and behave.
 
 class Obstacle extends Entity {
-  boolean isEnemy;      // Describes whether the obstacle belongs to the enemy; false if owned by player
+  boolean isEnemy; // Describes whether the obstacle belongs to the enemy; false if owned by player
   
   /**
    * Constructor
@@ -21,16 +21,14 @@ class Obstacle extends Entity {
    * This handler mostly deals with when to despawn the Obstacle.
    */
   void handleCollision(Entity e) {
-    if (e instanceof Player && this.isEnemy) {
+    if (e instanceof Player && this.isEnemy) { // Collision with player destroys obstacle
       setDead(true);
     }
-    else if (e instanceof Enemy && !this.isEnemy) {
+    else if (e instanceof Enemy && !this.isEnemy) { // Destroy player laser on imapct with enemy 
       setDead(true);
     }
-    else if (e instanceof Obstacle) {
+    else if (e instanceof Obstacle) { // TODO: Describe this line cause Im not sure
       Obstacle o = (Obstacle) e;
-      //if (!this.isEnemy)
-      //  setDead(true);
       if (this.isEnemy != o.isEnemy) {
         takeDamage(game.p.power);
       }

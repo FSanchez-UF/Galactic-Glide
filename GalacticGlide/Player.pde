@@ -50,18 +50,23 @@ class Player extends Entity {
   void handleCollision(Entity e) {
     if (e instanceof Obstacle && !game.endGame) { // TO DO: Remove bool variable to finish end game
       Obstacle o = (Obstacle) e;
-      if (o.isEnemy && !doDamage) {
+      // If obstacle hits player and player is not currently in damage animation, do damage
+      if (o.isEnemy && !doDamage) { 
         takeDamage();
       }
     }
     else if (e instanceof Enemy && !game.endGame) { // Remove bool variable to finish end game
       Enemy en = (Enemy) e;
+      // If enemy hits player for the first time and player is not currently in damage animation, do damage
       if(!en.collidedPlayer  && !doDamage) {
         takeDamage();
       }
     }
   }
   
+  /**
+   * Spawns player laser on spacebar press
+   */
   void spawnProjectile() {
     Obstacle o = new Obstacle(app, "Sprites/Lasers/01.png", 1, 1, 500, false);
     o.setXY(getX()+width/4, getY());
@@ -101,12 +106,16 @@ class Player extends Entity {
         game.paused = true;
         game.gameClock.stop();
         break;
+      // TODO: Delete these when game is finished
       case '.': game.spawnRandomObstacle(); break;
       case ',': game.spawnRandomEnemy(); break;
       case '/': game.spawnRandomBoss(); break;
     }
   }
   
+  /**
+   * Handles continuous press of space bar to shoot. Controls fire rate
+   */
   void handleSpaceBar() {
     if (spaceBarPressed && (game.gameClock.time() - spaceBarTimeReleased) >= 1500.0/fireRate) {
       spawnProjectile();
@@ -123,19 +132,24 @@ class Player extends Entity {
     fireRate = map(fireRateUps, 0, MAX_FIRE_RATE_UPS, MIN_FIRE_RATE, MAX_FIRE_RATE);
   }
   
+  /**
+   * Override of Entity takeDamage() to handle player lives and sound effects
+   */
   void takeDamage() {
+    // Start damage animation. Player is invulnerable for 1.5s
     doDamage = true;
     dmgStartTime = game.gameClock.time();
     
+    // Remove player life
     playerHealth-=1;
     cp5.remove("heart"+playerHealth);
     game.hearts.remove(game.hearts.size() - 1);
-    if (playerHealth == 0) {
-      game.endGame = true;
-      sound.playSFX("Player_Death");
+    if (playerHealth > 0) {
+      sound.playSFX("Player_Hit");      
     }
     else {
-      sound.playSFX("Player_Hit");
+      game.endGame = true;
+      sound.playSFX("Player_Death");
     }
   } 
 }

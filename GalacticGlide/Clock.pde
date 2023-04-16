@@ -10,12 +10,18 @@ class Clock {
   int elapsedTime;   // The elapsed time since the clock started running
   boolean isRunning; // Whether the clock is currently running
   
+  /**
+   * Constructor.
+   */
   Clock() {
     startTime = 0;
     elapsedTime = 0;
     isRunning = false;
   }
   
+  /**
+   * Starts the clock at the current time value of millis()
+   */
   void start() {
     if (!isRunning) {
       startTime = millis();
@@ -23,6 +29,9 @@ class Clock {
     }
   }
   
+  /**
+   * Stops the clock and updates how long the clock has been running
+   */
   void stop() {
     if (isRunning) {
       elapsedTime += millis() - startTime;
@@ -30,12 +39,18 @@ class Clock {
     }
   }
   
+  /**
+   * Resets all clock values to zero
+   */
   void reset() {
     startTime = 0;
     elapsedTime = 0;
     isRunning = false;
   }
   
+  /**
+   * Returns the current time of the clock whether it is running or not
+   */
   int time() {
     if (isRunning) {
       return millis() - startTime + elapsedTime;
