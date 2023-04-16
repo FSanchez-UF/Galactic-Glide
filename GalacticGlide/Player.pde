@@ -39,7 +39,7 @@ class Player extends Entity {
   Player(PApplet app, String imgFilename, int cols, int rows, int zOrder) {
     super(app, imgFilename, cols, rows, zOrder);
     setXY(100, app.height/2);
-    setDomain(-getWidth()/4, -getHeight()/4, app.width+getWidth()/4, app.height+getHeight()/4, HALT);
+    setDomain(-getWidth()/2, -getHeight()/2, app.width+getWidth()/2-10, app.height+getHeight()/2, HALT);
     DAMAGE_MILLIS = 1500;
     isPlayer = true;
   }
@@ -73,6 +73,33 @@ class Player extends Entity {
     o.setVelX(400);
     game.entities.add(o);
     sound.playSFX("Laser");
+  }
+  
+  void constraintMovement() {
+    int edgeBuffer = 50;             // Pixels
+    float x = (float)getX();         // Player x
+    float y = (float)getY();         // Player y
+    float hw = (float)getWidth()/2;  // Half width
+    float hh = (float)getHeight()/2; // Half height
+    Domain d = getDomain();
+
+    if (x - hw < d.left + edgeBuffer) { // Left edge collision
+      setXY(d.left + hw + edgeBuffer, y);
+      setVelX(0);
+    } 
+    else if (x + hw > d.right - edgeBuffer) { // Right edge collision
+      setXY(d.right - hw - edgeBuffer, y);
+      setVelX(0);
+    }
+    
+    if (y - hh < d.top + edgeBuffer) { // Top collision
+      setXY(x, d.top + hh + edgeBuffer);
+      setVelY(0);
+    } 
+    else if (y + hh > d.bottom - edgeBuffer) { // Bottom collision
+      setXY(x, d.bottom - hh - edgeBuffer);
+      setVelY(0);
+    }
   }
   
   /**

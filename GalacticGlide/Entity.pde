@@ -63,7 +63,6 @@ abstract class Entity extends Sprite {
      if (!wasOnScreen && isOnScreen()) {
        wasOnScreen = true;
      }
-
      super.draw(); // Draw sprites as defined in sprite library
    }
   

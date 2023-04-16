@@ -102,6 +102,7 @@ class Game {
     
     background(images.Get("game_backgrd"));
     p.handleSpaceBar();                      // Handle continuous shooting
+    p.constraintMovement();                  // Constrain player movement within screen
     displayScore.setText("Score: " + score); // Update score
     enemyAI();                               // Enemy AI track player and shoot
     handleSpawns();                          // Spawn enemies and obstacles
