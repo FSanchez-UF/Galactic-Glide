@@ -26,7 +26,7 @@ class Obstacle extends Entity {
     if (e instanceof Player && this.isEnemy) { // Collision with player destroys obstacle
       setDead(true);
     }
-    else if (e instanceof Enemy && !this.isEnemy) { // Destroy player laser on imapct with enemy 
+    else if (e instanceof Enemy && !this.isEnemy) { // Destroy player laser on impact with enemy 
       setDead(true);
     }
     else if (e instanceof Obstacle) { // Handle obstacle collision 
@@ -35,7 +35,7 @@ class Obstacle extends Entity {
         return;
       }
       else if (this.isEnemy != o.isEnemy) { // If teams mismatch, deal damage to this entity
-        takeDamage(game.p.power);
+        takeDamage(game.p.power);           // TODO: Check whether obstacle is on screen before it can take damage
       }
     }
   }

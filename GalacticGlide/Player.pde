@@ -39,7 +39,7 @@ class Player extends Entity {
   Player(PApplet app, String imgFilename, int cols, int rows, int zOrder) {
     super(app, imgFilename, cols, rows, zOrder);
     setXY(100, app.height/2);
-    setDomain(-getWidth()/2, -getHeight()/2, app.width+getWidth()/2, app.height+getHeight()/2, HALT);
+    setDomain(-getWidth()/4, -getHeight()/4, app.width+getWidth()/4, app.height+getHeight()/4, HALT);
     DAMAGE_MILLIS = 1500;
     isPlayer = true;
   }

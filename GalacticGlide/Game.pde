@@ -84,79 +84,7 @@ class Game {
     S4P.collisionAreasVisible = DEBUG;
     powerupQ = new LinkedList<Powerup>(); 
     hearts = new ArrayList<Button>();
-    
-    // Checks for if cp5 elements already exist, such as when the
-    // game has been restarted or quit during execution
-    if (cp5.getController("fps") == null) {
-      fps =  cp5.addTextlabel("fps")
-        .setText("FPS: " + (int)frameRate)
-        .setPosition(10, 10)
-        .setFont(createFont("Arial", 16))
-        .hide();
-      ;
-    }
-    else {
-      fps = (Textlabel)cp5.getController("fps");
-    }
-    
-    if (cp5.getController("score") == null) {
-      displayScore = cp5.addTextlabel("score")
-                     .setText("Score: " + score)
-                     .setPosition(10,25)
-                     .setFont(createFont("Arial", 16))
-                     .hide();
-      ;
-    }
-    else {
-      displayScore = (Textlabel)cp5.getController("score");  
-    }
-    
-    for(int i = 0; i < p.playerHealth; i++) {
-      if (cp5.getController("heart" + i) == null) {
-        hearts.add(cp5.addButton("heart"+i)
-            .setImage(images.Get("heart"))
-            .setPosition((i*40)+5, (int)height-60)
-            .setSize(50, 50)
-            .hide()
-            );
-      }
-      else {
-        hearts.add((Button)cp5.getController("heart" + i));
-      }
-    }
-    
-    if (cp5.getController("pSpeed") == null) {
-      pSpeed = cp5.addTextlabel("pSpeed")
-        .setText("" + p.speed)
-        .setPosition(250, 10)
-        .setFont(createFont("Arial", 24))
-        .hide();
-    }
-    else {
-      pSpeed = (Textlabel)cp5.getController("pSpeed");
-    }
-    
-    if (cp5.getController("pPower") == null) {
-      pPower = cp5.addTextlabel("pPower")
-        .setText("" + p.power)
-        .setPosition(480, 10)
-        .setFont(createFont("Arial", 24))
-        .hide();
-    }
-    else {
-      pPower = (Textlabel)cp5.getController("pPower");
-    }
-    
-    if (cp5.getController("pFireRate") == null) {
-      pFireRate = cp5.addTextlabel("pFireRate")
-        .setText("" + p.fireRate)
-        .setPosition(680, 10)
-        .setFont(createFont("Arial", 24))
-        .hide();
-    }
-    else {
-      pFireRate = (Textlabel)cp5.getController("pFireRate");
-    }
+    cp5();
   }
   
   /**
@@ -480,7 +408,82 @@ class Game {
     }
   }
   
-  
+  /**
+   * Checks if cp5 elements already exist, such as when the 
+   * game has been restarted or quit during execution
+   */
+  void cp5() {
+    if (cp5.getController("fps") == null) {
+      fps =  cp5.addTextlabel("fps")
+        .setText("FPS: " + (int)frameRate)
+        .setPosition(10, 10)
+        .setFont(createFont("Arial", 16))
+        .hide();
+      ;
+    }
+    else {
+      fps = (Textlabel)cp5.getController("fps");
+    }
+    
+    if (cp5.getController("score") == null) {
+      displayScore = cp5.addTextlabel("score")
+                     .setText("Score: " + score)
+                     .setPosition(10,25)
+                     .setFont(createFont("Arial", 16))
+                     .hide();
+      ;
+    }
+    else {
+      displayScore = (Textlabel)cp5.getController("score");  
+    }
+    
+    for(int i = 0; i < p.playerHealth; i++) {
+      if (cp5.getController("heart" + i) == null) {
+        hearts.add(cp5.addButton("heart"+i)
+            .setImage(images.Get("heart"))
+            .setPosition((i*40)+5, (int)height-60)
+            .setSize(50, 50)
+            .hide()
+            );
+      }
+      else {
+        hearts.add((Button)cp5.getController("heart" + i));
+      }
+    }
+    
+    if (cp5.getController("pSpeed") == null) {
+      pSpeed = cp5.addTextlabel("pSpeed")
+        .setText("" + p.speed)
+        .setPosition(250, 10)
+        .setFont(createFont("Arial", 24))
+        .hide();
+    }
+    else {
+      pSpeed = (Textlabel)cp5.getController("pSpeed");
+    }
+    
+    if (cp5.getController("pPower") == null) {
+      pPower = cp5.addTextlabel("pPower")
+        .setText("" + p.power)
+        .setPosition(480, 10)
+        .setFont(createFont("Arial", 24))
+        .hide();
+    }
+    else {
+      pPower = (Textlabel)cp5.getController("pPower");
+    }
+    
+    if (cp5.getController("pFireRate") == null) {
+      pFireRate = cp5.addTextlabel("pFireRate")
+        .setText("" + p.fireRate)
+        .setPosition(680, 10)
+        .setFont(createFont("Arial", 24))
+        .hide();
+    }
+    else {
+      pFireRate = (Textlabel)cp5.getController("pFireRate");
+    }
+  }
 }
 
 // NOTE: use saveStrings() to save scores across different opens (persistent)
