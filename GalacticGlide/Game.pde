@@ -129,7 +129,7 @@ class Game {
       pSpeed = cp5.addTextlabel("pSpeed")
         .setText("" + p.speed)
         .setPosition(250, 10)
-        .setFont(createFont("Arial", 30))
+        .setFont(createFont("Arial", 24))
         .hide();
     }
     else {
@@ -140,7 +140,7 @@ class Game {
       pPower = cp5.addTextlabel("pPower")
         .setText("" + p.power)
         .setPosition(480, 10)
-        .setFont(createFont("Arial", 30))
+        .setFont(createFont("Arial", 24))
         .hide();
     }
     else {
@@ -151,7 +151,7 @@ class Game {
       pFireRate = cp5.addTextlabel("pFireRate")
         .setText("" + p.fireRate)
         .setPosition(680, 10)
-        .setFont(createFont("Arial", 30))
+        .setFont(createFont("Arial", 24))
         .hide();
     }
     else {
@@ -207,11 +207,11 @@ class Game {
     }
     S4P.drawSprites();
     pushMatrix();
-    scale(0.8);
+    scale(0.6);
     tint(255, 255, 255);
-    image(images.Get("speed"), pSpeed.getPosition()[0]/0.8 - 35, pSpeed.getPosition()[1] + 25);
-    image(images.Get("power"), pPower.getPosition()[0]/0.8 - 35, pPower.getPosition()[1] + 25);
-    image(images.Get("firerate"), pFireRate.getPosition()[0]/0.8 - 35, pFireRate.getPosition()[1] + 25);
+    image(images.Get("speed"), pSpeed.getPosition()[0]/0.6 - 35, pSpeed.getPosition()[1] + 35);
+    image(images.Get("power"), pPower.getPosition()[0]/0.6 - 35, pPower.getPosition()[1] + 35);
+    image(images.Get("firerate"), pFireRate.getPosition()[0]/0.6 - 35, pFireRate.getPosition()[1] + 35);
     popMatrix();
     if (paused) {
       menu.displayPause();  
@@ -298,6 +298,9 @@ class Game {
     for (int i = 0; i < hearts.size(); i++) {
       hearts.get(i).hide();
     }
+    pSpeed.hide();
+    pPower.hide();
+    pFireRate.hide();
   }
   
   /**
