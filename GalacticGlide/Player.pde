@@ -75,6 +75,11 @@ class Player extends Entity {
     sound.playSFX("Laser");
   }
   
+  /**
+   * Constrains player movement within the screen.
+   * Override for sprite domain constraint since HALT and REBOUND
+   * are the only options for collision and cause issues.
+   */
   void constraintMovement() {
     int edgeBuffer = 50;             // Pixels
     float x = (float)getX();         // Player x

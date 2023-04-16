@@ -455,7 +455,7 @@ class Game {
     if (cp5.getController("pSpeed") == null) {
       pSpeed = cp5.addTextlabel("pSpeed")
         .setText("" + p.speed)
-        .setPosition(250, 10)
+        .setPosition(width/2-230, 10)
         .setFont(createFont("Arial", 24))
         .hide();
     }
@@ -466,7 +466,7 @@ class Game {
     if (cp5.getController("pPower") == null) {
       pPower = cp5.addTextlabel("pPower")
         .setText("" + p.power)
-        .setPosition(480, 10)
+        .setPosition(width/2, 10)
         .setFont(createFont("Arial", 24))
         .hide();
     }
@@ -477,7 +477,7 @@ class Game {
     if (cp5.getController("pFireRate") == null) {
       pFireRate = cp5.addTextlabel("pFireRate")
         .setText("" + p.fireRate)
-        .setPosition(680, 10)
+        .setPosition(width/2+200, 10)
         .setFont(createFont("Arial", 24))
         .hide();
     }
