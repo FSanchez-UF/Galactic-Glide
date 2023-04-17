@@ -14,7 +14,7 @@ class MenuScreen {
   Button help;
   Button back;
   Slider music, sfx, fRate;     // Settings sliders
-  Textlabel title, scoresLabel, settingsLabel, helpLabel, musicLabel, sfxLabel, fRateLabel, difficultyLabel;
+  Textlabel title, scoresLabel, settingsLabel, helpLabel, musicLabel, sfxLabel, fRateLabel, difficultyLabel, endLabel;
   ControlFont cf1 = new ControlFont(createFont("Goudy Stout", 24));
   ControlFont cf2 = new ControlFont(createFont("Goudy Stout", 55));
   ControlFont cf3 = new ControlFont(createFont("Cooper-Black-Regular.ttf", 35));
@@ -249,6 +249,13 @@ class MenuScreen {
       .hide()
     ;
     
+    endLabel = cp5.addTextlabel("Lose")
+      .setText("GAME OVER")
+      .setPosition(width/2-250, 80)
+      .setFont(createFont("Goudy Stout", 45))
+      .hide()
+    ;
+    
   }
   
   /**
@@ -466,6 +473,35 @@ class MenuScreen {
     easy.hide();
     normal.hide();
     hard.hide();
+  }
+  
+    /**
+   * Display the pause menu
+   */
+  void displayEndgame() {
+    game.setPause(true);
+    hide();
+    restart.show();
+    quit.show();
+    endLabel.show();
+    
+    // Semi transparent rectangle
+    fill(0, 0, 0, 192);
+    stroke(255);
+    strokeWeight(4);
+    rectMode(CENTER);
+    rect(width/2, height/2, 600, 500);
+    noStroke();
+  }
+  
+  /**
+   * Hide the pause menu
+   */
+  void hideEndgame() {
+    restart.hide();
+    quit.hide();
+    endLabel.hide();
+    game.setPause(false);
   }
 }
 
