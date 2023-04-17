@@ -69,6 +69,7 @@ class Enemy extends Entity {
         PowerupType randPower = commonPowerups[(int)random(commonPowerups.length)];
         game.queuePowerup(randPower, this);
       }
+      game.bossClock.start();
       return;
     }
     

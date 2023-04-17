@@ -12,7 +12,8 @@ import java.util.LinkedList;
 
 class Game {
   PApplet app;                 // App the Game belongs to
-  Clock gameClock;
+  Clock gameClock;             // Handles game
+  Clock bossClock;             // Keeps track of when a boss should spawn
   
   StopWatch sw;                // StopWatch provided by Sprite library
   Player p;                    // Player entity
@@ -77,6 +78,7 @@ class Game {
     this.app = app;
     sw = new StopWatch();
     gameClock = new Clock();
+    bossClock = new Clock();
     p = new Player(app, "Sprites/player2.png", 1, 1, 1000);
     entities = new ArrayList<Entity>();
     entities.add(p);
@@ -170,13 +172,6 @@ class Game {
   }
   
   /** 
-   * Pauses game state
-   */
-  void setPause(boolean pause) {
-    paused = pause;
-  }
-  
-  /** 
    * Handles key presses. To be called by keyPressed().
    */
   void handleKeyPress() {
@@ -205,6 +200,7 @@ class Game {
     pPower.show();
     pFireRate.show();
     gameClock.start();
+    bossClock.start();
   }
   
   /** 
@@ -213,6 +209,7 @@ class Game {
   void quitGame() {
     active = false;
     gameClock.stop();
+    bossClock.stop();
     hideCP5();
     app.tint(255); 
     for (Entity entity : entities) {
@@ -254,9 +251,10 @@ class Game {
     }
     
     // Spawn a boss every 30 seconds
-    if (gameClock.time() - timeSinceBoss >= 30*1000) {
+    if (bossClock.time() >= 30*1000) {
       spawnRandomBoss();
-      timeSinceBoss = gameClock.time();
+      bossClock.reset();
+      bossClock.stop();
     }    
   }
   

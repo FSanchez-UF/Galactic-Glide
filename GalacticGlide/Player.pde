@@ -138,6 +138,7 @@ class Player extends Entity {
       case 'P':
         game.paused = true;
         game.gameClock.stop();
+        game.bossClock.stop();
         break;
       // TODO: Delete these when game is finished (or just comment out)
       case '.': game.spawnRandomObstacle(); break;

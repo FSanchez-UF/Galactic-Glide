@@ -446,7 +446,7 @@ class MenuScreen {
    * Display the pause menu
    */
   void displayPause() {
-    game.setPause(true);
+    game.paused = true;
     resume.show();
     restart.show();
     quit.show();
@@ -467,7 +467,7 @@ class MenuScreen {
     resume.hide();
     restart.hide();
     quit.hide();
-    game.setPause(false);
+    game.paused = false;
   }
   
   /**

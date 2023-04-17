@@ -138,6 +138,7 @@ void controlEvent(ControlEvent theEvent) {
       menu.hidePause();
       game.sw.reset();
       game.gameClock.start();
+      game.bossClock.start();
       sound.playSFX("Button");
       break;
     case("restart"):             // Restart game
