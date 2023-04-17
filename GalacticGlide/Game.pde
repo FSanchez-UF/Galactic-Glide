@@ -307,7 +307,7 @@ class Game {
         break;
     }
     
-    spawnEnemy(enemyFiles[rand], hp, minVel, maxVel, false);
+    spawnEnemy(enemyFiles[rand], hp, minVel, maxVel, rand+1);
   }
   
   /**
@@ -339,17 +339,17 @@ class Game {
         break;
     }
     
-    spawnEnemy(bossFiles[rand], hp, minVel, maxVel, true);
+    spawnEnemy(bossFiles[rand], hp, minVel, maxVel, rand+4);
   }
   
   /** 
    * Spawns an enemy.
    */
-  void spawnEnemy(String imgFilename, float hp, float minVel, float maxVel, boolean isBoss) {
+  void spawnEnemy(String imgFilename, float hp, float minVel, float maxVel, int type) {
     Enemy e = new Enemy(app, imgFilename, 1, 1, 750);
     e.setHp(hp*hpScale);
     e.setVelXY(-random(minVel, maxVel), 0);
-    e.isBoss = isBoss;
+    e.type = type;
     entities.add(e);
   }
   
@@ -380,6 +380,9 @@ class Game {
     timeSinceScale = gameClock.time();
   }
   
+  /**
+   * Defines behavior of enemy ships for tracking player and shooting
+   */
   void enemyAI() {
     // Track the player
     for (int i = 0; i < entities.size(); i++) {
@@ -388,11 +391,15 @@ class Game {
         // Enemy flies toward player position at specified y velocity
         Enemy en = (Enemy) e;
         if (en.getY() < p.getY()) {
-          en.setVelY(chooseByDiff(30, 40, 50));
+          en.setVelY(chooseByDiff(40, 60, 80));
         } 
         else if (en.getY() > p.getY()) {
-          en.setVelY(chooseByDiff(-30, -40, -50));
+          en.setVelY(chooseByDiff(-40, -60, -80));
         }
+        
+        // Boss patrols screen
+        if (en.type > 3 && en.getX() < width-100) en.patrol = true;
+        if (en.type > 3) constrainBoss(en);
         
         // Shoot randomly every min to max seconds (easy=5-7s, normal=4-6s, hard=3-5s)
         int min = chooseByDiff(5, 4, 3);
@@ -402,6 +409,18 @@ class Game {
           en.timeSinceShoot = gameClock.time();
         }
       }
+    }
+  }
+  
+  /**
+   * Defines boss behavior for patrolling the screen
+   */
+  void constrainBoss(Enemy en) {
+    if (en.getX() < width-300 && en.patrol) {
+      en.setVelX(-en.getVelX());
+    }
+    else if (en.getX() > width-100 && en.patrol) {
+      en.setVelX(-en.getVelX());
     }
   }
   
