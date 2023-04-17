@@ -28,7 +28,8 @@ class Player extends Entity {
   int fireRateUps = 0;
   float fireRate = MIN_FIRE_RATE;
   
-  int playerHealth = 3; // How many hits the player can take from enemies and obstacles
+  final int MAX_HP = 3;      // Player-exclusive HP
+  int playerHealth = MAX_HP; // How many hits the player can take from enemies and obstacles
   
   boolean spaceBarPressed = false;  // Tracks whether the shoot button is pressed
   int spaceBarTimeReleased = 0;     // Timestamp of last shoot button release
