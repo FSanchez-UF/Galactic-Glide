@@ -21,6 +21,8 @@ Game game;
 SoundManager sound;
 ImageManager images;
 MenuScreen menu;
+String[] highScores;
+Boolean submitted = false;
 
 ControlP5 cp5;
 String screen;
@@ -73,6 +75,7 @@ void init() {
   menu = new MenuScreen();
   sound.loop("Theme");
   sound.sounds.get("Theme").amp(0.2 * menu.music.getValue()/100);
+  loadScores();
   
   ready = true;
   cp5.setUpdate(true);
@@ -139,6 +142,7 @@ void controlEvent(ControlEvent theEvent) {
       break;
     case("restart"):             // Restart game
       sound.playSFX("Button");
+      submitted = false;
       game.quitGame();
       menu.hidePause();
       menu.hideEndgame();
@@ -148,6 +152,7 @@ void controlEvent(ControlEvent theEvent) {
       break;
     case("quit"):                // Quit game
       sound.playSFX("Button");
+      submitted = false;
       menu.hidePause();
       menu.hideEndgame();
       game.quitGame();
@@ -163,6 +168,12 @@ void controlEvent(ControlEvent theEvent) {
     case("hard"):
       chooseDifficulty(2);
       break;
+    case("Submit"):                // Submit score
+      sound.playSFX("Button");
+      String in = cp5.get(Textfield.class,"Enter Initials").getText();
+      saveScores(in, game.score);
+      loadScores();
+      break;
   }
 }
 
@@ -173,4 +184,33 @@ void chooseDifficulty(int diff) {
   screen = "main";
   game = new Game(this);
   game.startGame();
+}
+
+void saveScores(String initial, int newScore) {
+  if (initial.length() > 3) initial=initial.substring(0,3);
+  String newInput = initial + " " + newScore;
+  for (int i = 0; i < highScores.length; i++) {
+    if (newInput.equals(highScores[i])) return;
+  }
+  
+  highScores[highScores.length-1] = newInput;
+  for (int i = 0; i < highScores.length; i++) {
+    for (int j = i + 1; j < highScores.length; j++) {
+      // Checking elements
+      String temp;
+      String[] tmpi = split(highScores[i], ' ');
+      String[] tmpj = split(highScores[j], ' ');
+      if (int(tmpj[1]) > int(tmpi[1])) {
+        // Swapping
+        temp = highScores[i];
+        highScores[i] = highScores[j];
+        highScores[j] = temp;
+      }
+    }
+  }
+  saveStrings(dataPath("Scores.txt"), highScores);
+}
+
+void loadScores() {
+  highScores = loadStrings("Scores.txt"); // Load scores from txt file
 }
