@@ -503,7 +503,6 @@ class MenuScreen {
    * Display the pause menu
    */
   void displayEndgame() {
-    game.setPause(true);
     hide();
     restart.show();
     quit.show();
@@ -545,7 +544,6 @@ class MenuScreen {
     endLabel.hide();
     submitScore.hide();
     initials.hide();
-    game.setPause(false);
   }
 }
 
