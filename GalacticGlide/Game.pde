@@ -84,6 +84,7 @@ class Game {
     S4P.collisionAreasVisible = DEBUG;
     powerupQ = new LinkedList<Powerup>(); 
     cp5();
+    endGame = false;
   }
   
   /**
@@ -94,11 +95,11 @@ class Game {
     if (frameCount % 20 == 0) {
       fps.setText("FPS: " + (int)frameRate);
     }
-    
+    checkIfOver(); // Handles player losing
     if (!active || paused) {
       return;
     }
-    
+            
     p.handleSpaceBar();                      // Handle continuous shooting
     p.constraintMovement();                  // Constrain player movement within screen
     displayScore.setText("Score: " + score); // Update score
@@ -140,7 +141,8 @@ class Game {
       image(images.Get("heart"), (i*40)+30, (int)height-30);
     }
     if (paused) {
-      menu.displayPause();  
+      if (endGame) menu.displayEndgame();
+      else menu.displayPause();  
     }
   }
   
@@ -374,24 +376,18 @@ class Game {
     timeSinceScale = gameClock.time();
   }
   
-  // TO DO: Scale based on enemy type
   void enemyAI() {
     // Track the player
-    double playerY = height/2;
     for (int i = 0; i < entities.size(); i++) {
       Entity e = entities.get(i);
-      if (e instanceof Player) { // Set player y position as AI to target
-        Player pl = (Player) e;
-        playerY = pl.getY();
-      }
       if (e instanceof Enemy && !e.isDead()) {
         // Enemy flies toward player position at specified y velocity
         Enemy en = (Enemy) e;
-        if (en.getY() < playerY) {
-          en.setVelY(40);
+        if (en.getY() < p.getY()) {
+          en.setVelY(chooseByDiff(30, 40, 50));
         } 
-        else if (en.getY() > playerY) {
-          en.setVelY(-40);
+        else if (en.getY() > p.getY()) {
+          en.setVelY(chooseByDiff(-30, -40, -50));
         }
         
         // Shoot randomly every min to max seconds (easy=5-7s, normal=4-6s, hard=3-5s)
@@ -402,6 +398,12 @@ class Game {
           en.timeSinceShoot = gameClock.time();
         }
       }
+    }
+  }
+  
+  void checkIfOver() {
+    if (endGame) {
+      menu.displayEndgame();
     }
   }
   

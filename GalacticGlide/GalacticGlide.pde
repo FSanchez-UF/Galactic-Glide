@@ -141,6 +141,7 @@ void controlEvent(ControlEvent theEvent) {
       sound.playSFX("Button");
       game.quitGame();
       menu.hidePause();
+      menu.hideEndgame();
       game = null;
       game = new Game(this);
       game.startGame();
@@ -148,6 +149,7 @@ void controlEvent(ControlEvent theEvent) {
     case("quit"):                // Quit game
       sound.playSFX("Button");
       menu.hidePause();
+      menu.hideEndgame();
       game.quitGame();
       game = null;
       screen = "main";

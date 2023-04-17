@@ -10,12 +10,20 @@ enum PowerupType {
   SPEED,
   POWER,
   FIRERATE,
+  HP,
 }
+
+PowerupType[] commonPowerups = {
+  PowerupType.SPEED,
+  PowerupType.POWER,
+  PowerupType.FIRERATE,
+};
 
 Map<PowerupType, String> powerupMap = Map.of(
   PowerupType.SPEED,     "Sprites/Powerups/speed.png",
   PowerupType.POWER,     "Sprites/Powerups/power.png",
-  PowerupType.FIRERATE,  "Sprites/Powerups/firerate.png"
+  PowerupType.FIRERATE,  "Sprites/Powerups/firerate.png",
+  PowerupType.HP,        "Sprites/heart-sprite.png"
 );
 
 class Powerup extends Entity {
@@ -35,6 +43,7 @@ class Powerup extends Entity {
    * Allows updates player stats when collecting a powerup
    */
   void handleCollision(Entity e) {
+    boolean doSetDead = true;
     if (e instanceof Player) {
       Player p = (Player) e;
       switch (type) {
@@ -47,11 +56,17 @@ class Powerup extends Entity {
         case FIRERATE:
           p.fireRateUps += (p.fireRateUps < p.MAX_FIRE_RATE_UPS)? 1 : 0;
           break;
+        case HP:
+          if (p.playerHealth < p.MAX_HP)
+            p.playerHealth++;
+          else
+            doSetDead = false;
+          break;
       }
-      p.updateStats();
-      // TODO: visual indicator for which powerup was gotten
-      // TODO: powerup UI
-      setDead(true);
+      if (doSetDead) {
+        p.updateStats();
+        setDead(true);
+      }
     }
   }
 }

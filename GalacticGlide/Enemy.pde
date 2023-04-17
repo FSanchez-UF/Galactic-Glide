@@ -56,10 +56,22 @@ class Enemy extends Entity {
     }
     else
       game.score += 100;
-      
+    
+    // Calculate powerup chance
     float rand = random(1);
+    // Boss always drops a powerup, 50-50 between HP and common
+    if (isBoss) {
+      if (rand < 0.5)
+        game.queuePowerup(PowerupType.HP, this);
+      else {
+        PowerupType randPower = commonPowerups[(int)random(commonPowerups.length)];
+        game.queuePowerup(randPower, this);
+      }
+      return;
+    }
+    
     if (rand < 0.3) { // 30% chance of powerup
-      PowerupType randPower = PowerupType.values()[int(random(PowerupType.values().length))];
+      PowerupType randPower = commonPowerups[(int)random(commonPowerups.length)];
       game.queuePowerup(randPower, this);
     }
   }
