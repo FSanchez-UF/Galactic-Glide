@@ -55,6 +55,7 @@ class Enemy extends Entity {
     if (type > 3) {
       game.updateScale(game.currScale+1);
       game.score += 500;
+      game.bossClock.start();
     }
     else
       game.score += 100;
@@ -69,7 +70,6 @@ class Enemy extends Entity {
         PowerupType randPower = commonPowerups[(int)random(commonPowerups.length)];
         game.queuePowerup(randPower, this);
       }
-      game.bossClock.start();
       return;
     }
     
