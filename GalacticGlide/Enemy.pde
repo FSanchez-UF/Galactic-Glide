@@ -6,7 +6,8 @@
 
 class Enemy extends Entity {
   boolean collidedPlayer; // Tracks whether this enemy has collided with the player before
-  boolean isBoss;         // Tracks whether this is a boss
+  boolean patrol;         // Used to tell boss's when to patrol
+  int type;               // Tracks what type of enemy this is
   int timeSinceShoot;     // Tracks the last time the enemy has shot
   
   /**
@@ -16,6 +17,7 @@ class Enemy extends Entity {
     super(app, imgFilename, cols, rows, zOrder);
     setXY(app.width+width, random((float)height/2, (float)(app.height-height/2)));
     collidedPlayer = false;
+    patrol = false;
   }
   
   /**
@@ -50,7 +52,7 @@ class Enemy extends Entity {
    *       give different score values to each enemy.
    */
   void onDeath() {
-    if (isBoss) {
+    if (type > 3) {
       game.updateScale(game.currScale+1);
       game.score += 500;
     }
@@ -60,7 +62,7 @@ class Enemy extends Entity {
     // Calculate powerup chance
     float rand = random(1);
     // Boss always drops a powerup, 50-50 between HP and common
-    if (isBoss) {
+    if (type > 3) {
       if (rand < 0.5)
         game.queuePowerup(PowerupType.HP, this);
       else {

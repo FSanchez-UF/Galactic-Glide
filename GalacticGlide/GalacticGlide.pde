@@ -15,7 +15,7 @@
 
 final boolean DEBUG = false; // Set in code, displays extra info
 boolean ready = false;       // Whether the game is ready
-int difficulty = 1;  // Which difficulty the game is set to; 0-easy, 1-normal, 2-hard
+int difficulty = 1;          // Which difficulty the game is set to; 0-easy, 1-normal, 2-hard
 
 Game game;
 SoundManager sound;
