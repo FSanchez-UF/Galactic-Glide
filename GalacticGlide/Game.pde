@@ -77,7 +77,7 @@ class Game {
     this.app = app;
     sw = new StopWatch();
     gameClock = new Clock();
-    p = new Player(app, "Sprites/player1.png", 1, 1, 1000);
+    p = new Player(app, "Sprites/player2.png", 1, 1, 1000);
     entities = new ArrayList<Entity>();
     entities.add(p);
     score = 0;
@@ -95,13 +95,14 @@ class Game {
     if (frameCount % 20 == 0) {
       fps.setText("FPS: " + (int)frameRate);
     }
-    checkIfOver(); // Handles player losing
+
     if (!active || paused) {
       return;
     }
             
     p.handleSpaceBar();                      // Handle continuous shooting
     p.constraintMovement();                  // Constrain player movement within screen
+    p.updateStats();                         // Update power up stats
     displayScore.setText("Score: " + score); // Update score
     enemyAI();                               // Enemy AI track player and shoot
     handleSpawns();                          // Spawn enemies and obstacles
@@ -140,9 +141,12 @@ class Game {
     for(int i = 0; i < p.playerHealth; i++) {
       image(images.Get("heart"), (i*40)+30, (int)height-30);
     }
-    if (paused) {
-      if (endGame) menu.displayEndgame();
-      else menu.displayPause();  
+    
+    if (endGame) {
+      menu.displayEndgame();
+    }
+    else if (paused) {
+      menu.displayPause();  
     }
   }
   
@@ -401,12 +405,6 @@ class Game {
     }
   }
   
-  void checkIfOver() {
-    if (endGame) {
-      menu.displayEndgame();
-    }
-  }
-  
   /**
    * Checks if cp5 elements already exist, such as when the 
    * game has been restarted or quit during execution
@@ -433,7 +431,7 @@ class Game {
       ;
     }
     else {
-      displayScore = (Textlabel)cp5.getController("score");  
+      displayScore = (Textlabel)cp5.getController("score");
     }
     
     if (cp5.getController("pSpeed") == null) {

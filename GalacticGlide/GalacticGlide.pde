@@ -80,11 +80,11 @@ void init() {
 }
 
 void keyPressed() {
-  if (game != null) game.handleKeyPress();
+  if (game != null && !game.endGame) game.handleKeyPress();
 }
 
 void keyReleased() {
-  if (game != null) game.handleKeyRelease();
+  if (game != null && !game.endGame) game.handleKeyRelease();
 }
 
 /**

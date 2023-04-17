@@ -64,7 +64,6 @@ class Powerup extends Entity {
           break;
       }
       if (doSetDead) {
-        p.updateStats();
         setDead(true);
       }
     }
