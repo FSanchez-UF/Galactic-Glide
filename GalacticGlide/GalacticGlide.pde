@@ -15,7 +15,7 @@
 
 final boolean DEBUG = false; // Set in code, displays extra info
 boolean ready = false;       // Whether the game is ready
-boolean isHardDiff = false;  // Which difficulty the game is set to; false = normal
+int difficulty = 1;  // Which difficulty the game is set to; 0-easy, 1-normal, 2-hard
 
 Game game;
 SoundManager sound;
@@ -49,8 +49,11 @@ void draw() {
     else if (screen == "settings") {
       menu.displaySettings();
     }
+    else if (screen == "difficulty") {
+      menu.displayDifficulty(); 
+    }
       
-    if (game.active) {
+    if (game != null && game.active) {
       menu.hide();
       game.update();
       game.display();   
@@ -66,7 +69,6 @@ void init() {
   images.Load("menu_backgrd", "menu_background.png");
   images.Load("game_backgrd", "gameplay_background.png");
   
-  game = new Game(this);
   sound = new SoundManager(this);
   menu = new MenuScreen();
   sound.loop("Theme");
@@ -78,11 +80,11 @@ void init() {
 }
 
 void keyPressed() {
-  game.handleKeyPress();
+  if (game != null) game.handleKeyPress();
 }
 
 void keyReleased() {
-  game.handleKeyRelease();
+  if (game != null) game.handleKeyRelease();
 }
 
 /**
@@ -95,17 +97,18 @@ void controlEvent(ControlEvent theEvent) {
   String eventType = theEvent.getController().getName();
   
   switch (eventType) {
-    case("START"): // Start game
-      game.startGame();
+    case("START"):               // Start game
+      screen = "difficulty";
+      menu.hide();
       sound.playSFX("Button");
       break;
-    case("SCORES"): // Show scores
+    case("SCORES"):              // Show scores
       menu.hide();
       menu.displayScores();
       screen = "scores";
       sound.playSFX("Button");
       break;
-    case("EXIT"): // Exit game
+    case("EXIT"):                // Exit game
       exit();
       sound.playSFX("Button");
       break;
@@ -116,25 +119,25 @@ void controlEvent(ControlEvent theEvent) {
       screen = "main";
       sound.playSFX("Button");
       break;
-    case("settings"): // Show settings
+    case("settings"):            // Show settings
       menu.hide();
       menu.displaySettings();
       screen = "settings";
       sound.playSFX("Button");
       break;
-    case("help"): // Show help
+    case("help"):                // Show help
       menu.hide();
       menu.displayHelp();
       screen = "help";
       sound.playSFX("Button");
       break;
-    case("resume"): // Close pause menu
+    case("resume"):              // Close pause menu
       menu.hidePause();
       game.sw.reset();
       game.gameClock.start();
       sound.playSFX("Button");
       break;
-    case("restart"): // Restart game
+    case("restart"):             // Restart game
       game.quitGame();
       game = null;
       game = new Game(this);
@@ -142,13 +145,31 @@ void controlEvent(ControlEvent theEvent) {
       menu.hidePause();
       sound.playSFX("Button");
       break;
-    case("quit"): // Quit game
+    case("quit"):                // Quit game
+      sound.playSFX("Button");
       game.quitGame();
       game = null;
-      game = new Game(this);
       menu.hidePause();
       screen = "main";
-      sound.playSFX("Button");
+      
+      break;
+    case("easy"):
+      chooseDifficulty(0);
+      break;
+    case("normal"):
+      chooseDifficulty(1);
+      break;
+    case("hard"):
+      chooseDifficulty(2);
       break;
   }
+}
+
+void chooseDifficulty(int diff) {
+  difficulty = diff;
+  menu.hideDifficulty();
+  screen = "main";
+  game = new Game(this);
+  game.startGame();
+  sound.playSFX("Button");
 }

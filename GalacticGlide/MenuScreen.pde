@@ -7,14 +7,13 @@ import controlP5.*;
 
 class MenuScreen {
   
-  Button start;
-  Button scores;
-  Button exit;
+  Button start, scores, exit;   // Main menu
+  Button resume, restart, quit; // Pause menu
+  Button easy, normal, hard;    // Difficulty selection menu
   Button settings;
   Button help;
   Button back;
-  Button resume, restart, quit; // Pause menu
-  Slider music, sfx, fRate; 
+  Slider music, sfx, fRate;     // Settings sliders
   Textlabel title, scoresLabel, settingsLabel, helpLabel, musicLabel, sfxLabel, fRateLabel;
   ControlFont cf1 = new ControlFont(createFont("Goudy Stout", 24));
   ControlFont cf2 = new ControlFont(createFont("Goudy Stout", 55));
@@ -200,6 +199,39 @@ class MenuScreen {
     ;
     
     quit = cp5.addButton("quit") // quit button
+      .setBroadcast(false)
+      .setValue(0)
+      .setPosition(width/2-150, 485)
+      .setColorBackground(color(0, 130, 0))
+      .setSize(300, 50)
+      .setFont(cf3)
+      .setBroadcast(true)
+      .hide()
+    ;
+    
+    easy = cp5.addButton("easy") // Difficulty easy button
+      .setBroadcast(false)
+      .setValue(0)
+      .setPosition(width/2-150, 265)
+      .setColorBackground(color(0, 130, 0))
+      .setSize(300, 50)
+      .setFont(cf3)
+      .setBroadcast(true)
+      .hide()
+    ;
+    
+    normal = cp5.addButton("normal") // Difficulty normal button
+      .setBroadcast(false)
+      .setValue(0)
+      .setPosition(width/2-150, 375)
+      .setColorBackground(color(0, 130, 0))
+      .setSize(300, 50)
+      .setFont(cf3)
+      .setBroadcast(true)
+      .hide()
+    ;
+    
+    hard = cp5.addButton("hard") // Difficulty hard button
       .setBroadcast(false)
       .setValue(0)
       .setPosition(width/2-150, 485)
@@ -398,6 +430,33 @@ class MenuScreen {
     restart.hide();
     quit.hide();
     game.setPause(false);
+  }
+  
+  /**
+   * Display difficulty selection menu
+   */
+  void displayDifficulty() {
+    background(images.Get("menu_backgrd"));
+    easy.show();
+    normal.show();
+    hard.show();
+    
+    // Semi transparent rectangle
+    fill(0, 0, 0, 192);
+    stroke(255);
+    strokeWeight(4);
+    rectMode(CENTER);
+    rect(width/2, height/2, 600, 500);
+    noStroke();
+  }
+  
+  /**
+   * Hide difficulty selection menu
+   */
+  void hideDifficulty() {
+    easy.hide();
+    normal.hide();
+    hard.hide();
   }
 }
 

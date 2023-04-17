@@ -35,13 +35,13 @@ class Game {
   int timeSinceBoss;           // Time since the last boss spawn occurred
   int timeSinceScale;          // Time since the last enemy stat scale occurred
   
-  int currScale = 0;                                    // Current enemy stat scale
-  final float SCALE_INTERVAL = chooseByDiff(60, 40);    // How long to wait before scaling automatically (or defeat boss)
-  final int MAX_SCALE_TIMES = chooseByDiff(10, 15);     // Maximum number of times to scale
+  int currScale = 0;                                     // Current enemy stat scale
+  final float SCALE_INTERVAL = chooseByDiff(80, 60, 40); // How long to wait before scaling automatically (or defeat boss)
+  final int MAX_SCALE_TIMES = chooseByDiff(5, 10, 15);   // Maximum number of times to scale
   
-  final float MIN_HP_SCALE = 1.0f;                        // Minimum HP scale
-  final float MAX_HP_SCALE = chooseByDiff(5.0f, 7.0f);    // Maximum HP scale
-  float hpScale = MIN_HP_SCALE;                           // Current HP scale
+  final float MIN_HP_SCALE = 1.0f;                           // Minimum HP scale
+  final float MAX_HP_SCALE = chooseByDiff(3.0f, 5.0f, 7.0f); // Maximum HP scale
+  float hpScale = MIN_HP_SCALE;                              // Current HP scale
   
   Queue<Powerup> powerupQ;
   
@@ -394,9 +394,9 @@ class Game {
           en.setVelY(-40);
         }
         
-        // Shoot randomly
-        int min = chooseByDiff(4, 3);
-        int max = chooseByDiff(6, 5);
+        // Shoot randomly every min to max seconds (easy=5-7s, normal=4-6s, hard=3-5s)
+        int min = chooseByDiff(5, 4, 3);
+        int max = chooseByDiff(7, 6, 5);
         if (gameClock.time() - en.timeSinceShoot >= int(random(min,max))*1000) {
           en.spawnProjectile();
           en.timeSinceShoot = gameClock.time();
@@ -475,8 +475,13 @@ class Game {
  * Difficulty is set in GalacticGlide so that creating a new Game
  * updates the variables that depend on difficulty.
  */
-<T> T chooseByDiff(T normal, T hard) {
-  return (isHardDiff)? hard : normal;
+<T> T chooseByDiff(T easy, T normal, T hard) {
+  switch (difficulty) {
+    case 0: return easy;
+    case 1: return normal;
+    case 2: return hard;
+  }
+  return normal;
 }
 
 // NOTE: use saveStrings() to save scores across different opens (persistent)
