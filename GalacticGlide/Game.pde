@@ -35,13 +35,13 @@ class Game {
   int timeSinceBoss;           // Time since the last boss spawn occurred
   int timeSinceScale;          // Time since the last enemy stat scale occurred
   
-  int currScale = 0;                  // Current enemy stat scale
-  final float SCALE_INTERVAL = 60;    // How long to wait before scaling automatically (or defeat boss)
-  final int MAX_SCALE_TIMES = 10;     // Maximum number of times to scale
+  int currScale = 0;                                    // Current enemy stat scale
+  final float SCALE_INTERVAL = chooseByDiff(60, 40);    // How long to wait before scaling automatically (or defeat boss)
+  final int MAX_SCALE_TIMES = chooseByDiff(10, 15);     // Maximum number of times to scale
   
-  final float MIN_HP_SCALE = 1.0f;    // Minimum HP scale
-  final float MAX_HP_SCALE = 5.0f;    // Maximum HP scale
-  float hpScale = MIN_HP_SCALE;       // Current HP scale
+  final float MIN_HP_SCALE = 1.0f;                        // Minimum HP scale
+  final float MAX_HP_SCALE = chooseByDiff(5.0f, 7.0f);    // Maximum HP scale
+  float hpScale = MIN_HP_SCALE;                           // Current HP scale
   
   Queue<Powerup> powerupQ;
   
@@ -394,8 +394,10 @@ class Game {
           en.setVelY(-40);
         }
         
-        // Shoot randomly every 4-6 sec
-        if (gameClock.time() - en.timeSinceShoot >= int(random(4,6))*1000) {
+        // Shoot randomly
+        int min = chooseByDiff(4, 3);
+        int max = chooseByDiff(6, 5);
+        if (gameClock.time() - en.timeSinceShoot >= int(random(min,max))*1000) {
           en.spawnProjectile();
           en.timeSinceShoot = gameClock.time();
         }
@@ -465,6 +467,16 @@ class Game {
       pFireRate = (Textlabel)cp5.getController("pFireRate");
     }
   }
+}
+
+/**
+ * Choose a value by difficulty.
+ * Useful for initializing game values based on difficulty.
+ * Difficulty is set in GalacticGlide so that creating a new Game
+ * updates the variables that depend on difficulty.
+ */
+<T> T chooseByDiff(T normal, T hard) {
+  return (isHardDiff)? hard : normal;
 }
 
 // NOTE: use saveStrings() to save scores across different opens (persistent)

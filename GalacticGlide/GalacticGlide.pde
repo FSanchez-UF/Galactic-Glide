@@ -13,9 +13,9 @@
 //  - Sound
 //  - Sprites
 
-// Debug mode: display extra information
-final boolean DEBUG = false;
-boolean ready = false;
+final boolean DEBUG = false; // Set in code, displays extra info
+boolean ready = false;       // Whether the game is ready
+boolean isHardDiff = false;  // Which difficulty the game is set to; false = normal
 
 Game game;
 SoundManager sound;
