@@ -13,8 +13,10 @@ class MenuScreen {
   Button settings;
   Button help;
   Button back;
+  Button submitScore;
   Slider music, sfx, fRate;     // Settings sliders
   Textlabel title, scoresLabel, settingsLabel, helpLabel, musicLabel, sfxLabel, fRateLabel, difficultyLabel, endLabel;
+  Textfield initials;
   ControlFont cf1 = new ControlFont(createFont("Goudy Stout", 24));
   ControlFont cf2 = new ControlFont(createFont("Goudy Stout", 55));
   ControlFont cf3 = new ControlFont(createFont("Cooper-Black-Regular.ttf", 35));
@@ -251,8 +253,30 @@ class MenuScreen {
     
     endLabel = cp5.addTextlabel("Lose")
       .setText("GAME OVER")
-      .setPosition(width/2-250, 80)
+      .setPosition(width/2-250, 50)
       .setFont(createFont("Goudy Stout", 45))
+      .hide()
+    ;
+
+    initials = cp5.addTextfield("Enter Initials")
+      .setBroadcast(false)
+      .setPosition(width/2-150,260)
+      .setSize(180,50)
+      .setFont(createFont("Cooper-Black-Regular.ttf", 20))
+      .setAutoClear(true)
+      .setBroadcast(true)
+      .setInputFilter(ControlP5.STRING)
+      .hide()
+    ;
+    
+    submitScore = cp5.addButton("Submit") // quit button
+      .setBroadcast(false)
+      .setValue(0)
+      .setPosition(width/2+50, 260)
+      .setSize(100, 50)
+      .setColorBackground(color(0, 130, 0))
+      .setFont(createFont("Cooper-Black-Regular.ttf", 20))
+      .setBroadcast(true)
       .hide()
     ;
     
@@ -300,8 +324,8 @@ class MenuScreen {
     fill(255);
     noStroke();
     int y = 0;
-    String[] highScores = loadStrings("Scores.txt"); // Load scores from txt file
-    for (String highScore : highScores) {
+    loadScores();
+    for (String highScore : highScores) { // highScores global in main
       textAlign(LEFT);
       text("#" + (y+100)/100 + "  " + highScore, width/2 - 390, 230+y);
       y += 100;
@@ -489,8 +513,26 @@ class MenuScreen {
     stroke(255);
     strokeWeight(4);
     rectMode(CENTER);
-    rect(width/2, height/2, 600, 500);
+    rect(width/2, height/2-40, 600, 500);
     noStroke();
+    
+    textAlign(CENTER);
+    textFont(createFont("Goudy Stout", 40));
+    fill(255);
+    
+    String[] lastScore = split(highScores[highScores.length-1], ' ');
+    if (game.score > int(lastScore[1]) || submitted) {
+      textFont(createFont("Goudy Stout", 35));
+      text("NEW HIGH SCORE", width/2, 160);
+      textFont(createFont("Goudy Stout", 40));
+      text(game.score, width/2, 220);
+      submitted = true;
+      submitScore.show();
+      initials.show();
+    } else {
+      text("SCORE", width/2, 250);
+      text(game.score, width/2, 300);
+    }
   }
   
   /**
@@ -500,6 +542,8 @@ class MenuScreen {
     restart.hide();
     quit.hide();
     endLabel.hide();
+    submitScore.hide();
+    initials.hide();
   }
 }
 

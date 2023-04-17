@@ -95,15 +95,14 @@ class Game {
     if (frameCount % 20 == 0) {
       fps.setText("FPS: " + (int)frameRate);
     }
+    displayScore.setText("Score: " + score); // Update score
 
     if (!active || paused) {
       return;
     }
-            
     p.handleSpaceBar();                      // Handle continuous shooting
     p.constraintMovement();                  // Constrain player movement within screen
     p.updateStats();                         // Update power up stats
-    displayScore.setText("Score: " + score); // Update score
     enemyAI();                               // Enemy AI track player and shoot
     handleSpawns();                          // Spawn enemies and obstacles
     processCollisions();
