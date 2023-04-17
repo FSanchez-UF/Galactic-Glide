@@ -14,7 +14,7 @@ class MenuScreen {
   Button help;
   Button back;
   Slider music, sfx, fRate;     // Settings sliders
-  Textlabel title, scoresLabel, settingsLabel, helpLabel, musicLabel, sfxLabel, fRateLabel;
+  Textlabel title, scoresLabel, settingsLabel, helpLabel, musicLabel, sfxLabel, fRateLabel, difficultyLabel;
   ControlFont cf1 = new ControlFont(createFont("Goudy Stout", 24));
   ControlFont cf2 = new ControlFont(createFont("Goudy Stout", 55));
   ControlFont cf3 = new ControlFont(createFont("Cooper-Black-Regular.ttf", 35));
@@ -206,6 +206,13 @@ class MenuScreen {
       .setSize(300, 50)
       .setFont(cf3)
       .setBroadcast(true)
+      .hide()
+    ;
+    
+    difficultyLabel = cp5.addTextlabel("DIFFLABEL")
+      .setText("Choose Difficulty")
+      .setPosition(width/2-440, 50)
+      .setFont(createFont("Goudy Stout", 45))
       .hide()
     ;
     
@@ -437,6 +444,7 @@ class MenuScreen {
    */
   void displayDifficulty() {
     background(images.Get("menu_backgrd"));
+    difficultyLabel.show();
     easy.show();
     normal.show();
     hard.show();
@@ -454,6 +462,7 @@ class MenuScreen {
    * Hide difficulty selection menu
    */
   void hideDifficulty() {
+    difficultyLabel.hide();
     easy.hide();
     normal.hide();
     hard.hide();

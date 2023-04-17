@@ -138,20 +138,19 @@ void controlEvent(ControlEvent theEvent) {
       sound.playSFX("Button");
       break;
     case("restart"):             // Restart game
+      sound.playSFX("Button");
       game.quitGame();
+      menu.hidePause();
       game = null;
       game = new Game(this);
       game.startGame();
-      menu.hidePause();
-      sound.playSFX("Button");
       break;
     case("quit"):                // Quit game
       sound.playSFX("Button");
+      menu.hidePause();
       game.quitGame();
       game = null;
-      menu.hidePause();
       screen = "main";
-      
       break;
     case("easy"):
       chooseDifficulty(0);
@@ -166,10 +165,10 @@ void controlEvent(ControlEvent theEvent) {
 }
 
 void chooseDifficulty(int diff) {
+  sound.playSFX("Button");
   difficulty = diff;
   menu.hideDifficulty();
   screen = "main";
   game = new Game(this);
   game.startGame();
-  sound.playSFX("Button");
 }
