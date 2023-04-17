@@ -229,6 +229,8 @@ class Game {
     pSpeed.hide();
     pPower.hide();
     pFireRate.hide();
+    menu.restart.setPosition(width/2-150, 375);
+    menu.quit.setPosition(width/2-150, 485);
   }
   
   /**

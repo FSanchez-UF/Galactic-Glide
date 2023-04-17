@@ -199,7 +199,7 @@ class MenuScreen {
       .setBroadcast(true)
       .hide()
     ;
-    
+
     quit = cp5.addButton("quit") // quit button
       .setBroadcast(false)
       .setValue(0)
@@ -253,14 +253,14 @@ class MenuScreen {
     
     endLabel = cp5.addTextlabel("Lose")
       .setText("GAME OVER")
-      .setPosition(width/2-250, 50)
+      .setPosition(width/2-250, 80)
       .setFont(createFont("Goudy Stout", 45))
       .hide()
     ;
 
     initials = cp5.addTextfield("Enter Initials")
       .setBroadcast(false)
-      .setPosition(width/2-150,260)
+      .setPosition(width/2-150, 300)
       .setSize(180,50)
       .setFont(createFont("Cooper-Black-Regular.ttf", 20))
       .setAutoClear(true)
@@ -272,7 +272,7 @@ class MenuScreen {
     submitScore = cp5.addButton("Submit") // quit button
       .setBroadcast(false)
       .setValue(0)
-      .setPosition(width/2+50, 260)
+      .setPosition(width/2+50, 300)
       .setSize(100, 50)
       .setColorBackground(color(0, 130, 0))
       .setFont(createFont("Cooper-Black-Regular.ttf", 20))
@@ -513,25 +513,28 @@ class MenuScreen {
     stroke(255);
     strokeWeight(4);
     rectMode(CENTER);
-    rect(width/2, height/2-40, 600, 500);
+    rect(width/2, height/2, 600, 500);
     noStroke();
     
     textAlign(CENTER);
     textFont(createFont("Goudy Stout", 40));
     fill(255);
+
+    restart.setPosition(width/2-150, 415);
+    quit.setPosition(width/2-150, 525);
     
     String[] lastScore = split(highScores[highScores.length-1], ' ');
     if (game.score > int(lastScore[1]) || submitted) {
       textFont(createFont("Goudy Stout", 35));
-      text("NEW HIGH SCORE", width/2, 160);
+      text("NEW HIGH SCORE", width/2, 200);
       textFont(createFont("Goudy Stout", 40));
-      text(game.score, width/2, 220);
+      text(game.score, width/2, 260);
       submitted = true;
       submitScore.show();
       initials.show();
     } else {
-      text("SCORE", width/2, 250);
-      text(game.score, width/2, 300);
+      text("SCORE", width/2, 280);
+      text(game.score, width/2, 340);
     }
   }
   
@@ -546,5 +549,3 @@ class MenuScreen {
     initials.hide();
   }
 }
-
-// IDEA: show player rocket flying across main menu
