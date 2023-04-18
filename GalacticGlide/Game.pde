@@ -22,7 +22,8 @@ class Game {
   int score;                   // Score tracker
   boolean active;              // Tells whether the game is running or not
   boolean paused;              // Tells whether game is paused or not
-  boolean endGame;
+  boolean endGame;             // Used to display end game state
+  boolean highScore;           // Plays high score sound when a new high score is achieved
   
   Textlabel displayFps;        // Displays FPS
   Textlabel displayScore;      // Displays current score
@@ -94,6 +95,7 @@ class Game {
     powerupQ = new LinkedList<Powerup>(); 
     cp5();
     endGame = false;
+    highScore = false;
   }
   //----------------------------------- Constructor End ------------------------------------//
   

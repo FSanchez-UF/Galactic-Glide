@@ -642,6 +642,10 @@ class MenuScreen {
       lastScore = split(highScores[highScores.length-1], ' ');
     
     if (highScores.length == 0 || game.score > int(lastScore[1]) || submitted) {
+      if (game.highScore == false) { 
+        sound.playSFX("Highscore");
+        game.highScore = true;
+      }
       textFont(createFont("Goudy Stout", 35));
       text("NEW HIGH SCORE", width/2, 200);
       textFont(createFont("Goudy Stout", 40));
