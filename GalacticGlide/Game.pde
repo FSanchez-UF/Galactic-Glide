@@ -79,7 +79,7 @@ class Game {
     sw = new StopWatch();
     gameClock = new Clock();
     bossClock = new Clock();
-    p = new Player(app, "Sprites/player2.png", 1, 1, 1000);
+    p = new Player(app, "Sprites/player1.png", 1, 1, 1000);
     entities = new ArrayList<Entity>();
     entities.add(p);
     score = 0;
