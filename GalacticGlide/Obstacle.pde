@@ -55,7 +55,7 @@ class Obstacle extends Entity {
    */
   void onDeath() {
     if (isEnemy && !isProjectile)
-      game.addScore(100);
+      game.addScore(50);
   }
   //------------------------------------- OnDeath End -------------------------------------//
 }

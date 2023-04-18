@@ -61,20 +61,27 @@ class Enemy extends Entity {
   /**
    * Called when object is set to dead after taking damage.
    * Useful for score adjusting and death sprite spawning!
-   * TODO: scale score with game.currScale too somehow. Also
-   *       give different score values to each enemy.
    */
   void onDeath() {
     if (type > 3) {
       game.updateScale(game.currScale+1);
-      game.addScore(500);
       game.bossClock.start();
     }
-    else
-      game.addScore(100);
-    
-    // Calculate powerup chance
+    score();
+    powerUp();
+  }
+  //------------------------------------- OnDeath End ------------------------------------//
+  
+  
+  //---------------------------------- Function: Powerup ---------------------------------//
+  /**
+   * Defines likelihood for each ship to drop a powerup
+   */
+  void powerUp() {
+     
+    // Random powerup chance
     float rand = random(1);
+    
     // Boss always drops a powerup, 50-50 between HP/score and common
     if (type > 3) {
       if (rand < 0.5) {
@@ -89,11 +96,38 @@ class Enemy extends Entity {
       }
       return;
     }
-    
-    if (rand < 0.3 && type <= 3) { // 30% chance of powerup
+    else {
       PowerupType randPower = commonPowerups[(int)random(commonPowerups.length)];
-      game.queuePowerup(randPower, this);
-    }
+      
+      switch(type) {
+       case 1: 
+         if (rand < .1) game.queuePowerup(randPower, this);
+         break;
+       case 2: 
+         if (rand < .2) game.queuePowerup(randPower, this);  
+         break;
+       case 3: 
+         if (rand < .3) game.queuePowerup(randPower, this);  
+         break;
+      }
+    } 
   }
-  //------------------------------------- OnDeath End ------------------------------------//
+  //------------------------------------- Powerup End ------------------------------------//
+  
+  
+  //----------------------------------- Function: score ----------------------------------//
+  /**
+   * Adjust score based on enemy type
+   */
+   void score() {
+     switch(type) {
+       case 1: game.addScore(25);  break;
+       case 2: game.addScore(50);  break;
+       case 3: game.addScore(100); break;
+       case 4: game.addScore(500); break;
+       case 5: game.addScore(700); break;
+       case 6: game.addScore(900); break;
+     }
+   }
+  //-------------------------------------- score End -------------------------------------//
 }
