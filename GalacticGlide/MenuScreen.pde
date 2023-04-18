@@ -21,8 +21,9 @@ class MenuScreen {
   ControlFont cf2 = new ControlFont(createFont("Goudy Stout", 55));
   ControlFont cf3 = new ControlFont(createFont("Cooper-Black-Regular.ttf", 35));
   
+  //--------------------------------- Function: Constructor --------------------------------//
   /**
-   * Constructor: Loads relevant menu images and creates buttons
+   * Creates class object and intializes relevant variables
    */
   MenuScreen() {
     // Load images
@@ -281,7 +282,10 @@ class MenuScreen {
     ;
     
   }
+  //------------------------------------ Constructor End -----------------------------------//
   
+  
+  //-------------------------------- Functions: Display/Hide -------------------------------//
   /**
    * Displays the menu buttons
    */
@@ -306,7 +310,10 @@ class MenuScreen {
     help.hide();
     settings.hide();
   }
+  //------------------------------------ Display/Hide End ----------------------------------//
   
+  
+  //-------------------------- Functions: DisplayScores/HideScores -------------------------//
   /**
    * Displays the high scores menu
    */
@@ -332,7 +339,7 @@ class MenuScreen {
     }
     textAlign(CENTER); // Reset text align
   }
-  
+
   /**
    * Hides the scores menu
    */
@@ -340,7 +347,10 @@ class MenuScreen {
     back.hide();
     scoresLabel.hide();
   }
+  //----------------------------- DisplayScores/HideScores End -----------------------------//
   
+  
+  //------------------------ Functions: DisplaySettings/HideSettings -----------------------//
   /**
    * Display the settings menu
    */
@@ -379,7 +389,10 @@ class MenuScreen {
     fRate.hide();
     fRateLabel.hide();
   }
+  //--------------------------- DisplaySettings/HideSettings End ---------------------------//
   
+  
+  //---------------------------- Functions: DisplayHelp/HideHelp ---------------------------//
   /**
    * Display the help menu
    */
@@ -441,7 +454,10 @@ class MenuScreen {
     back.hide();
     helpLabel.hide();
   }
+  //------------------------------- DisplayHelp/HideHelp End -------------------------------//
   
+  
+  //--------------------------- Functions: DisplayPause/HidePause --------------------------//
   /**
    * Display the pause menu
    */
@@ -469,7 +485,10 @@ class MenuScreen {
     quit.hide();
     game.paused = false;
   }
+  //------------------------------ DisplayPause/HidePause End ------------------------------//
   
+  
+  //---------------------- Functions: DisplayDifficulty/HideDifficulty ---------------------//
   /**
    * Display difficulty selection menu
    */
@@ -498,8 +517,11 @@ class MenuScreen {
     normal.hide();
     hard.hide();
   }
+  //------------------------- DisplayDifficulty/HideDifficulty End -------------------------//
   
-    /**
+  
+  //------------------------- Functions: DisplayEndgame/HideEndgame ------------------------//
+  /**
    * Display the pause menu
    */
   void displayEndgame() {
@@ -548,4 +570,5 @@ class MenuScreen {
     submitScore.hide();
     initials.hide();
   }
+  //---------------------------- DisplayEndgame/HideEndgame End ----------------------------//
 }

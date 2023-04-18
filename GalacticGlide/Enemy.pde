@@ -10,8 +10,9 @@ class Enemy extends Entity {
   int type;               // Tracks what type of enemy this is
   int timeSinceShoot;     // Tracks the last time the enemy has shot
   
+  //-------------------------------- Function: Constructor ---------------------------------//
   /**
-   * Constructor
+   * Creates class object and intializes relevant variables
    */
   Enemy(PApplet app, String imgFilename, int cols, int rows, int zOrder) {
     super(app, imgFilename, cols, rows, zOrder);
@@ -19,7 +20,10 @@ class Enemy extends Entity {
     collidedPlayer = false;
     patrol = false;
   }
+  //---------------------------------- Constructor End ------------------------------------//
   
+  
+  //------------------------------ Function: HandleCollision ------------------------------//
   /**
    * Handles collision when one happens.
    */
@@ -36,7 +40,10 @@ class Enemy extends Entity {
       }
     }
   }
+  //--------------------------------- HandleCollision End -------0-------------------------//
   
+  
+  //------------------------------ Function: SpawnProjectile ------------------------------//
   /**
    * Spawns an enemy laser at the specified speed
    */
@@ -47,7 +54,10 @@ class Enemy extends Entity {
     game.entities.add(o);
     //sound.playSFX("Laser");
   }
+  //--------------------------------- SpawnProjectile End --------------------------------//
   
+  
+  //---------------------------------- Function: OnDeath ---------------------------------//
   /**
    * Called when object is set to dead after taking damage.
    * Useful for score adjusting and death sprite spawning!
@@ -85,4 +95,5 @@ class Enemy extends Entity {
       game.queuePowerup(randPower, this);
     }
   }
+  //------------------------------------- OnDeath End ------------------------------------//
 }

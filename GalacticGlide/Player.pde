@@ -49,8 +49,9 @@ class Player extends Entity {
   int shots = MAX_SHOTS;
   int timeSinceShot;
   
+  //------------------------------------------ Function: Constructor -----------------------------------------//
   /**
-   * Constructor.
+   * Creates class object and intializes relevant variables
    */
   Player(PApplet app, String imgFilename, int cols, int rows, int zOrder) {
     super(app, imgFilename, cols, rows, zOrder);
@@ -59,7 +60,10 @@ class Player extends Entity {
     DAMAGE_MILLIS = 1500;
     isPlayer = true;
   }
+  //-------------------------------------------- Constructor End ---------------------------------------------//
   
+  
+  //-------------------------------------------- Function: Update --------------------------------------------//
   /**
    * Override for Sprite.update().
    * Handles shot regeneration when doing limited shots.
@@ -71,7 +75,10 @@ class Player extends Entity {
       shots++;
     }
   }
+  //----------------------------------------------- Update End -----------------------------------------------//
   
+  
+  //--------------------------------------- Function: HandleCollision ----------------------------------------//
   /**
    * Handles collisions.
    */
@@ -91,7 +98,10 @@ class Player extends Entity {
       }
     }
   }
+  //------------------------------------------ HandleCollision End -------------------------------------------//
   
+  
+  //--------------------------------------- Function: SpawnProjectile ----------------------------------------//
   /**
    * Spawns player laser on spacebar press
    */
@@ -102,7 +112,10 @@ class Player extends Entity {
     game.entities.add(o);
     sound.playSFX("Laser");
   }
+  //------------------------------------------ SpawnProjectile End -------------------------------------------//
   
+  
+  //------------------------------------- Function: ConstraintMovement ---------------------------------------//
   /**
    * Constrains player movement within the screen.
    * Override for sprite domain constraint since HALT and REBOUND
@@ -134,7 +147,10 @@ class Player extends Entity {
       setVelY(0);
     }
   }
+  //---------------------------------------- ConstraintMovement End ------------------------------------------//
   
+  
+  //--------------------------------------- Function: HandleKeyPress -----------------------------------------//
   /**
    * Handles input on keyPressed()
    */
@@ -149,7 +165,10 @@ class Player extends Entity {
         break;
      }
   }
+  //------------------------------------------ HandleKeyPress End --------------------------------------------//
   
+  
+  //-------------------------------------- Function: HandleKeyRelease ----------------------------------------//
   /**
    * Handles input on keyReleased()
    */
@@ -180,7 +199,10 @@ class Player extends Entity {
         break;
     }
   }
+  //----------------------------------------- HandleKeyRelease End -------------------------------------------//
   
+  
+  //--------------------------------------- Function: HandleSpaceBar -----------------------------------------//
   /**
    * Handles continuous press of space bar to shoot. Controls fire rate
    */
@@ -197,7 +219,10 @@ class Player extends Entity {
       }
     }
   }
+  //------------------------------------------ HandleSpaceBar End --------------------------------------------//
   
+  
+  //----------------------------------------- Function: UpdateStats ------------------------------------------//
   /**
    * Update stats based on the current number of powerups collected
    * Also updates the Game's text displays.
@@ -214,7 +239,10 @@ class Player extends Entity {
     game.pScoreMult.setText("x" + scoreMult + ((scoreMult == MAX_SCORE_MULT)? " (MAX)" : ""));
     game.pShots.setText("" + shots);
   }
+  //-------------------------------------------- UpdateStats End ---------------------------------------------//
   
+  
+  //------------------------------------------ Function: TakeDamage ------------------------------------------//
   /**
    * Override of Entity takeDamage() to handle player lives and sound effects
    */
@@ -232,5 +260,6 @@ class Player extends Entity {
       game.endGame = true;
       sound.playSFX("Player_Death");
     }
-  } 
+  }
+  //-------------------------------------------- TakeDamage End --------------------------------------------//
 }

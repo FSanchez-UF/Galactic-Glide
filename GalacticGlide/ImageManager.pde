@@ -6,15 +6,19 @@
 
 class ImageManager {
   HashMap<String, ArrayList<PImage>> images;
-  
+
+  //--------------------------------- Function: Constructor --------------------------------//
   /**
-   * Constructor: creates the hashmap to hold all game sprites.
+   * Creates class object and intializes relevant variables
    */
   ImageManager() {
     images = new HashMap<String, ArrayList<PImage>>();
     loadAnimationSequences();
   }
+  //------------------------------------ Constructor End -----------------------------------//
   
+  
+  //------------------------------------ Function: Load ------------------------------------//
   /**
    * Load image into the hashmap with the specified key
    */
@@ -40,7 +44,10 @@ class ImageManager {
       }
     }
   }
+  //--------------------------------------- Load End ---------------------------------------//
   
+  
+  //------------------------------------- Function: Get ------------------------------------//
   /**
    * Retrieves the first image from the ArrayList in the hashmap with the specified key
    */
@@ -52,7 +59,7 @@ class ImageManager {
     }
     return images.get(name).get(0);
   }
-  
+
   /**
    * Retrieves either part or all of the ArrayList in the hashmap with the specified key
    */
@@ -75,7 +82,10 @@ class ImageManager {
     // Extract a portion of the ArrayList and return it
     return new ArrayList<PImage>(imageList.subList(start, end + 1));
   }
+  //--------------------------------------- Get End ----------------------------------------//
   
+  
+  //--------------------------- Function: LoadAnimationSequences ---------------------------//
   /**
    * Initializes all animation sequences used by the game
    */
@@ -104,4 +114,5 @@ class ImageManager {
     this.Load("shot5", "PNG_Animations/Shots/Shot5/shot5_exp", 8);
     this.Load("shot6", "PNG_Animations/Shots/Shot6/shot6_exp", 10);
   }
+  //------------------------------ LoadAnimationSequences End ------------------------------//
 }

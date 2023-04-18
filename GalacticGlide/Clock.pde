@@ -10,15 +10,19 @@ class Clock {
   int elapsedTime;   // The elapsed time since the clock started running
   boolean isRunning; // Whether the clock is currently running
   
+  //--------------------- Function: Constructor ---------------------//
   /**
-   * Constructor.
+   * Creates class object and intializes relevant variables
    */
   Clock() {
     startTime = 0;
     elapsedTime = 0;
     isRunning = false;
   }
+  //------------------------ Constructor End ------------------------//
   
+  
+  //------------------------ Function: Start ------------------------//
   /**
    * Starts the clock at the current time value of millis()
    */
@@ -28,7 +32,10 @@ class Clock {
       isRunning = true;
     }
   }
+  //--------------------------- Start End ---------------------------//
   
+  
+  //------------------------ Function: Stop -------------------------//
   /**
    * Stops the clock and updates how long the clock has been running
    */
@@ -38,7 +45,10 @@ class Clock {
       isRunning = false;
     }
   }
+  //--------------------------- Stop End ----------------------------//
   
+  
+  //------------------------ Function: Reset ------------------------//
   /**
    * Resets all clock values to zero
    */
@@ -47,7 +57,10 @@ class Clock {
     elapsedTime = 0;
     isRunning = false;
   }
+  //--------------------------- Reset End ---------------------------//
   
+  
+  //------------------------ Function: Time -------------------------//
   /**
    * Returns the current time of the clock whether it is running or not
    */
@@ -58,4 +71,5 @@ class Clock {
       return elapsedTime;
     }
   }
+  //--------------------------- Time End ---------------------------//
 }

@@ -69,8 +69,10 @@ class Game {
     "Sprites/Ships/Ship6.png",
   };
   
+
+  //-------------------------------- Function: Constructor ---------------------------------//
   /**
-   * Constructor.
+   * Creates class object and intializes relevant variables
    */
   Game(PApplet app) {
     images.Load("heart", "heart-sprite.png");
@@ -92,7 +94,10 @@ class Game {
     cp5();
     endGame = false;
   }
+  //----------------------------------- Constructor End ------------------------------------//
   
+  
+  //----------------------------------- Function: Update -----------------------------------//
   /**
    * Updates the game state frame by frame.
    */
@@ -124,7 +129,10 @@ class Game {
       updateScale(currScale+1);
     }
   }
+  //-------------------------------------- Update End --------------------------------------//
   
+  
+  //----------------------------------- Function: Display ----------------------------------//
   /** 
    * Displays the game sprites
    */
@@ -158,7 +166,10 @@ class Game {
       menu.displayPause();  
     }
   }
+  //------------------------------------- Display End --------------------------------------//
   
+  
+  //------------------------------ Function: ProcessCollisions -----------------------------//
   /** 
    * Checks whether any collisions are occuring
    */
@@ -178,7 +189,10 @@ class Game {
       }
     }
   }
+  //--------------------------------- ProcessCollisions End --------------------------------//
   
+  
+  //------------------------------- Function: HandleKeyPress -------------------------------//
   /** 
    * Handles key presses. To be called by keyPressed().
    */
@@ -187,7 +201,10 @@ class Game {
       return;
     p.handleKeyPress();
   }
+  //---------------------------------- HandleKeyPress End ----------------------------------//
   
+  
+  //------------------------------ Function: HandleKeyRelease ------------------------------//
   /** 
    * Handles key releases. To be called by keyReleased().
    */
@@ -196,7 +213,10 @@ class Game {
       return;
     p.handleKeyRelease();
   }
+  //--------------------------------- HandleKeyRelease End ---------------------------------//
   
+  
+  //---------------------------------- Function: StartGame ---------------------------------//
   /** 
    * Starts the game.
    */
@@ -213,7 +233,10 @@ class Game {
     gameClock.start();
     bossClock.start();
   }
+  //------------------------------------- StartGame End ------------------------------------//
   
+  
+  //----------------------------------- Function: QuitGame ---------------------------------//
   /** 
    * Quits the game.
    */
@@ -227,7 +250,10 @@ class Game {
       S4P.deregisterSprite(entity);  
     }
   }
+  //------------------------------------- QuitGame End -------------------------------------//
   
+  
+  //----------------------------------- Function: HideCP5 ----------------------------------//
   /** 
    * Hide game cp5 elements
    */
@@ -242,7 +268,10 @@ class Game {
     menu.restart.setPosition(width/2-150, 375);
     menu.quit.setPosition(width/2-150, 485);
   }
+  //-------------------------------------- HideCP5 End -------------------------------------//
   
+  
+  //--------------------------------- Function: HandleSpawns -------------------------------//
   /**
    * Spawns obstacles/enemies over a gradually steeper interval.
    */
@@ -270,7 +299,10 @@ class Game {
       bossClock.stop();
     }    
   }
+  //------------------------------------ HandleSpawns End ----------------------------------//
   
+  
+  //----------------------------- Function: SpawnRandomObstacle ----------------------------//
   /**
    * Spawns a random obstacle.
    * Should take into account difficulty and time elapsed.
@@ -279,7 +311,10 @@ class Game {
     int rand = (int)random(0, obstacleFiles.length);
     spawnObstacle(obstacleFiles[rand], 5, 30, 50, true);
   }
+  //-------------------------------- SpawnRandomObstacle End -------------------------------//
   
+  
+  //-------------------------------- Function: SpawnObstacle -------------------------------//
   /** 
    * Spawns an obstacle.
    */
@@ -289,7 +324,10 @@ class Game {
     o.setVelXY(-random(minVel, maxVel), 0);
     entities.add(o);
   }
+  //----------------------------------- SpawnObstacle End ----------------------------------//
   
+  
+  //------------------------------ Function: SpawnRandomEnemy ------------------------------//
   /**
    * Spawns a random enemy.
    * Should take into account difficulty and time elapsed. 
@@ -321,7 +359,10 @@ class Game {
     
     spawnEnemy(enemyFiles[rand], hp, minVel, maxVel, rand+1);
   }
+  //--------------------------------- SpawnRandomEnemy End ---------------------------------//
   
+  
+  //------------------------------- Function: SpawnRandomBoss ------------------------------//
   /**
    * Spawns a random boss.
    * Should take into account difficulty and time elapsed. 
@@ -353,7 +394,10 @@ class Game {
     
     spawnEnemy(bossFiles[rand], hp, minVel, maxVel, rand+4);
   }
+  //---------------------------------- SpawnRandomBoss End ---------------------------------//
   
+  
+  //---------------------------------- Function: SpawnEnemy --------------------------------//
   /** 
    * Spawns an enemy.
    */
@@ -364,7 +408,10 @@ class Game {
     e.type = type;
     entities.add(e);
   }
+  //------------------------------------- SpawnEnemy End -----------------------------------//
   
+  
+  //--------------------------------- Function: QueuePowerup -------------------------------//
   /**
    * Queues a powerup spawn at some enemy.
    * We need to queue because editing the entities array during collision checking
@@ -374,14 +421,19 @@ class Game {
     Powerup pow = new Powerup(app, type, e);
     powerupQ.add(pow);
   }
+  //------------------------------------ QueuePowerup End ----------------------------------//
   
+  //------------------------------- Function: CleanDeadEntities ----------------------------//
   /** 
    * Cleans the entities list of all dead or off-screen entities.
    */
   void cleanDeadEntities() {
     entities.removeIf(entity -> (entity.isDead() || (entity.wasOnScreen && !entity.isOnScreen())));
   }
+  //--------------------------------- CleanDeadEntities End --------------------------------//
   
+  
+  //--------------------------------- Function: UpdateScale --------------------------------//
   /**
    * Sets the scale/ difficulty of the game
    */
@@ -391,7 +443,10 @@ class Game {
     hpScale = map(currScale, 0, MAX_SCALE_TIMES, MIN_HP_SCALE, MAX_HP_SCALE);
     timeSinceScale = gameClock.time();
   }
+  //------------------------------------ UpdateScale End -----------------------------------//
   
+  
+  //----------------------------------- Function: EnemyAI ----------------------------------//
   /**
    * Defines behavior of enemy ships for tracking player and shooting
    */
@@ -423,7 +478,10 @@ class Game {
       }
     }
   }
+  //-------------------------------------- EnemyAI End -------------------------------------//
   
+  
+  //-------------------------------- Function: ConstrainBoss -------------------------------//
   /**
    * Defines boss behavior for patrolling the screen
    */
@@ -435,7 +493,10 @@ class Game {
       en.setVelX(-en.getVelX());
     }
   }
+  //----------------------------------- ConstrainBoss End ----------------------------------//
   
+  
+  //------------------------------------- Function: Cp5 ------------------------------------//
   /**
    * Checks if cp5 elements already exist, such as when the 
    * game has been restarted or quit during execution
@@ -520,7 +581,10 @@ class Game {
       pShots = (Textlabel)cp5.getController("pShots");
     }
   }
+  //---------------------------------------- Cp5 End ---------------------------------------//
   
+  
+  //---------------------------------- Function: AddScore ----------------------------------//
   /**
    * Add to the game score by some amount.
    * The base score is updated with multipliers, etc. before adding to the score.
@@ -528,6 +592,7 @@ class Game {
   void addScore(int baseScore) {
     score += baseScore * p.scoreMult;
   }
+  //------------------------------------- AddScore End ------------------------------------//
 }
 
 /**

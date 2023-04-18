@@ -17,8 +17,9 @@ abstract class Entity extends Sprite {
   
   boolean wasOnScreen = false; // Whether entity has been on screen yet
   
+  //-------------------------------- Function: Constructor ---------------------------------//
   /**
-   * Constructor.
+   *   Creates class object and intializes relevant variables
    *   app: The invoking application (usually just "this")
    *   imgFilename: The filename of the image to use as the Sprite.
    *   cols: How many columns of animation are in the img's spritesheet.
@@ -30,12 +31,18 @@ abstract class Entity extends Sprite {
     mhp = 1;
     hp = mhp;
   }
+  //----------------------------------- Constructor End -----------------------------------//
   
+  
+  //------------------------------ Function: HandleCollision-------------------------------//
   /**
    * Handles collision when one happens.
    */
   abstract void handleCollision(Entity e);
+  //--------------------------------- HandleCollision End ---------------------------------//
   
+  
+  //----------------------------------- Function: Draw ------------------------------------//
   /**
    * Override for Sprite.draw() to include taking damage.
    */
@@ -64,8 +71,11 @@ abstract class Entity extends Sprite {
        wasOnScreen = true;
      }
      super.draw(); // Draw sprites as defined in sprite library
-   }
+  }
+  //-------------------------------------- Draw End ---------------------------------------//
   
+  
+  //-------------------------------- Function: TakeDamage ---------------------------------//
   /**
    * Applies damage to the Entity, and kills it if fatal.
    * Can also be used to heal if dmg is negative.
@@ -79,7 +89,10 @@ abstract class Entity extends Sprite {
     if (hp >= mhp)
       hp = mhp;
   }
+  //----------------------------------- TakeDamage End ------------------------------------//
   
+  
+  //---------------------------------- Function: SetDead ----------------------------------//
   /**
    * Override for Sprite.setDead() to include parameter changes.
    */
@@ -88,25 +101,35 @@ abstract class Entity extends Sprite {
     hp = 0;
     onDeath();
   }
+  //------------------------------------- SetDead End -------------------------------------//
   
+  
+  //---------------------------------- Function: OnDeath ----------------------------------//
   /**
    * Called when object is set to dead after taking damage.
    * Useful for score adjusting and death sprite spawning!
    */
   void onDeath() {}
+  //------------------------------------- OnDeath End -------------------------------------//
   
+  
+  //----------------------------------- Function: SetHp -----------------------------------//
   /**
    * Sets max HP. Scales up current HP to match.
    */
   void setHp(float newHp) {
     mhp = newHp;
     hp = mhp;
-  } 
+  }
+  //-------------------------------------- SetHp End --------------------------------------//
   
+  
+  //--------------------------------- Function: IsOnScreen --------------------------------//
   /**
    * Alias for isOnScreem, an official library typo.
    */
   boolean isOnScreen() {
     return isOnScreem();
   }
+  //----------------------------------- IsOnScreen End -----------------------------------//
 }

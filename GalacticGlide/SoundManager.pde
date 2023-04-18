@@ -8,14 +8,18 @@ import processing.sound.*;
 
 class SoundManager {
   HashMap<String, SoundFile> sounds;
-  
+
+  //------------------------ Function: Constructor -------------------------//
   /**
-   * Constructor: creates the hashmap to hold all game sounds.
+   * Creates class object and intializes relevant variables
    */
   SoundManager(PApplet app) {
     sounds = createMap(app);
   }
+  //--------------------------- Constructor End ----------------------------//
   
+  
+  //------------------------- Function: CreateMap --------------------------//
   /**
    * Helper to create the sound map and initialize sound files.
    */
@@ -32,7 +36,10 @@ class SoundManager {
     
     return map;
   }
+  //---------------------------- CreateMap End -----------------------------//
   
+  
+  //-------------------------- Function: PlaySFX ---------------------------//
   /**
    * Plays a sound. Will print a warning instead if sound doesn't exist.
    * Example: soundManager.play("soundName");
@@ -45,7 +52,10 @@ class SoundManager {
     sounds.get(soundName).amp(1 * menu.sfx.getValue()/100);
     sounds.get(soundName).play();
   }
+  //----------------------------- PlaySFX End ------------------------------//
   
+  
+  //------------------------- Function: PlayMusic --------------------------//
   /**
    * Plays music. Will print a warning instead if sound doesn't exist. Allows for
    * music and sound effects to have separate volume
@@ -59,7 +69,10 @@ class SoundManager {
     sounds.get(soundName).amp(0.2 * menu.music.getValue()/100);
     sounds.get(soundName).play();
   }
+  //---------------------------- PlayMusic End -----------------------------//
   
+  
+  //---------------------------- Function: Loop ----------------------------//
   /**
    * Plays and loops a sound. Will print a warning instead if sound doesn't exist.
    * Example: soundManager.loop("soundName");
@@ -71,7 +84,10 @@ class SoundManager {
     }
     sounds.get(soundName).loop();
   }
+  //------------------------------- Loop End -------------------------------//
   
+  
+  //-------------------------- Function: StopAll ---------------------------//
   /**
    * Stops playing all sounds.
    */
@@ -79,4 +95,5 @@ class SoundManager {
     for (SoundFile s : sounds.values())
       s.stop();
   }
+  //----------------------------- StopAll End ------------------------------//
 }
