@@ -29,7 +29,7 @@ String screen;
 
 void setup() {
   size(1000, 800);
-  background(loadImage("Sprites/menu_background.png"));
+  background(loadImage("Sprites/menu_background1.png"));
   textFont(createFont("Goudy Stout", 55));
   textAlign(CENTER);
   text("LOADING...", width/2, height/2);
@@ -68,7 +68,7 @@ void draw() {
  */
 void init() {
   images = new ImageManager();
-  images.Load("menu_backgrd", "menu_background.png");
+  images.Load("menu_backgrd", "menu_background1.png");
   images.Load("game_backgrd", "gameplay_background.png");
   
   sound = new SoundManager(this);
