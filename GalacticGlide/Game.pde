@@ -338,7 +338,7 @@ class Game {
    */
   void spawnRandomEnemy() {
     int rand = (int)random(0, enemyFiles.length);
-    float hp = 3;
+    float hp = chooseByDiff(3f, 3.5f, 4f);
     float minVel = 120;
     float maxVel = 160;
     
@@ -346,7 +346,7 @@ class Game {
     switch(rand) {
       // Enemy 1: Fast
       case 0:
-        hp = 2;
+        hp = chooseByDiff(2f, 2.5f, 3f);
         minVel = 200;
         maxVel = 240;
         break;
@@ -355,7 +355,7 @@ class Game {
         break;
       // Enemy 3: Heavy
       case 2:
-        hp = 5;
+        hp = chooseByDiff(4f, 4.5f, 5f);
         minVel = 80;
         maxVel = 100;
         break;
@@ -373,7 +373,7 @@ class Game {
    */
   void spawnRandomBoss() {
     int rand = (int)random(0, bossFiles.length);
-    float hp = 20;
+    float hp = chooseByDiff(15, 20, 25);
     float minVel = 80;
     float maxVel = 100;
     
@@ -381,7 +381,7 @@ class Game {
     switch(rand) {
       // Enemy 1: Fast
       case 0:
-        hp = 10;
+        hp = chooseByDiff(10, 15, 20);
         minVel = 120;
         maxVel = 140;
         break;
@@ -390,7 +390,7 @@ class Game {
         break;
       // Enemy 3: Heavy
       case 2:
-        hp = 30;
+        hp = chooseByDiff(20, 25, 30);
         minVel = 40;
         maxVel = 60;
         break;
