@@ -433,7 +433,6 @@ class MenuScreen {
     fill(255);
     rect(width/2-200, height/2, 3, 500);
     textFont(createFont("Cooper-Black-Regular.ttf", 27));
-    //textSize(14);
     
     // Draw text
     for (int i = 0; i < 14; i+=2) {
