@@ -498,6 +498,7 @@ class MenuScreen {
     easy.show();
     normal.show();
     hard.show();
+    back.show();
     
     // Semi transparent rectangle
     fill(0, 0, 0, 192);
