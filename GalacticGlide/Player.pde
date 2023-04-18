@@ -28,6 +28,13 @@ class Player extends Entity {
   int fireRateUps = 0;
   float fireRate = MIN_FIRE_RATE;
   
+  // Score multiplier
+  final int MAX_SCORE_UPS = 5;
+  final float MIN_SCORE_MULT = chooseByDiff(0.5f, 1.0f, 1.5f);
+  final float MAX_SCORE_MULT = chooseByDiff(1.2f, 2.0f, 3.0f);
+  int scoreUps = 0;
+  float scoreMult = MIN_SCORE_MULT;
+  
   final int MAX_HP = 3;      // Player-exclusive HP
   int playerHealth = MAX_HP; // How many hits the player can take from enemies and obstacles
   
@@ -148,6 +155,7 @@ class Player extends Entity {
         speedUps = MAX_SPEED_UPS;
         powerUps = MAX_POWER_UPS;
         fireRateUps = MAX_FIRE_RATE_UPS;
+        scoreUps = MAX_SCORE_UPS;
         updateStats();
         break;
     }
@@ -171,10 +179,12 @@ class Player extends Entity {
     speed = map(speedUps, 0, MAX_SPEED_UPS, MIN_SPEED, MAX_SPEED);
     power = map(powerUps, 0, MAX_POWER_UPS, MIN_POWER, MAX_POWER);
     fireRate = map(fireRateUps, 0, MAX_FIRE_RATE_UPS, MIN_FIRE_RATE, MAX_FIRE_RATE);
+    scoreMult = map(scoreUps, 0, MAX_SCORE_UPS, MIN_SCORE_MULT, MAX_SCORE_MULT);
     
     game.pSpeed.setText(speed + ((speed == MAX_SPEED)? " (MAX)" : ""));
     game.pPower.setText(power + ((power == MAX_POWER)? " (MAX)" : ""));
     game.pFireRate.setText(fireRate + ((fireRate == MAX_FIRE_RATE)? " (MAX)" : ""));
+    game.pScoreMult.setText("x" + scoreMult + ((scoreMult == MAX_SCORE_MULT)? " (MAX)" : ""));
   }
   
   /**

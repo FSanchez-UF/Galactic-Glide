@@ -11,6 +11,7 @@ enum PowerupType {
   POWER,
   FIRERATE,
   HP,
+  SCORE,
 }
 
 PowerupType[] commonPowerups = {
@@ -23,7 +24,8 @@ Map<PowerupType, String> powerupMap = Map.of(
   PowerupType.SPEED,     "Sprites/Powerups/speed.png",
   PowerupType.POWER,     "Sprites/Powerups/power.png",
   PowerupType.FIRERATE,  "Sprites/Powerups/firerate.png",
-  PowerupType.HP,        "Sprites/heart-sprite.png"
+  PowerupType.HP,        "Sprites/heart-sprite.png",
+  PowerupType.SCORE,     "Sprites/Powerups/score.png"
 );
 
 class Powerup extends Entity {
@@ -61,6 +63,9 @@ class Powerup extends Entity {
             p.playerHealth++;
           else
             doSetDead = false;
+          break;
+        case SCORE:
+          p.scoreUps += (p.scoreUps < p.MAX_SCORE_UPS)? 1 : 0;
           break;
       }
       if (doSetDead) {

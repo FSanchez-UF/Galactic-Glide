@@ -54,18 +54,22 @@ class Enemy extends Entity {
   void onDeath() {
     if (type > 3) {
       game.updateScale(game.currScale+1);
-      game.score += 500;
+      game.addScore(500);
       game.bossClock.start();
     }
     else
-      game.score += 100;
+      game.addScore(100);
     
     // Calculate powerup chance
     float rand = random(1);
-    // Boss always drops a powerup, 50-50 between HP and common
+    // Boss always drops a powerup, 50-50 between HP/score and common
     if (type > 3) {
-      if (rand < 0.5)
-        game.queuePowerup(PowerupType.HP, this);
+      if (rand < 0.5) {
+        if (game.p.playerHealth < game.p.MAX_HP)
+          game.queuePowerup(PowerupType.HP, this);
+        else
+          game.queuePowerup(PowerupType.SCORE, this);
+      }
       else {
         PowerupType randPower = commonPowerups[(int)random(commonPowerups.length)];
         game.queuePowerup(randPower, this);

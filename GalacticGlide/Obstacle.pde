@@ -45,7 +45,7 @@ class Obstacle extends Entity {
    * Useful for score adjusting and death sprite spawning!
    */
   void onDeath() {
-    if (isEnemy)
-      game.score += 100;
+    if (isEnemy && !isProjectile)
+      game.addScore(100);
   }
 }

@@ -30,6 +30,7 @@ class Game {
   Textlabel pSpeed;            // Displays player speed
   Textlabel pPower;            // Displays player power
   Textlabel pFireRate;         // Displays player fire rate
+  Textlabel pScoreMult;        // Displays player score multiplier
   
   int timeSinceEnemy;          // Time since the last enemy spawn occurred
   int timeSinceObstacle;       // Time since the last obstacle spawn occurred
@@ -75,6 +76,7 @@ class Game {
     images.Load("speed", "Powerups/speed.png");
     images.Load("power", "Powerups/power.png");
     images.Load("firerate", "Powerups/firerate.png");
+    images.Load("score", "Powerups/score.png");
     this.app = app;
     sw = new StopWatch();
     gameClock = new Clock();
@@ -137,6 +139,7 @@ class Game {
       image(images.Get("speed"), pSpeed.getPosition()[0]/0.6 - 35, pSpeed.getPosition()[1] + 30);
       image(images.Get("power"), pPower.getPosition()[0]/0.6 - 35, pPower.getPosition()[1] + 30);
       image(images.Get("firerate"), pFireRate.getPosition()[0]/0.6 - 35, pFireRate.getPosition()[1] + 30);
+      image(images.Get("score"), pScoreMult.getPosition()[0]/0.6 - 35, pScoreMult.getPosition()[1] + 30);
     popMatrix();
     // Display player lives
     for(int i = 0; i < p.playerHealth; i++) {
@@ -199,6 +202,7 @@ class Game {
     pSpeed.show();
     pPower.show();
     pFireRate.show();
+    pScoreMult.show();
     gameClock.start();
     bossClock.start();
   }
@@ -226,6 +230,7 @@ class Game {
     pSpeed.hide();
     pPower.hide();
     pFireRate.hide();
+    pScoreMult.hide();
     menu.restart.setPosition(width/2-150, 375);
     menu.quit.setPosition(width/2-150, 485);
   }
@@ -455,7 +460,7 @@ class Game {
     if (cp5.getController("pSpeed") == null) {
       pSpeed = cp5.addTextlabel("pSpeed")
         .setText("" + p.speed)
-        .setPosition(width/2-230, 10)
+        .setPosition(width/2-270, 10)
         .setFont(createFont("Arial", 24))
         .hide();
     }
@@ -466,7 +471,7 @@ class Game {
     if (cp5.getController("pPower") == null) {
       pPower = cp5.addTextlabel("pPower")
         .setText("" + p.power)
-        .setPosition(width/2, 10)
+        .setPosition(width/2-40, 10)
         .setFont(createFont("Arial", 24))
         .hide();
     }
@@ -477,13 +482,32 @@ class Game {
     if (cp5.getController("pFireRate") == null) {
       pFireRate = cp5.addTextlabel("pFireRate")
         .setText("" + p.fireRate)
-        .setPosition(width/2+200, 10)
+        .setPosition(width/2+160, 10)
         .setFont(createFont("Arial", 24))
         .hide();
     }
     else {
       pFireRate = (Textlabel)cp5.getController("pFireRate");
     }
+    
+    if (cp5.getController("pScoreMult") == null) {
+      pScoreMult = cp5.addTextlabel("pScoreMult")
+        .setText("x" + p.scoreMult)
+        .setPosition(width/2+360, 10)
+        .setFont(createFont("Arial", 24))
+        .hide();
+    }
+    else {
+      pScoreMult = (Textlabel)cp5.getController("pScoreMult");
+    }
+  }
+  
+  /**
+   * Add to the game score by some amount.
+   * The base score is updated with multipliers, etc. before adding to the score.
+   */
+  void addScore(int baseScore) {
+    score += baseScore * p.scoreMult;
   }
 }
 
@@ -501,5 +525,3 @@ class Game {
   }
   return normal;
 }
-
-// NOTE: use saveStrings() to save scores across different opens (persistent)
