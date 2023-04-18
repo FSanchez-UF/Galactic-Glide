@@ -90,7 +90,7 @@ class Enemy extends Entity {
       return;
     }
     
-    if (rand < 0.3) { // 30% chance of powerup
+    if (rand < 0.3 && type <= 3) { // 30% chance of powerup
       PowerupType randPower = commonPowerups[(int)random(commonPowerups.length)];
       game.queuePowerup(randPower, this);
     }

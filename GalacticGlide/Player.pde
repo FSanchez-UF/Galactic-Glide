@@ -30,8 +30,8 @@ class Player extends Entity {
   
   // Score multiplier
   final int MAX_SCORE_UPS = 5;
-  final float MIN_SCORE_MULT = chooseByDiff(0.5f, 1.0f, 1.5f);
-  final float MAX_SCORE_MULT = chooseByDiff(1.2f, 2.0f, 3.0f);
+  final float MIN_SCORE_MULT = 1.0f;
+  final float MAX_SCORE_MULT = 3.0f;
   int scoreUps = 0;
   float scoreMult = MIN_SCORE_MULT;
   

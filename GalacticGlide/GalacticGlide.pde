@@ -119,6 +119,7 @@ void controlEvent(ControlEvent theEvent) {
       menu.hideScores();
       menu.hideSettings();
       menu.hideHelp();
+      menu.hideDifficulty();
       screen = "main";
       sound.playSFX("Button");
       break;

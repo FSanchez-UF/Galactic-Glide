@@ -517,6 +517,7 @@ class MenuScreen {
     easy.hide();
     normal.hide();
     hard.hide();
+    back.hide();
   }
   //------------------------- DisplayDifficulty/HideDifficulty End -------------------------//
   
