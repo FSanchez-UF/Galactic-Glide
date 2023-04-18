@@ -328,16 +328,33 @@ class MenuScreen {
     rectMode(CENTER);
     rect(width/2, height/2, 800, 500);
     
+    // Grid lines
     fill(255);
+    line(width/2-400, height/2-200, width/2+400, height/2-200); // Top bar
+    line(width/2-220, height/2-250, width/2-220, height/2+250); // Rank/Score separator
+    line(width/2+190, height/2-250, width/2+190, height/2+250); // Score/Time separator
+    
+    
+    // Titles
+    textFont(createFont("Cooper-Black-Regular.ttf", 45));
+    text("Rank", width/2-310, height/2-210);
+    text("Score", width/2-15, height/2-210);
+    text("Time", width/2+295, height/2-210);
+    
+    // Values
     noStroke();
     int y = 0;
+    int rank = 1;
     loadScores();
     for (String highScore : highScores) { // highScores global in main
+      String[] section = split(highScore, ' ');
       textAlign(LEFT);
-      text("#" + (y+100)/100 + "  " + highScore, width/2 - 390, 230+y);
-      y += 100;
+      text("#" + rank++ + "  " + section[0], width/2-390, 255+y);
+      text(section[2], width/2+200, 255+y);
+      textAlign(CENTER);
+      text(section[1], width/2-15, 255+y);
+      y += 90;
     }
-    textAlign(CENTER); // Reset text align
   }
 
   /**
@@ -410,12 +427,13 @@ class MenuScreen {
     // Read help guide from file
     String[] helpGuide = loadStrings("Help.txt");
     int[] line = {140, 35, 35, 35, 70, 105, 70};
-    int[] title = {225, 312, 348, 384, 435, 523, 615};
+    int[] title = {225, 315, 351, 385, 436, 525, 618};
     int y = 0;
     strokeWeight(1);
     fill(255);
     rect(width/2-200, height/2, 3, 500);
-    textSize(14);
+    textFont(createFont("Cooper-Black-Regular.ttf", 27));
+    //textSize(14);
     
     // Draw text
     for (int i = 0; i < 14; i+=2) {

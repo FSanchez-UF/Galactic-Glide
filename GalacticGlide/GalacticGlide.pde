@@ -82,10 +82,16 @@ void init() {
   cp5.setAutoDraw(true);
 }
 
+/**
+ * Handles all key presses from player
+ */
 void keyPressed() {
   if (game != null && !game.endGame) game.handleKeyPress();
 }
 
+/**
+ * Handles all key releases from player
+ */
 void keyReleased() {
   if (game != null && !game.endGame) game.handleKeyRelease();
 }
@@ -173,12 +179,15 @@ void controlEvent(ControlEvent theEvent) {
     case("Submit"):                // Submit score
       sound.playSFX("Button");
       String in = cp5.get(Textfield.class,"Enter Initials").getText();
-      saveScores(in, game.score);
+      saveScores(in, game.score, game.convertSecondsToText());
       loadScores();
       break;
   }
 }
 
+/**
+ * Helper function for setting difficulty based on player input
+ */
 void chooseDifficulty(int diff) {
   sound.playSFX("Button");
   difficulty = diff;
@@ -188,9 +197,13 @@ void chooseDifficulty(int diff) {
   game.startGame();
 }
 
-void saveScores(String initial, int newScore) {
-  if (initial.length() > 3) initial=initial.substring(0,3);
-  String newInput = initial + " " + newScore;
+/**
+ * Saves a new high score to Scores.txt in the proper position 
+ */
+void saveScores(String initial, int newScore, String time) {
+  if (initial.length() > 2) initial = initial.substring(0, 2);
+  initial.toUpperCase();
+  String newInput = initial + " " + newScore + " " + time;
   for (int i = 0; i < highScores.length; i++) {
     if (newInput.equals(highScores[i])) return;
   }
@@ -213,6 +226,9 @@ void saveScores(String initial, int newScore) {
   saveStrings(dataPath("Scores.txt"), highScores);
 }
 
+/**
+ * Loads Scores.txt file for high score displaying 
+ */
 void loadScores() {
   highScores = loadStrings("Scores.txt"); // Load scores from txt file
 }

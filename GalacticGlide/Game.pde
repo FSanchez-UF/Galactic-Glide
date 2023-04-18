@@ -24,8 +24,9 @@ class Game {
   boolean paused;              // Tells whether game is paused or not
   boolean endGame;
   
-  Textlabel fps;               // Displays FPS
+  Textlabel displayFps;        // Displays FPS
   Textlabel displayScore;      // Displays current score
+  Textlabel displayTime;       // Displays current score
   
   Textlabel pSpeed;            // Displays player speed
   Textlabel pPower;            // Displays player power
@@ -104,9 +105,10 @@ class Game {
   void update() {
     // Update fps every 20 frames
     if (frameCount % 20 == 0) {
-      fps.setText("FPS: " + (int)frameRate);
+      displayFps.setText("FPS: " + (int)frameRate);
     }
-    displayScore.setText("Score: " + score); // Update score
+    displayScore.setText("Score: " + score);                // Update score
+    displayTime.setText("Time: " + convertSecondsToText()); // Update time
 
     if (!active || paused) {
       return;
@@ -222,8 +224,9 @@ class Game {
    */
   void startGame() {
     active = true;
-    fps.show();
+    displayFps.show();
     displayScore.show();
+    displayTime.show();
     pSpeed.show();
     pPower.show();
     pFireRate.show();
@@ -258,8 +261,9 @@ class Game {
    * Hide game cp5 elements
    */
   void hideCP5() {
-    fps.hide();
+    displayFps.hide();
     displayScore.hide();
+    displayTime.hide();
     pSpeed.hide();
     pPower.hide();
     pFireRate.hide();
@@ -276,16 +280,16 @@ class Game {
    * Spawns obstacles/enemies over a gradually steeper interval.
    */
   void handleSpawns() {
-    // Spawn 1-3 enemies every 3 seconds
-    if (gameClock.time() - timeSinceEnemy >= 3*1000) {
+    // Spawn 1-3 enemies every 3-5 seconds based on difficulty
+    if (gameClock.time() - timeSinceEnemy >= chooseByDiff(4, 3, 2)*1000) {
       int numEnemies = (int)random(1,3);
       for (int i = 0; i < numEnemies; ++i)
         spawnRandomEnemy();
       timeSinceEnemy = gameClock.time();
     }
     
-    // Spawn 1-3 obstacles every 5 seconds
-    if (gameClock.time() - timeSinceObstacle >= 5*1000) {
+    // Spawn 1-3 obstacles every 5-7 seconds based on difficulty
+    if (gameClock.time() - timeSinceObstacle >= chooseByDiff(7, 6, 5)*1000) {
       int numObstacles = (int)random(1,3);
       for (int i = 0; i < numObstacles; ++i)
         spawnRandomObstacle();
@@ -503,27 +507,39 @@ class Game {
    */
   void cp5() {
     if (cp5.getController("fps") == null) {
-      fps =  cp5.addTextlabel("fps")
-        .setText("FPS: " + (int)frameRate)
+      displayFps =  cp5.addTextlabel("fps")
+        .setText("Fps: " + (int)frameRate)
         .setPosition(10, 10)
         .setFont(createFont("Arial", 16))
         .hide();
       ;
     }
     else {
-      fps = (Textlabel)cp5.getController("fps");
+      displayFps = (Textlabel)cp5.getController("fps");
     }
     
     if (cp5.getController("score") == null) {
       displayScore = cp5.addTextlabel("score")
                      .setText("Score: " + score)
-                     .setPosition(10,25)
+                     .setPosition(10,30)
                      .setFont(createFont("Arial", 16))
                      .hide();
       ;
     }
     else {
       displayScore = (Textlabel)cp5.getController("score");
+    }
+    
+    if (cp5.getController("time") == null) {
+      displayTime = cp5.addTextlabel("time")
+                     .setText("Time: " + score)
+                     .setPosition(10,50)
+                     .setFont(createFont("Arial", 16))
+                     .hide();
+      ;
+    }
+    else {
+      displayTime = (Textlabel)cp5.getController("time");
     }
     
     if (cp5.getController("pSpeed") == null) {
@@ -593,6 +609,23 @@ class Game {
     score += baseScore * p.scoreMult;
   }
   //------------------------------------- AddScore End ------------------------------------//
+  
+  
+  //---------------------------- Function: ConvertSecondsToText ---------------------------//
+  /**
+   * Convert game time to proper format
+   */
+  String convertSecondsToText() {
+    int time = gameClock.time()/1000;
+    int hours = time / 3600;          // calculate the hours
+    int minutes = (time % 3600) / 60; // calculate the minutes
+    int seconds = time % 60;          // calculate the seconds
+    
+    String timeText = nf(hours, 2) + ":" + nf(minutes, 2) + ":" + nf(seconds, 2); // format the time text
+    
+    return timeText;
+  }
+  //------------------------------- ConvertSecondsToText End -----------------------------//
 }
 
 /**
