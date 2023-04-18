@@ -31,6 +31,7 @@ class Game {
   Textlabel pPower;            // Displays player power
   Textlabel pFireRate;         // Displays player fire rate
   Textlabel pScoreMult;        // Displays player score multiplier
+  Textlabel pShots;            // Displays number of shots when doing limited shots
   
   int timeSinceEnemy;          // Time since the last enemy spawn occurred
   int timeSinceObstacle;       // Time since the last obstacle spawn occurred
@@ -77,6 +78,7 @@ class Game {
     images.Load("power", "Powerups/power.png");
     images.Load("firerate", "Powerups/firerate.png");
     images.Load("score", "Powerups/score.png");
+    images.Load("shot", "Lasers/01.png");
     this.app = app;
     sw = new StopWatch();
     gameClock = new Clock();
@@ -141,6 +143,9 @@ class Game {
       image(images.Get("firerate"), pFireRate.getPosition()[0]/0.6 - 35, pFireRate.getPosition()[1] + 30);
       image(images.Get("score"), pScoreMult.getPosition()[0]/0.6 - 35, pScoreMult.getPosition()[1] + 30);
     popMatrix();
+    if (p.doLimitedShots)
+      image(images.Get("shot"), pShots.getPosition()[0] - 20, pShots.getPosition()[1] + 12);
+      
     // Display player lives
     for(int i = 0; i < p.playerHealth; i++) {
       image(images.Get("heart"), (i*40)+30, (int)height-30);
@@ -203,6 +208,8 @@ class Game {
     pPower.show();
     pFireRate.show();
     pScoreMult.show();
+    if (p.doLimitedShots)
+      pShots.show();
     gameClock.start();
     bossClock.start();
   }
@@ -231,6 +238,7 @@ class Game {
     pPower.hide();
     pFireRate.hide();
     pScoreMult.hide();
+    pShots.hide();
     menu.restart.setPosition(width/2-150, 375);
     menu.quit.setPosition(width/2-150, 485);
   }
@@ -499,6 +507,17 @@ class Game {
     }
     else {
       pScoreMult = (Textlabel)cp5.getController("pScoreMult");
+    }
+    
+    if (cp5.getController("pShots") == null) {
+      pShots = cp5.addTextlabel("pShots")
+        .setText("" + p.shots)
+        .setPosition(width/2, app.height-40)
+        .setFont(createFont("Arial", 24))
+        .hide();
+    }
+    else {
+      pShots = (Textlabel)cp5.getController("pShots");
     }
   }
   

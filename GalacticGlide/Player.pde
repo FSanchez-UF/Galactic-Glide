@@ -41,6 +41,14 @@ class Player extends Entity {
   boolean spaceBarPressed = false;  // Tracks whether the shoot button is pressed
   int spaceBarTimeReleased = 0;     // Timestamp of last shoot button release
   
+  // In hard mode, player only gets a limited number of shots
+  // These shots regenerate over time or by hitting an enemy
+  boolean doLimitedShots = chooseByDiff(false, false, true);
+  final int MAX_SHOTS = 20;
+  final float SHOT_REGEN_TIME = 1.0f; // in seconds
+  int shots = MAX_SHOTS;
+  int timeSinceShot;
+  
   /**
    * Constructor.
    */
@@ -50,6 +58,18 @@ class Player extends Entity {
     setDomain(-getWidth()/2, -getHeight()/2, app.width+getWidth()/2-10, app.height+getHeight()/2, HALT);
     DAMAGE_MILLIS = 1500;
     isPlayer = true;
+  }
+  
+  /**
+   * Override for Sprite.update().
+   * Handles shot regeneration when doing limited shots.
+   */
+  void update(double deltaTime) {
+    super.update(deltaTime);
+    if (doLimitedShots && shots < MAX_SHOTS && game.gameClock.time() - timeSinceShot >= 1000*SHOT_REGEN_TIME) {
+      timeSinceShot = game.gameClock.time();
+      shots++;
+    }
   }
   
   /**
@@ -165,9 +185,16 @@ class Player extends Entity {
    * Handles continuous press of space bar to shoot. Controls fire rate
    */
   void handleSpaceBar() {
+    if (doLimitedShots && shots <= 0)
+      return;
+    
     if (spaceBarPressed && (game.gameClock.time() - spaceBarTimeReleased) >= 1500.0/fireRate) {
       spawnProjectile();
       spaceBarTimeReleased = game.gameClock.time();
+      if (doLimitedShots && shots > 0) {
+        shots--;
+        timeSinceShot = game.gameClock.time();
+      }
     }
   }
   
@@ -185,6 +212,7 @@ class Player extends Entity {
     game.pPower.setText(power + ((power == MAX_POWER)? " (MAX)" : ""));
     game.pFireRate.setText(fireRate + ((fireRate == MAX_FIRE_RATE)? " (MAX)" : ""));
     game.pScoreMult.setText("x" + scoreMult + ((scoreMult == MAX_SCORE_MULT)? " (MAX)" : ""));
+    game.pShots.setText("" + shots);
   }
   
   /**

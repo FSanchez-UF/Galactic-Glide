@@ -36,6 +36,8 @@ class Obstacle extends Entity {
       }
       else if (this.isEnemy != o.isEnemy) { // If teams mismatch, deal damage to this entity
         takeDamage(game.p.power);           // TODO: Check whether obstacle is on screen before it can take damage
+        if (game.p.doLimitedShots && (game.p.shots < game.p.MAX_SHOTS))
+          game.p.shots++;
       }
     }
   }

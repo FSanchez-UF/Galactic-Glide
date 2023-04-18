@@ -29,8 +29,11 @@ class Enemy extends Entity {
     }
     if (e instanceof Obstacle) {
       Obstacle o = (Obstacle) e;
-      if (!o.isEnemy) // TODO: Check whether enemy is on screen before it can take damage
+      if (!o.isEnemy) { // TODO: Check whether enemy is on screen before it can take damage
         takeDamage(game.p.power);
+        if (game.p.doLimitedShots && (game.p.shots < game.p.MAX_SHOTS))
+          game.p.shots++;
+      }
     }
   }
   
