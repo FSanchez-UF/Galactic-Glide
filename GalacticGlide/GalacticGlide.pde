@@ -16,12 +16,13 @@
 final boolean DEBUG = false; // Set in code, displays extra info
 boolean ready = false;       // Whether the game is ready
 int difficulty = 1;          // Which difficulty the game is set to; 0-easy, 1-normal, 2-hard
+int difficulty_score = 1;    // Which difficulty score menu will be seen (normal by default)
 
 Game game;
 SoundManager sound;
 ImageManager images;
 MenuScreen menu;
-String[] highScores;
+StringList highScores_easy, highScores_norm, highScores_hard;
 Boolean submitted = false;
 
 ControlP5 cp5;
@@ -53,6 +54,9 @@ void draw() {
     }
     else if (screen == "difficulty") {
       menu.displayDifficulty(); 
+    }
+    else if (screen == "scores") {
+      menu.displayScores(); 
     }
       
     if (game != null && game.active) {
@@ -167,16 +171,28 @@ void controlEvent(ControlEvent theEvent) {
       game = null;
       screen = "main";
       break;
-    case("easy"):
+    case("easy"):                // Choose easy difficulty
       chooseDifficulty(0);
       break;
-    case("normal"):
-      chooseDifficulty(1);
+    case("normal"):              // Choose normal difficulty
+      chooseDifficulty(1); 
       break;
-    case("hard"):
+    case("hard"):                // Choose hard difficulty
       chooseDifficulty(2);
       break;
-    case("Submit"):                // Submit score
+    case("easy_score"):          // View easy mode scores
+      sound.playSFX("Button");
+      difficulty_score = 0;
+      break;
+    case("normal_score"):        // View normal mode scores
+      sound.playSFX("Button");
+      difficulty_score = 1;
+      break;
+    case("hard_score"):          // View hard mode scores
+      sound.playSFX("Button");
+      difficulty_score = 2;
+      break;
+    case("Submit"):              // Submit score
       sound.playSFX("Button");
       String in = cp5.get(Textfield.class,"Enter Initials").getText();
       saveScores(in, game.score, game.convertSecondsToText());
@@ -203,32 +219,44 @@ void chooseDifficulty(int diff) {
 void saveScores(String initial, int newScore, String time) {
   if (initial.length() > 2) initial = initial.substring(0, 2);
   initial.toUpperCase();
+  
   String newInput = initial + " " + newScore + " " + time;
-  for (int i = 0; i < highScores.length; i++) {
-    if (newInput.equals(highScores[i])) return;
+  StringList highScores = chooseByDiff(highScores_easy, highScores_norm, highScores_hard);
+  
+  for (int i = 0; i < highScores.size(); i++) {
+    if (newInput.equals(highScores.get(i))) return;
   }
   
-  highScores[highScores.length-1] = newInput;
-  for (int i = 0; i < highScores.length; i++) {
-    for (int j = i + 1; j < highScores.length; j++) {
-      // Checking elements
-      String temp;
-      String[] tmpi = split(highScores[i], ' ');
-      String[] tmpj = split(highScores[j], ' ');
-      if (int(tmpj[1]) > int(tmpi[1])) {
-        // Swapping
-        temp = highScores[i];
-        highScores[i] = highScores[j];
-        highScores[j] = temp;
+  if (highScores.size() > 0) {
+    highScores.set(highScores.size()-1, newInput);
+    for (int i = 0; i < highScores.size(); i++) {
+      for (int j = i + 1; j < highScores.size(); j++) {
+        // Checking elements
+        String temp;
+        String[] tmpi = split(highScores.get(i), ' ');
+        String[] tmpj = split(highScores.get(j), ' ');
+        if (int(tmpj[1]) > int(tmpi[1])) {
+          // Swapping
+          temp = highScores.get(i);
+          highScores.set(i, highScores.get(j));
+          highScores.set(j, temp);
+        }
       }
     }
+  } //<>//
+  else {
+    highScores.append(newInput);
   }
-  saveStrings(dataPath("Scores.txt"), highScores);
+  
+  String file = chooseByDiff("Scores_easy", "Scores_normal", "Scores_hard");
+  saveStrings(dataPath(file + ".txt"), highScores.toArray(new String[highScores.size()]));
 }
 
 /**
  * Loads Scores.txt file for high score displaying 
  */
 void loadScores() {
-  highScores = loadStrings("Scores.txt"); // Load scores from txt file
+  highScores_easy = new StringList(loadStrings("Scores_easy.txt"));   // Load easy scores from txt file
+  highScores_norm = new StringList(loadStrings("Scores_normal.txt")); // Load normal scores from txt file
+  highScores_hard = new StringList(loadStrings("Scores_hard.txt"));   // Load easy scores from txt file
 }

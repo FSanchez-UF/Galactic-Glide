@@ -10,6 +10,7 @@ class MenuScreen {
   Button start, scores, exit;   // Main menu
   Button resume, restart, quit; // Pause menu
   Button easy, normal, hard;    // Difficulty selection menu
+  Button easy_score, normal_score, hard_score; // Scores selection for each mode
   Button settings;
   Button help;
   Button back;
@@ -281,6 +282,42 @@ class MenuScreen {
       .hide()
     ;
     
+    easy_score = cp5.addButton("easy_score") // Easy mode score selection button
+      .setBroadcast(false)
+      .setValue(0)
+      .setCaptionLabel("Easy")
+      .setPosition(width/2-305, 610)
+      .setSize(200, 40)
+      .setColorBackground(color(0, 0, 0))
+      .setFont(createFont("Cooper-Black-Regular.ttf", 20))
+      .setBroadcast(true)
+      .hide()
+    ;
+    
+    normal_score = cp5.addButton("normal_score") // Normal mode score selection button
+      .setBroadcast(false)
+      .setValue(0)
+      .setCaptionLabel("Normal")
+      .setPosition(width/2-100, 610)
+      .setSize(200, 40)
+      .setColorBackground(color(0, 0, 0))
+      .setFont(createFont("Cooper-Black-Regular.ttf", 20))
+      .setBroadcast(true)
+      .hide()
+    ;
+    
+    hard_score = cp5.addButton("hard_score") // Hard mode score selection button
+      .setBroadcast(false)
+      .setValue(0)
+      .setCaptionLabel("Hard")
+      .setPosition(width/2+105, 610)
+      .setSize(200, 40)
+      .setColorBackground(color(0, 0, 0))
+      .setFont(createFont("Cooper-Black-Regular.ttf", 20))
+      .setBroadcast(true)
+      .hide()
+    ;
+    
   }
   //------------------------------------ Constructor End -----------------------------------//
   
@@ -318,27 +355,30 @@ class MenuScreen {
    * Displays the high scores menu
    */
   void displayScores() {
+    background(images.Get("menu_backgrd"));
     back.show();
     scoresLabel.show();
+    easy_score.show();
+    normal_score.show();
+    hard_score.show();
     
     // Semi transparent rectangle
     fill(0, 0, 0, 192);  
     stroke(255);
     strokeWeight(4);
     rectMode(CENTER);
-    rect(width/2, height/2, 800, 500);
+    rect(width/2, height/2-25, 800, 450);
     
     // Grid lines
     fill(255);
     line(width/2-400, height/2-200, width/2+400, height/2-200); // Top bar
-    line(width/2-220, height/2-250, width/2-220, height/2+250); // Rank/Score separator
-    line(width/2+190, height/2-250, width/2+190, height/2+250); // Score/Time separator
-    
+    line(width/2-205, height/2-250, width/2-205, height/2+200); // Rank/Score separator
+    line(width/2+190, height/2-250, width/2+190, height/2+200); // Score/Time separator
     
     // Titles
     textFont(createFont("Cooper-Black-Regular.ttf", 45));
-    text("Rank", width/2-310, height/2-210);
-    text("Score", width/2-15, height/2-210);
+    text("Rank", width/2-300, height/2-210);
+    text("Score", width/2, height/2-210);
     text("Time", width/2+295, height/2-210);
     
     // Values
@@ -346,15 +386,44 @@ class MenuScreen {
     int y = 0;
     int rank = 1;
     loadScores();
-    for (String highScore : highScores) { // highScores global in main
-      String[] section = split(highScore, ' ');
-      textAlign(LEFT);
-      text("#" + rank++ + "  " + section[0], width/2-390, 255+y);
-      text(section[2], width/2+200, 255+y);
-      textAlign(CENTER);
-      text(section[1], width/2-15, 255+y);
-      y += 90;
+    String[] highScores = highScores_norm.toArray(new String[highScores_norm.size()]);
+    
+    easy_score.setColorBackground(color(0, 0, 0));
+    normal_score.setColorBackground(color(0, 0, 0));
+    hard_score.setColorBackground(color(0, 0, 0));
+    
+    switch(difficulty_score) {
+      case 0: 
+        highScores = highScores_easy.toArray(new String[highScores_easy.size()]);
+        easy_score.setColorBackground(color(0, 0, 217));
+        break;
+      case 1:
+        normal_score.setColorBackground(color(0, 0, 217));
+        break;
+      case 2: 
+        highScores = highScores_hard.toArray(new String[highScores_hard.size()]);
+        hard_score.setColorBackground(color(0, 0, 217));
+        break;
     }
+
+    if (highScores.length > 0) {
+      for (String highScore : highScores) {
+        String[] section = split(highScore, ' ');
+        textAlign(LEFT);
+        text("#" + rank++ + "  " + section[0], width/2-375, 255+y);
+        text(section[2], width/2+200, 255+y);
+        textAlign(CENTER);
+        text(section[1], width/2, 255+y);
+        y += 80;
+      }
+    }
+    
+    for (int i = rank; i < 6; i++) {
+      textAlign(LEFT);
+      text("#" + i, width/2-375, 255+y);
+      y += 80;
+    }
+    textAlign(CENTER); // reset
   }
 
   /**
@@ -363,6 +432,9 @@ class MenuScreen {
   void hideScores() {
     back.hide();
     scoresLabel.hide();
+    easy_score.hide();
+    normal_score.hide();
+    hard_score.hide();
   }
   //----------------------------- DisplayScores/HideScores End -----------------------------//
   
@@ -564,8 +636,12 @@ class MenuScreen {
     restart.setPosition(width/2-150, 415);
     quit.setPosition(width/2-150, 525);
     
-    String[] lastScore = split(highScores[highScores.length-1], ' ');
-    if (game.score > int(lastScore[1]) || submitted) {
+    String[] highScores = chooseByDiff(highScores_easy, highScores_norm, highScores_hard).toArray();
+    String[] lastScore = { "0 0 0" };
+    if (highScores.length > 0) 
+      lastScore = split(highScores[highScores.length-1], ' ');
+    
+    if (highScores.length == 0 || game.score > int(lastScore[1]) || submitted) {
       textFont(createFont("Goudy Stout", 35));
       text("NEW HIGH SCORE", width/2, 200);
       textFont(createFont("Goudy Stout", 40));
