@@ -227,7 +227,9 @@ void saveScores(String initial, int newScore, String time) {
     if (newInput.equals(highScores.get(i))) return;
   }
   
-  if (highScores.size() > 0) {
+  if (highScores.size() < 5) highScores.append(newInput);
+  
+  if (highScores.size() > 1) {
     highScores.set(highScores.size()-1, newInput);
     for (int i = 0; i < highScores.size(); i++) {
       for (int j = i + 1; j < highScores.size(); j++) {
@@ -244,9 +246,6 @@ void saveScores(String initial, int newScore, String time) {
       }
     }
   } //<>//
-  else {
-    highScores.append(newInput);
-  }
   
   String file = chooseByDiff("Scores_easy", "Scores_normal", "Scores_hard");
   saveStrings(dataPath(file + ".txt"), highScores.toArray(new String[highScores.size()]));

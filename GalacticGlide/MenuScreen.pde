@@ -420,7 +420,7 @@ class MenuScreen {
     
     for (int i = rank; i < 6; i++) {
       textAlign(LEFT);
-      text("#" + i, width/2-375, 255+y);
+      text("#" + i, width/2-335, 255+y);
       y += 80;
     }
     textAlign(CENTER); // reset
@@ -641,7 +641,7 @@ class MenuScreen {
     if (highScores.length > 0) 
       lastScore = split(highScores[highScores.length-1], ' ');
     
-    if (highScores.length == 0 || game.score > int(lastScore[1]) || submitted) {
+    if (highScores.length < 5 || game.score > int(lastScore[1]) || submitted) {
       if (game.highScore == false) { 
         sound.playSFX("Highscore");
         game.highScore = true;
