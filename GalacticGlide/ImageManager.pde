@@ -63,7 +63,7 @@ class ImageManager {
   /**
    * Retrieves either part or all of the ArrayList in the hashmap with the specified key
    */
-  ArrayList<PImage> Get(String name, int start, int end) {
+  ArrayList<PImage> getAnimation(String name) {
     // Check if the key exists
     if (images.get(name) == null) {
         System.out.println("WARNING: PImage ArrayList " + name + " doesn't exist. Load it first");
@@ -71,16 +71,7 @@ class ImageManager {
     }
     
     // Get the ArrayList<PImage> for the given name
-    ArrayList<PImage> imageList = images.get(name);
-    
-    // Check if the start and end indices are valid
-    if (start < 0 || end >= imageList.size() || start > end) {
-        System.out.println("WARNING: Invalid start and/or end index for PImage ArrayList " + name);
-        return null;
-    }
-    
-    // Extract a portion of the ArrayList and return it
-    return new ArrayList<PImage>(imageList.subList(start, end + 1));
+    return images.get(name);
   }
   //--------------------------------------- Get End ----------------------------------------//
   
