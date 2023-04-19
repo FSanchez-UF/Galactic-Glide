@@ -255,7 +255,21 @@ void saveScores(String initial, int newScore, String time) {
  * Loads Scores.txt file for high score displaying 
  */
 void loadScores() {
-  highScores_easy = new StringList(loadStrings("Scores_easy.txt"));   // Load easy scores from txt file
-  highScores_norm = new StringList(loadStrings("Scores_normal.txt")); // Load normal scores from txt file
-  highScores_hard = new StringList(loadStrings("Scores_hard.txt"));   // Load easy scores from txt file
+  try {
+    highScores_easy = new StringList(loadStrings("Scores_easy.txt"));   // Load easy scores from txt file
+  } catch(Exception e) {
+    createWriter("data/Scores_easy.txt");
+  }
+  
+  try {
+    highScores_norm = new StringList(loadStrings("Scores_normal.txt")); // Load normal scores from txt file
+  } catch(Exception e) {
+    createWriter("data/Scores_normal.txt");
+  }
+  
+  try {
+    highScores_hard = new StringList(loadStrings("Scores_hard.txt"));   // Load easy scores from txt file
+  } catch(Exception e) {
+    createWriter("data/Scores_hard.txt");
+  }
 }
