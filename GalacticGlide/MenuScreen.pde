@@ -28,10 +28,10 @@ class MenuScreen {
    */
   MenuScreen() {
     // Load images
-    images.Load("help"          , "Help.png");
-    images.Load("help_hover"    , "Help_Hover.png");
-    images.Load("settings"      , "Settings.png");
-    images.Load("settings_hover", "Settings_Hover.png");
+    images.Load("help"          , "Help2.png");
+    images.Load("help_hover"    , "Help2_Hover.png");
+    images.Load("settings"      , "Settings2.png");
+    images.Load("settings_hover", "Settings2_Hover.png");
     
     start = cp5.addButton("START") // start button
       .setLabel("START GAME")
@@ -81,7 +81,7 @@ class MenuScreen {
       .setBroadcast(false)
       .setImages(images.Get("settings"), images.Get("settings_hover"), images.Get("settings_hover"))
       .setValue(0)
-      .setPosition(5, height-60)
+      .setPosition(5, height-57)
       .setSize(50, 50)
       .setBroadcast(true)
       .hide()
