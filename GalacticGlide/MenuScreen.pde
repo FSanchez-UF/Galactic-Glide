@@ -405,25 +405,22 @@ class MenuScreen {
         hard_score.setColorBackground(color(0, 0, 217));
         break;
     }
-
+    
+    textAlign(CENTER);
     if (highScores.length > 0) {
       for (String highScore : highScores) {
         String[] section = split(highScore, ' ');
-        textAlign(LEFT);
-        text("#" + rank++ + "  " + section[0], width/2-375, 255+y);
-        text(section[2], width/2+200, 255+y);
-        textAlign(CENTER);
+        text("#" + rank++ + "  " + section[0], width/2-305, 255+y);
         text(section[1], width/2, 255+y);
+        text(section[2], width/2+297, 255+y);
         y += 80;
       }
     }
     
     for (int i = rank; i < 6; i++) {
-      textAlign(LEFT);
-      text("#" + i, width/2-335, 255+y);
+      text("#" + i, width/2-305, 255+y);
       y += 80;
     }
-    textAlign(CENTER); // reset
   }
 
   /**
