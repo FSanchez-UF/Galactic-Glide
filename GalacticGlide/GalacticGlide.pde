@@ -194,6 +194,7 @@ void controlEvent(ControlEvent theEvent) {
       break;
     case("Submit"):              // Submit score
       sound.playSFX("Button");
+      submitted = true;
       String in = cp5.get(Textfield.class,"Enter Initials").getText();
       saveScores(in, game.score, game.convertSecondsToText());
       loadScores();

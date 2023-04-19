@@ -643,16 +643,26 @@ class MenuScreen {
         sound.playSFX("Highscore");
         game.highScore = true;
       }
-      textFont(createFont("Goudy Stout", 35));
-      text("NEW HIGH SCORE", width/2, 200);
-      textFont(createFont("Goudy Stout", 40));
-      text(game.score, width/2, 260);
-      submitted = true;
-      submitScore.show();
-      initials.show();
-    } else {
-      text("SCORE", width/2, 280);
-      text(game.score, width/2, 340);
+      if (!submitted) {
+        textFont(createFont("Goudy Stout", 35));
+        text("NEW HIGH SCORE", width/2, 200);
+        textFont(createFont("Goudy Stout", 40));
+        text(game.score, width/2, 260);
+        submitScore.show();
+        initials.show();
+      }
+      else {
+        textFont(createFont("Goudy Stout", 35));
+        text("NEW HIGH SCORE", width/2, 260);
+        textFont(createFont("Goudy Stout", 40));
+        text(game.score, width/2, 320);
+        submitScore.hide();
+        initials.hide();
+      }
+    } 
+    else {
+      text("SCORE", width/2, 260);
+      text(game.score, width/2, 320);
     }
   }
   
