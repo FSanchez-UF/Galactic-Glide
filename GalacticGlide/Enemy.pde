@@ -5,7 +5,6 @@
 //              ships spawn and behave.
 
 class Enemy extends Entity {
-  boolean collidedPlayer; // Tracks whether this enemy has collided with the player before
   boolean patrol;         // Used to tell boss's when to patrol
   int type;               // Tracks what type of enemy this is
   int timeSinceShoot;     // Tracks the last time the enemy has shot
@@ -17,7 +16,6 @@ class Enemy extends Entity {
   Enemy(PApplet app, String imgFilename, int cols, int rows, int zOrder) {
     super(app, imgFilename, cols, rows, zOrder);
     setXY(app.width+width, random((float)height/2, (float)(app.height-height/2)));
-    collidedPlayer = false;
     patrol = false;
   }
   //---------------------------------- Constructor End ------------------------------------//
@@ -28,12 +26,9 @@ class Enemy extends Entity {
    * Handles collision when one happens.
    */
   void handleCollision(Entity e) {
-    if (e instanceof Player) {
-      collidedPlayer = true; // Disables multiple player collisions with one entity
-    }
     if (e instanceof Obstacle) {
       Obstacle o = (Obstacle) e;
-      if (!o.isEnemy) { // TODO: Check whether enemy is on screen before it can take damage
+      if (!o.isEnemy) {
         takeDamage(game.p.power);
         if (game.p.doLimitedShots && (game.p.shots < game.p.MAX_SHOTS))
           game.p.shots++;
@@ -48,7 +43,7 @@ class Enemy extends Entity {
    * Spawns an enemy laser at the specified speed
    */
   void spawnProjectile() { //TODO: possibly add an input parameter to set the velocity
-    Obstacle o = new Obstacle(app, "Sprites/Lasers/33.png", 1, 1, 500, true, true);
+    Obstacle o = new Obstacle(app, "Sprites/Shots/shot" + type + ".png", 1, 1, 500, true, true);
     o.setXY(getX()+width/4, getY());
     o.setVelX(-300);
     game.entities.add(o);
@@ -64,6 +59,7 @@ class Enemy extends Entity {
    */
   void onDeath() {
     game.queueAnimation("" + type, (float)getX(), (float)getY());
+    sound.playSFX("Enemy_Death");
     if (type > 3) {
       game.updateScale(game.currScale+1);
       game.bossClock.start();

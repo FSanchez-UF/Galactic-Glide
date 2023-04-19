@@ -82,17 +82,16 @@ class Player extends Entity {
    * Handles collisions.
    */
   void handleCollision(Entity e) {
-    if (e instanceof Obstacle && !game.endGame) { // TO DO: Remove bool variable to finish end game
+    if (e instanceof Obstacle) {
       Obstacle o = (Obstacle) e;
       // If obstacle hits player and player is not currently in damage animation, do damage
       if (o.isEnemy && !doDamage) { 
         takeDamage();
       }
     }
-    else if (e instanceof Enemy && !game.endGame) { // Remove bool variable to finish end game
-      Enemy en = (Enemy) e;
-      // If enemy hits player for the first time and player is not currently in damage animation, do damage
-      if(!en.collidedPlayer  && !doDamage) {
+    else if (e instanceof Enemy) {
+      // If enemy hits player and player is not currently in damage animation, do damage
+      if(!doDamage) {
         takeDamage();
       }
     }
@@ -209,7 +208,7 @@ class Player extends Entity {
     if (doLimitedShots && shots <= 0)
       return;
     
-    if (spaceBarPressed && (game.gameClock.time() - spaceBarTimeReleased) >= 1500.0/fireRate) {
+    if (!game.endGame && spaceBarPressed && (game.gameClock.time() - spaceBarTimeReleased) >= 1500.0/fireRate) {
       spawnProjectile();
       spaceBarTimeReleased = game.gameClock.time();
       if (doLimitedShots && shots > 0) {

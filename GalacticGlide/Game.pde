@@ -289,14 +289,14 @@ class Game {
   }
   //-------------------------------------- HideCP5 End -------------------------------------//
   
-  
+
   //--------------------------------- Function: HandleSpawns -------------------------------//
   /**
    * Spawns obstacles/enemies over a gradually steeper interval.
    */
   void handleSpawns() {
     // Spawn 1-3 enemies every 3-5 seconds based on difficulty
-    if (gameClock.time() - timeSinceEnemy >= chooseByDiff(4, 3, 2)*1000) {
+    if (gameClock.time() - timeSinceEnemy >= chooseByDiff(5, 4, 3)*1000) {
       int numEnemies = (int)random(1,3);
       for (int i = 0; i < numEnemies; ++i)
         spawnRandomEnemy();
@@ -471,7 +471,6 @@ class Game {
    */
   void updateScale(int newScale) {
     currScale = constrain(newScale, 0, MAX_SCALE_TIMES);
-    println("Setting the scale to " + currScale + "!");
     hpScale = map(currScale, 0, MAX_SCALE_TIMES, MIN_HP_SCALE, MAX_HP_SCALE);
     timeSinceScale = gameClock.time();
   }
@@ -501,8 +500,8 @@ class Game {
         if (en.type > 3) constrainBoss(en);
         
         // Shoot randomly every min to max seconds (easy=5-7s, normal=4-6s, hard=3-5s)
-        int min = chooseByDiff(5, 4, 3);
-        int max = chooseByDiff(7, 6, 5);
+        int min = en.type > 3 ? chooseByDiff(3, 2, 1) : chooseByDiff(5, 4, 3);
+        int max = en.type > 3 ? chooseByDiff(5, 4, 3) : chooseByDiff(7, 6, 5);
         if (gameClock.time() - en.timeSinceShoot >= int(random(min,max))*1000) {
           en.spawnProjectile();
           en.timeSinceShoot = gameClock.time();
