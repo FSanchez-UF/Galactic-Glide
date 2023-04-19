@@ -47,7 +47,6 @@ class Enemy extends Entity {
     o.setXY(getX()+width/4, getY());
     o.setVelX(-300);
     game.entities.add(o);
-    //sound.playSFX("Laser");
   }
   //--------------------------------- SpawnProjectile End --------------------------------//
   

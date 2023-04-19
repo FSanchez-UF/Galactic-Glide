@@ -33,6 +33,7 @@ class SoundManager {
     map.put("Player_Death", new SoundFile(app, "Sounds/Player_Death.mp3"));
     map.put("Player_Hit",   new SoundFile(app, "Sounds/Player_Hit.wav"));
     map.put("Laser",        new SoundFile(app, "Sounds/Laser.mp3"));
+    map.put("Meteor_Death", new SoundFile(app, "Sounds/Meteor_Destroyed.mp3"));
     
     return map;
   }
