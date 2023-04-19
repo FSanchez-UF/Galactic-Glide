@@ -58,7 +58,6 @@ class Player extends Entity {
     setXY(100, app.height/2);
     setDomain(-getWidth()/2, -getHeight()/2, app.width+getWidth()/2-10, app.height+getHeight()/2, HALT);
     DAMAGE_MILLIS = 1500;
-    isPlayer = true;
   }
   //-------------------------------------------- Constructor End ---------------------------------------------//
   
@@ -257,7 +256,8 @@ class Player extends Entity {
       sound.playSFX("Player_Hit");      
     }
     else {
-      game.arrayAnimations("Player", (float)getX(), (float)getY());
+      game.deathClock.start();
+      game.queueAnimation("Player", (float)getX(), (float)getY());
       setDead(true);
       game.endGame = true;
       sound.playSFX("Player_Death");

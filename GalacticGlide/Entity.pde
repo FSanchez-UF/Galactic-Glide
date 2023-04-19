@@ -13,10 +13,6 @@ abstract class Entity extends Sprite {
   int DAMAGE_MILLIS = 333;     // How many milliseconds to spend doing damage (only update in player class)
   int dmgStartTime = 0;        // Track when damage started
   boolean doDamage = false;    // Show the damage frames on damage
-  boolean isPlayer = false;
-  boolean isEnemy = false;
-  Animations anim;
-  
   boolean wasOnScreen = false; // Whether entity has been on screen yet
   
   //-------------------------------- Function: Constructor ---------------------------------//
@@ -32,7 +28,6 @@ abstract class Entity extends Sprite {
     super(app, imgFilename, cols, rows, zOrder);
     mhp = 1;
     hp = mhp;
-    anim = new Animations();
   }
   //----------------------------------- Constructor End -----------------------------------//
   
@@ -53,9 +48,7 @@ abstract class Entity extends Sprite {
      // Damage drawing
      if (doDamage) {
        int clr = (int)map(game.gameClock.time() - dmgStartTime, 0, DAMAGE_MILLIS, 0, 255);
-       if (!isPlayer) { // Flash enemies and obstacles red
-         //anim = new Animations("1", 200, 200);
-         //anim.isPlaying = true;
+       if (!(this instanceof Player)) { // Flash enemies and obstacles red
          app.tint(255, clr, clr);
        }
        else { // Flash player blue

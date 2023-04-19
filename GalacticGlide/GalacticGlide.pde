@@ -22,7 +22,7 @@ Game game;
 SoundManager sound;
 ImageManager images;
 MenuScreen menu;
-Animations animation;
+
 StringList highScores_easy, highScores_norm, highScores_hard;
 Boolean submitted = false;
 

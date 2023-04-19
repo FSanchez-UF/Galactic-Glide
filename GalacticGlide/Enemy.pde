@@ -19,7 +19,6 @@ class Enemy extends Entity {
     setXY(app.width+width, random((float)height/2, (float)(app.height-height/2)));
     collidedPlayer = false;
     patrol = false;
-    isEnemy = true;
   }
   //---------------------------------- Constructor End ------------------------------------//
   
@@ -64,7 +63,7 @@ class Enemy extends Entity {
    * Useful for score adjusting and death sprite spawning!
    */
   void onDeath() {
-    game.arrayAnimations("" + type, (float)getX(), (float)getY());
+    game.queueAnimation("" + type, (float)getX(), (float)getY());
     if (type > 3) {
       game.updateScale(game.currScale+1);
       game.bossClock.start();
