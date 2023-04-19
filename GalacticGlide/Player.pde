@@ -257,6 +257,8 @@ class Player extends Entity {
       sound.playSFX("Player_Hit");      
     }
     else {
+      game.arrayAnimations("Player", (float)getX(), (float)getY());
+      setDead(true);
       game.endGame = true;
       sound.playSFX("Player_Death");
     }

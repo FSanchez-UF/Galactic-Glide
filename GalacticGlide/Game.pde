@@ -49,6 +49,7 @@ class Game {
   float hpScale = MIN_HP_SCALE;                              // Current HP scale
   
   Queue<Powerup> powerupQ;
+  ArrayList<Animations> anima;
   
   // Filenames for obstacles
   final String[] obstacleFiles = {
@@ -96,6 +97,7 @@ class Game {
     cp5();
     endGame = false;
     highScore = false;
+    anima = new ArrayList<Animations>();
   }
   //----------------------------------- Constructor End ------------------------------------//
   
@@ -163,12 +165,20 @@ class Game {
       image(images.Get("heart"), (i*40)+30, (int)height-30);
     }
     
-    if (endGame) {
+    for (int i = 0; i < anima.size(); i++) {
+       anima.get(i).isAnimating();
+       if(!anima.get(i).isPlaying) {
+         anima.remove(i);
+       }
+    }
+    
+    if (endGame && anima.size() == 0) {
       menu.displayEndgame();
     }
     else if (paused) {
       menu.displayPause();  
     }
+    
   }
   //------------------------------------- Display End --------------------------------------//
   
@@ -428,6 +438,21 @@ class Game {
     powerupQ.add(pow);
   }
   //------------------------------------ QueuePowerup End ----------------------------------//
+  
+  
+  //-------------------------------- Function: QueueAnimation ------------------------------//
+  /**
+   * Queues a powerup spawn at some enemy.
+   * We need to queue because editing the entities array during collision checking
+   * causes a ConcurrentModificationException.
+   */
+  void arrayAnimations(String ship, float posX, float posY) {
+    Animations a = new Animations(ship, posX, posY);
+    a.isPlaying = true;
+    anima.add(a);
+  }
+  //----------------------------------- QueueAnimation End ---------------------------------//
+  
   
   //------------------------------- Function: CleanDeadEntities ----------------------------//
   /** 

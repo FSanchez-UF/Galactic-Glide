@@ -14,6 +14,8 @@ abstract class Entity extends Sprite {
   int dmgStartTime = 0;        // Track when damage started
   boolean doDamage = false;    // Show the damage frames on damage
   boolean isPlayer = false;
+  boolean isEnemy = false;
+  Animations anim;
   
   boolean wasOnScreen = false; // Whether entity has been on screen yet
   
@@ -30,6 +32,7 @@ abstract class Entity extends Sprite {
     super(app, imgFilename, cols, rows, zOrder);
     mhp = 1;
     hp = mhp;
+    anim = new Animations();
   }
   //----------------------------------- Constructor End -----------------------------------//
   
@@ -51,7 +54,9 @@ abstract class Entity extends Sprite {
      if (doDamage) {
        int clr = (int)map(game.gameClock.time() - dmgStartTime, 0, DAMAGE_MILLIS, 0, 255);
        if (!isPlayer) { // Flash enemies and obstacles red
-         app.tint(255, clr, clr); 
+         //anim = new Animations("1", 200, 200);
+         //anim.isPlaying = true;
+         app.tint(255, clr, clr);
        }
        else { // Flash player blue
          app.tint(clr, clr, 255); 
@@ -70,6 +75,7 @@ abstract class Entity extends Sprite {
      if (!wasOnScreen && isOnScreen()) {
        wasOnScreen = true;
      }
+     
      super.draw(); // Draw sprites as defined in sprite library
   }
   //-------------------------------------- Draw End ---------------------------------------//
@@ -84,8 +90,9 @@ abstract class Entity extends Sprite {
     hp -= dmg;
     doDamage = true; // Start damage animation
     dmgStartTime = game.gameClock.time();
-    if (hp <= 0)
+    if (hp <= 0) {
       setDead(true);
+    }
     if (hp >= mhp)
       hp = mhp;
   }

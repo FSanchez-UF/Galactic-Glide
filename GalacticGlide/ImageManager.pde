@@ -89,6 +89,9 @@ class ImageManager {
     this.Load("ship5_exp", "PNG_Animations/Explosions/Ship5_Explosion/Ship5_Explosion_00", 10);
     this.Load("ship6_exp", "PNG_Animations/Explosions/Ship6_Explosion/Ship6_Explosion_00", 10);
     
+    // Load player ship explosion animation sequences
+    this.Load("shipPlayer_exp", "/Player_Explosion/player1_exp_", 10);
+    
     // Load enemy laser/bullet animation sequences
     this.Load("shot1", "PNG_Animations/Shots/Shot1/shot1_", 5);
     this.Load("shot2", "PNG_Animations/Shots/Shot2/shot2_", 6);
