@@ -125,7 +125,7 @@ void controlEvent(ControlEvent theEvent) {
       exit();
       sound.playSFX("Button");
       break;
-    case("back"): // Go Back
+    case("back"):                // Go Back
       menu.hideScores();
       menu.hideSettings();
       menu.hideHelp();
@@ -252,7 +252,7 @@ void saveScores(String initial, int newScore, String time) {
 }
 
 /**
- * Loads Scores.txt file for high score displaying 
+ * Loads Scores files for high score displaying 
  */
 void loadScores() {
   try {
