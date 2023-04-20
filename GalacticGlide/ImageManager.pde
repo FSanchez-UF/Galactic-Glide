@@ -101,12 +101,12 @@ class ImageManager {
     this.Load("shot6", "PNG_Animations/Shots/Shot6/shot6_", 4);
     
     // Load enemy laser/bullet explosion animation sequences
-    this.Load("shot1", "PNG_Animations/Shots/Shot1/shot1_exp", 5);
-    this.Load("shot2", "PNG_Animations/Shots/Shot2/shot2_exp", 5);
-    this.Load("shot3", "PNG_Animations/Shots/Shot3/shot3_exp", 4);
-    this.Load("shot4", "PNG_Animations/Shots/Shot4/shot4_exp", 8);
-    this.Load("shot5", "PNG_Animations/Shots/Shot5/shot5_exp", 8);
-    this.Load("shot6", "PNG_Animations/Shots/Shot6/shot6_exp", 10);
+    this.Load("shot1_exp", "PNG_Animations/Shots/Shot1/shot1_exp", 5);
+    this.Load("shot2_exp", "PNG_Animations/Shots/Shot2/shot2_exp", 5);
+    this.Load("shot3_exp", "PNG_Animations/Shots/Shot3/shot3_exp", 4);
+    this.Load("shot4_exp", "PNG_Animations/Shots/Shot4/shot4_exp", 8);
+    this.Load("shot5_exp", "PNG_Animations/Shots/Shot5/shot5_exp", 8);
+    this.Load("shot6_exp", "PNG_Animations/Shots/Shot6/shot6_exp", 10);
   }
   //------------------------------ LoadAnimationSequences End ------------------------------//
 }
