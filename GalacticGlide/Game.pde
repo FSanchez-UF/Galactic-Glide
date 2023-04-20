@@ -167,6 +167,7 @@ class Game {
       image(images.Get("heart"), (i*40)+30, (int)height-30);
     }
     
+    // Play each animation currently in queue
     for (int i = 0; i < animations.size(); i++) {
        animations.get(i).isAnimating();
        if(!animations.get(i).isPlaying) {

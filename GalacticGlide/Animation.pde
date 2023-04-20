@@ -36,12 +36,12 @@ class Animation {
       frameTime.start();
       if (currentFrame < frames.size()) {
         image(frames.get(currentFrame), posX, posY);
-        if (!type && frameTime.time() >= (int)(0.333 * frameRate)) { // 20-49 frames between player/enemy explosion frame
-          currentFrame++;                                            // depending on the frameRate
+        if (!type && frameTime.time() >= 20) { // 20ms frames between player/enemy explosion frame
+          currentFrame++;
           frameTime.reset();
         }
-        else if (type && frameTime.time() >= (int)(1.667 * frameRate)){ // 100-240 frames between laser explosion frames
-          currentFrame++;                                               // depending on the frameRate
+        else if (type && frameTime.time() >= 80){ // 80ms between laser explosion frames
+          currentFrame++;
           frameTime.reset();
         }
       }
