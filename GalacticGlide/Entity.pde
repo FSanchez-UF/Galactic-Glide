@@ -173,7 +173,7 @@ abstract class Entity extends Sprite {
    * Draws exhaust at enemy every 20 milliseconds with the specified offsets
    */
   void exhaustHelper(Enemy en, int offsetX, int offSetY) {
-    if (en.exhaustClock.time() >= 10) {
+    if (en.exhaustClock.time() >= 600/frameRate) {
       image(images.getAnimation("ship" + type + "_exhaust").get(en.frame), (float)this.getX()+offsetX, (float)this.getY() + offSetY);
       en.frame++;
       if (en.frame > 3) 
