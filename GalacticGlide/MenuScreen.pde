@@ -638,7 +638,7 @@ class MenuScreen {
     if (highScores.length > 0) 
       lastScore = split(highScores[highScores.length-1], ' ');
     
-    if (highScores.length < 5 || game.score > int(lastScore[1]) || submitted) {
+    if (highScores.length < 5 && game.score > 0 || game.score > int(lastScore[1]) || submitted) {
       if (game.highScore == false) { 
         sound.playSFX("Highscore");
         game.highScore = true;

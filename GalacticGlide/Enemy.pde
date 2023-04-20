@@ -5,9 +5,10 @@
 //              ships spawn and behave.
 
 class Enemy extends Entity {
-  boolean patrol;         // Used to tell boss's when to patrol
-  int type;               // Tracks what type of enemy this is
-  int timeSinceShoot;     // Tracks the last time the enemy has shot
+  boolean patrol;     // Used to tell boss's when to patrol
+  int timeSinceShoot; // Tracks the last time the enemy has shot
+  Clock exhaustClock; // Used for exhaust animation
+  int frame;
   
   //-------------------------------- Function: Constructor ---------------------------------//
   /**
@@ -17,6 +18,9 @@ class Enemy extends Entity {
     super(app, imgFilename, cols, rows, zOrder);
     setXY(app.width+width, random((float)height/2, (float)(app.height-height/2)));
     patrol = false;
+    exhaustClock = new Clock();
+    exhaustClock.start();
+    frame = 0;
   }
   //---------------------------------- Constructor End ------------------------------------//
   
@@ -46,6 +50,7 @@ class Enemy extends Entity {
     Obstacle o = new Obstacle(app, "Sprites/Shots/shot" + type + ".png", 1, 1, 500, true, true);
     o.setXY(getX()+width/4, getY());
     o.setVelX(-300);
+    o.type = this.type;
     game.entities.add(o);
   }
   //--------------------------------- SpawnProjectile End --------------------------------//
@@ -57,7 +62,7 @@ class Enemy extends Entity {
    * Useful for score adjusting and death sprite spawning!
    */
   void onDeath() {
-    game.queueAnimation("" + type, (float)getX(), (float)getY());
+    game.queueAnimation("ship" + type + "_exp", (float)getX(), (float)getY(), false);
     sound.playSFX("Enemy_Death");
     if (type > 3) {
       game.updateScale(game.currScale+1);

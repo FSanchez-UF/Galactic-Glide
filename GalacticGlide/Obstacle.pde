@@ -28,6 +28,7 @@ class Obstacle extends Entity {
    */
   void handleCollision(Entity e) {
     if (e instanceof Player && this.isEnemy) { // Collision with player destroys obstacle
+      if (this.type > 0) game.queueAnimation("shot" + this.type + "_exp", (float)getX(), (float)getY(), true);
       setDead(true);
     }
     else if (e instanceof Enemy && !this.isEnemy) { // Destroy player laser on impact with enemy 
@@ -39,7 +40,7 @@ class Obstacle extends Entity {
         return;
       }
       else if (this.isEnemy != o.isEnemy) { // If teams mismatch, deal damage to this entity
-        takeDamage(game.p.power);           // TODO: Check whether obstacle is on screen before it can take damage
+        takeDamage(game.p.power);
         if (game.p.doLimitedShots && (game.p.shots < game.p.MAX_SHOTS))
           game.p.shots++;
       }

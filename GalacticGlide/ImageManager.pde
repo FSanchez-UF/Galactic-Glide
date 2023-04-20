@@ -107,6 +107,14 @@ class ImageManager {
     this.Load("shot4_exp", "PNG_Animations/Shots/Shot4/shot4_exp", 8);
     this.Load("shot5_exp", "PNG_Animations/Shots/Shot5/shot5_exp", 8);
     this.Load("shot6_exp", "PNG_Animations/Shots/Shot6/shot6_exp", 10);
+    
+    // Load enemy exhaust animation sequences
+    this.Load("ship1_exhaust", "Exhaust/ship1/ship1_exhaust_", 4);
+    this.Load("ship2_exhaust", "Exhaust/ship2/ship2_exhaust_", 4);
+    this.Load("ship3_exhaust", "Exhaust/ship3/ship3_exhaust_", 4);
+    this.Load("ship4_exhaust", "Exhaust/ship4/ship4_exhaust_", 4);
+    this.Load("ship5_exhaust", "Exhaust/ship5/ship5_exhaust_", 4);
+    this.Load("ship6_exhaust", "Exhaust/ship6/ship6_exhaust_", 4);
   }
   //------------------------------ LoadAnimationSequences End ------------------------------//
 }

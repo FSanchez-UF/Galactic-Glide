@@ -10,6 +10,7 @@ abstract class Entity extends Sprite {
   float mhp;                   // Maximum health
   float hp;                    // Current health
   
+  int type;                    // Tracks what type of entity this is (1-6 for enemies and their lasers)
   int DAMAGE_MILLIS = 333;     // How many milliseconds to spend doing damage (only update in player class)
   int dmgStartTime = 0;        // Track when damage started
   boolean doDamage = false;    // Show the damage frames on damage
@@ -69,6 +70,7 @@ abstract class Entity extends Sprite {
        wasOnScreen = true;
      }
      
+     exhaust();
      super.draw(); // Draw sprites as defined in sprite library
   }
   //-------------------------------------- Draw End ---------------------------------------//
@@ -132,4 +134,53 @@ abstract class Entity extends Sprite {
     return isOnScreem();
   }
   //----------------------------------- IsOnScreen End -----------------------------------//
+  
+  
+  //---------------------------------- Function: Exhaust ---------------------------------//
+  /**
+   * Defines how exhaust appear for each enemy
+   */
+  void exhaust() {
+   if (this instanceof Enemy) {
+     Enemy en = (Enemy) this;
+     switch (en.type) {
+       case 1:
+         exhaustHelper(en, 35, 0);
+         break;
+       case 2:
+         exhaustHelper(en, 45, 0);
+         break;
+       case 3:
+         exhaustHelper(en, 50, 0);
+         break;
+       case 4:
+         exhaustHelper(en, 50, 2);
+         break;
+       case 5:
+         exhaustHelper(en, 55, 10);
+         break;
+       case 6:
+         exhaustHelper(en, 60, 0);
+         break;
+     }
+   }
+  }
+  //------------------------------------ Exhaust End ------------------------------------//
+  
+  
+  //------------------------------ Function: ExhaustHelper ------------------------------//
+  /**
+   * Draws exhaust at enemy every 20 milliseconds with the specified offsets
+   */
+  void exhaustHelper(Enemy en, int offsetX, int offSetY) {
+    if (en.exhaustClock.time() >= 10) {
+      image(images.getAnimation("ship" + type + "_exhaust").get(en.frame), (float)this.getX()+offsetX, (float)this.getY() + offSetY);
+      en.frame++;
+      if (en.frame > 3) 
+        en.frame = 0; 
+      en.exhaustClock.reset();
+      en.exhaustClock.start();
+    }
+  }
+  //--------------------------------- ExhaustHelper End --------------------------------//
 }

@@ -184,19 +184,17 @@ class Player extends Entity {
         game.gameClock.stop();
         game.bossClock.stop();
         break;
-    // Debug buttons
-    /*
-      case '.': game.spawnRandomObstacle(); break;
-      case ',': game.spawnRandomEnemy(); break;
-      case '/': game.spawnRandomBoss(); break;
-      case ';':
-        speedUps = MAX_SPEED_UPS;
-        powerUps = MAX_POWER_UPS;
-        fireRateUps = MAX_FIRE_RATE_UPS;
-        scoreUps = MAX_SCORE_UPS;
-        updateStats();
-        break;
-    */    
+      // Debug buttons
+      //case '.': game.spawnRandomObstacle(); break;
+      //case ',': game.spawnRandomEnemy(); break;
+      //case '/': game.spawnRandomBoss(); break;
+      //case ';':
+      //  speedUps = MAX_SPEED_UPS;
+      //  powerUps = MAX_POWER_UPS;
+      //  fireRateUps = MAX_FIRE_RATE_UPS;
+      //  scoreUps = MAX_SCORE_UPS;
+      //  updateStats();
+      //  break;   
     }
   }
   //----------------------------------------- HandleKeyRelease End -------------------------------------------//
@@ -258,7 +256,7 @@ class Player extends Entity {
     }
     else {
       game.deathClock.start();
-      game.queueAnimation("Player", (float)getX(), (float)getY());
+      game.queueAnimation("shipPlayer_exp", (float)getX(), (float)getY(), false);
       setDead(true);
       game.endGame = true;
       sound.playSFX("Player_Death");

@@ -341,6 +341,7 @@ class Game {
     Obstacle o = new Obstacle(app, imgFilename, 1, 1, 600, isEnemy, false);
     o.setHp(hp*hpScale);
     o.setVelXY(-random(minVel, maxVel), 0);
+    o.type = 0;
     entities.add(o);
   }
   //----------------------------------- SpawnObstacle End ----------------------------------//
@@ -447,8 +448,8 @@ class Game {
   /**
    * Adds a new animation to the animations ArrayList
    */
-  void queueAnimation(String ship, float posX, float posY) {
-    Animation a = new Animation(ship, posX, posY);
+  void queueAnimation(String ship, float posX, float posY, boolean type) {
+    Animation a = new Animation(ship, posX, posY, type);
     a.isPlaying = true;
     animations.add(a);
   }

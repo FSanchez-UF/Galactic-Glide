@@ -7,22 +7,24 @@
 class Animation {
   ArrayList<PImage> frames;
   int currentFrame;
-  int counter;
+  Clock frameTime;
   float posX;
   float posY;
+  boolean type;       // Defines whether this animation is for enemy/player or laser
   boolean isPlaying;
   
   //--------------------- Function: Constructor ---------------------//
   /**
    * Creates class object and intializes relevant variables
    */
-  Animation(String type, float posX, float posY) {
-    frames = images.getAnimation("ship" + type + "_exp");
+  Animation(String name, float posX, float posY, boolean type) {
+    frames = images.getAnimation(name);
     currentFrame = 0;
-    counter = 0;
     this.posX = posX;
     this.posY = posY;
     isPlaying = false;
+    frameTime = new Clock();
+    this.type = type;
   }
   //------------------------ Constructor End ------------------------//
   
@@ -31,12 +33,21 @@ class Animation {
    * Plays animation frame by frame
    */
   void isAnimating() {
+      frameTime.start();
       if (currentFrame < frames.size()) {
         image(frames.get(currentFrame), posX, posY);
-        currentFrame++;
+        if (!type && frameTime.time() >= 20) { // 20ms between player/enemy explosion frames
+          currentFrame++;
+          frameTime.reset();
+        }
+        else if (type && frameTime.time() >= 100){ // 100ms between laser explosion frames
+          currentFrame++;
+          frameTime.reset();
+        }
       }
       else {
         isPlaying = false;
+        frameTime.stop();
       }
   }
   //------------------------ isAnimating End ------------------------//
