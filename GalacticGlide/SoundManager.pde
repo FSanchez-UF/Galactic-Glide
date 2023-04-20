@@ -28,7 +28,6 @@ class SoundManager {
     map.put("Theme",        new SoundFile(app, "Sounds/Theme_Music.mp3"));
     map.put("Button",       new SoundFile(app, "Sounds/Button.mp3"));
     map.put("Highscore",    new SoundFile(app, "Sounds/Highscore.wav"));
-    map.put("Lose",         new SoundFile(app, "Sounds/Lose.mp3"));
     map.put("Enemy_Death",  new SoundFile(app, "Sounds/Enemy_Destroyed.mp3"));
     map.put("Player_Death", new SoundFile(app, "Sounds/Player_Death.mp3"));
     map.put("Player_Hit",   new SoundFile(app, "Sounds/Player_Hit.wav"));
