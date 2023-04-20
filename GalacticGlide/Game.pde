@@ -504,7 +504,16 @@ class Game {
         int min = en.type > 3 ? chooseByDiff(3, 2, 1) : chooseByDiff(5, 4, 3);
         int max = en.type > 3 ? chooseByDiff(5, 4, 3) : chooseByDiff(7, 6, 5);
         if (gameClock.time() - en.timeSinceShoot >= int(random(min,max))*1000) {
-          en.spawnProjectile();
+          int speed = -300;
+          switch (en.type) {
+            case 1: speed = -300; break;
+            case 2: speed = -280; break;
+            case 3: speed = -260; break;
+            case 4: speed = -240; break;
+            case 5: speed = -240; break;
+            case 6: speed = -240; break;
+          }
+          en.spawnProjectile(speed);
           en.timeSinceShoot = gameClock.time();
         }
       }
