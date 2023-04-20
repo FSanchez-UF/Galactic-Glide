@@ -184,7 +184,8 @@ class Player extends Entity {
         game.gameClock.stop();
         game.bossClock.stop();
         break;
-      // TODO: Delete these when game is finished (or just comment out)
+    // Debug buttons
+    /*
       case '.': game.spawnRandomObstacle(); break;
       case ',': game.spawnRandomEnemy(); break;
       case '/': game.spawnRandomBoss(); break;
@@ -195,6 +196,7 @@ class Player extends Entity {
         scoreUps = MAX_SCORE_UPS;
         updateStats();
         break;
+    */    
     }
   }
   //----------------------------------------- HandleKeyRelease End -------------------------------------------//
