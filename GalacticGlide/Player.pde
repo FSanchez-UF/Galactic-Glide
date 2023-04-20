@@ -256,6 +256,7 @@ class Player extends Entity {
     }
     else {
       game.deathClock.start();
+      game.gameClock.stop();
       game.queueAnimation("shipPlayer_exp", (float)getX(), (float)getY(), false);
       setDead(true);
       game.endGame = true;
