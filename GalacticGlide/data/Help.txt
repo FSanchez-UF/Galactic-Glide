@@ -5,7 +5,7 @@ Use the directional keys or WASD to move. Press P to pause.
 Fire
 Hold or press space bar.
 Power-ups
-Speed, power, fire rate, extra life, ammo refill, and score multiplier
+Speed, power, fire rate, extra life, and score multiplier
 Objective
 Earn the highest score possible by shooting down as many enemy ships as you can while avoiding obstacles and enemy fire.
 Difficulty
